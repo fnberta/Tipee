@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="ch.berta.fabio.tipee.EvenSplitFragment"
+    android:id="@+id/scrollView">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayoutMain">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?android:listSeparatorTextViewStyle"
+            android:text="@string/separator_bill_persons"
+            android:id="@+id/tvSeparatorBillPersons"
+            android:layout_margin="4dp" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:divider="?android:dividerHorizontal"
+            android:id="@+id/linearLayoutBillAmountPersons">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:showDividers="middle"
+                android:divider="?android:dividerVertical"
+                android:dividerPadding="8dp"
+                android:id="@+id/linearLayoutBillAmount">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:maxLength="12"
+                    android:id="@+id/etBillAmount"
+                    android:layout_weight="1"
+                    android:hint="@string/bill_hint"
+                    android:layout_marginRight="4dp" />
+
+                <ImageButton
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:id="@+id/ibClear"
+                    android:src="@drawable/ic_action_cancel"
+                    android:contentDescription="@string/clear_bill_amount"
+                    style="?android:borderlessButtonStyle" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:showDividers="middle"
+                android:id="@+id/linearLayoutPersons">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/minus"
+                    android:id="@+id/bPersonsMinus"
+                    style="?android:borderlessButtonStyle" />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:id="@+id/etPersons"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:hint="@string/persons_hint"
+                    android:imeOptions="actionDone"
+                    tools:text="5" />
+
+                <Button
+                    style="?android:borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/plus"
+                    android:id="@+id/bPersonsPlus" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            style="?android:listSeparatorTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/separator_country_tip"
+            android:id="@+id/tvSeparatorCountryTip"
+            android:layout_margin="4dp" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:divider="?android:dividerHorizontal"
+            android:id="@+id/linearLayoutCountryTip">
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spCountry"
+                android:layout_margin="4dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:showDividers="middle"
+                android:divider="?android:dividerVertical"
+                android:dividerPadding="8dp"
+                android:id="@+id/linearLayoutTip">
+
+                <SeekBar
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sbPercentage"
+                    android:layout_weight="1"
+                    android:max="30"
+                    android:indeterminate="false"
+                    android:progress="1"
+                    android:layout_margin="4dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:text="14%"
+                    android:id="@+id/tvResult"
+                    android:gravity="center_vertical"
+                    android:layout_margin="4dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100"
+            android:id="@+id/linearLayoutSeparatorTipTotal">
+
+            <TextView
+                style="?android:listSeparatorTextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/separator_tip"
+                android:id="@+id/tvSeparatorTipAmount"
+                android:layout_weight="55"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="4dp"/>
+
+            <TextView
+                style="?android:listSeparatorTextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/separator_total"
+                android:id="@+id/tvSeparatorTotalAmount"
+                android:layout_weight="45"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginBottom="4dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100"
+            android:showDividers="middle"
+            android:divider="?android:dividerVertical"
+            android:dividerPadding="8dp"
+            android:id="@+id/linearLayoutTipTotal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvTipAmount"
+                android:layout_weight="50"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                style="@android:style/Widget.EditText"
+                tools:text="12 CHF"
+                android:layout_marginRight="4dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/tvTotalAmount"
+                android:layout_weight="50"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                style="@android:style/Widget.EditText"
+                tools:text="140 CHF"
+                android:layout_marginLeft="4dp" />
+
+        </LinearLayout>
+
+        <TextView
+            style="?android:listSeparatorTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/separator_total_person"
+            android:id="@+id/tvSeparatorTotalPerPerson"
+            android:layout_margin="4dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvTotalPerPerson"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            style="@android:style/Widget.EditText"
+            tools:text="45 CHF" />
+
+    </LinearLayout>
+</ScrollView>

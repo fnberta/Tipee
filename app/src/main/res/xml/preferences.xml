@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:key="PREF_COUNTRY"
+        android:title="@string/pref_country"
+        android:summary="@string/pref_country_summ"
+        android:defaultValue="false" />
+    <ListPreference
+        android:key="PREF_COUNTRY_LIST"
+        android:title="@string/pref_country_list"
+        android:dependency="PREF_COUNTRY" />
+</PreferenceScreen>

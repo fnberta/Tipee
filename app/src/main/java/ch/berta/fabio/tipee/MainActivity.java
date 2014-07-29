@@ -168,6 +168,17 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         mSharedPrefs.registerOnSharedPreferenceChangeListener(this);
+        updatePrefs();
+    }
+
+
+    /**
+     * Updates member variable to changed shared preferences.
+     */
+    private void updatePrefs() {
+        mCountryCodeManuallySelected = mSharedPrefs.getString("PREF_COUNTRY_LIST",
+                getString(R.string.other));
+        mRoundMode = mSharedPrefs.getString("PREF_ROUND_MODE", "0");
     }
 
     /**
@@ -535,15 +546,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
             mEvenSplitFragment.calculateTip();
             mUnevenSplitFragment.calculateTipSeparate();
         }
-    }
-
-    /**
-     * Updates member variable to changed shared preferences.
-     */
-    private void updatePrefs() {
-        mCountryCodeManuallySelected = mSharedPrefs.getString("PREF_COUNTRY_LIST",
-                getString(R.string.other));
-        mRoundMode = mSharedPrefs.getString("PREF_ROUND_MODE", "0");
     }
 
     /**

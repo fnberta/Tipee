@@ -9,7 +9,7 @@
     <string name="pref_country">Manual country selection</string>
     <string name="pref_country_summ">Manually set the default country</string>
     <string name="pref_country_list">Country</string>
-    <string name="pref_round_mode">Round</string>
+    <string name="pref_round_mode">Rounding</string>
     <string name="round_up">Round up to next whole number</string>
     <string name="round_down">Round down to next whole number</string>
     <string name="round_exact">Exact values</string>

@@ -10,4 +10,10 @@
         android:key="PREF_COUNTRY_LIST"
         android:title="@string/pref_country_list"
         android:dependency="PREF_COUNTRY" />
+    <ListPreference
+        android:key="PREF_ROUND_MODE"
+        android:title="@string/pref_round_mode"
+        android:entries="@array/round_modes_entries"
+        android:entryValues="@array/round_modes_values"
+        android:defaultValue="0" />
 </PreferenceScreen>

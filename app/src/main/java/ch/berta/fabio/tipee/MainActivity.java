@@ -12,7 +12,6 @@ import android.preference.PreferenceManager;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -43,7 +42,8 @@ import ch.berta.fabio.tipee.util.iab.Inventory;
 import ch.berta.fabio.tipee.util.iab.Purchase;
 
 public class MainActivity extends Activity implements ActionBar.TabListener,
-        SplitFragment.SplitFragmentInteractionListener {
+        SplitFragment.SplitFragmentInteractionListener,
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String LOG_TAG = "ch.berta.fabio.tipee";
     private static final String SKU_REMOVE_ADS = "ch.berta.fabio.tipee.removeads";
@@ -57,6 +57,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
     private static final String DIALOG_COUNTRY_NOT_DETECTED = "country_not_detected";
     private static final String DIALOG_TIPPING_NOT_COMMON = "tipping_not_common";
     private static final String DIALOG_TIP_ALREADY_INCLUDED = "tip_already_included";
+    private static final String EVEN_SPLIT_FRAGMENT = "evenSplitFragment";
+    private static final String UNEVEN_SPLIT_FRAGMENT = "unevenSplitFragment";
+
     private static final int MAX_PERSONS = 20;
     private static final int NUMBER_OF_TABS = 2;
 
@@ -65,10 +68,12 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
     private boolean mFromUser;
     private boolean mFreshStart;
 
-    private int mPersons, mPercentage;
+    private int mPersons;
+    private int mPercentage;
     private int mFreshStartCount;
 
     private String mCountryCodeManuallySelected;
+    private String mRoundMode;
 
     private EvenSplitFragment mEvenSplitFragment;
     private UnevenSplitFragment mUnevenSplitFragment;
@@ -103,6 +108,10 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
         return mPercentage;
     }
 
+    public String getRoundMode() {
+        return mRoundMode;
+    }
+
     public List<String> getListCountries() {
         return mListCountries;
     }
@@ -123,6 +132,10 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
             mFromUser = savedInstanceState.getBoolean(STATE_FROM_USER);
             mIsPremium = savedInstanceState.getBoolean(STATE_PREMIUM);
             mChosenLocale = (Locale) savedInstanceState.getSerializable(STATE_LOCALE);
+            mEvenSplitFragment = (EvenSplitFragment) getFragmentManager()
+                    .getFragment(savedInstanceState, EVEN_SPLIT_FRAGMENT);
+            mUnevenSplitFragment = (UnevenSplitFragment) getFragmentManager()
+                    .getFragment(savedInstanceState, UNEVEN_SPLIT_FRAGMENT);
 
             mFreshStart = false;
             mFreshStartCount = 0;
@@ -130,9 +143,13 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
             mPersons = 0;
             mPercentage = 0;
             mIsPremium = true;
+            mChosenLocale = Locale.getDefault();
 
             mFreshStart = true;
             mFreshStartCount = 0;
+
+            mEvenSplitFragment = new EvenSplitFragment();
+            mUnevenSplitFragment = new UnevenSplitFragment();
         }
 
         setupPrefs();
@@ -150,7 +167,18 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
     private void setupPrefs() {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        mCountryCodeManuallySelected = mSharedPrefs.getString("PREF_COUNTRY_LIST", "Other");
+        mSharedPrefs.registerOnSharedPreferenceChangeListener(this);
+        updatePrefs();
+    }
+
+
+    /**
+     * Updates member variable to changed shared preferences.
+     */
+    private void updatePrefs() {
+        mCountryCodeManuallySelected = mSharedPrefs.getString("PREF_COUNTRY_LIST",
+                getString(R.string.other));
+        mRoundMode = mSharedPrefs.getString("PREF_ROUND_MODE", "0");
     }
 
     /**
@@ -167,9 +195,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
             public Fragment getItem(int position) {
                 switch (position) {
                     case 0:
-                        return new EvenSplitFragment();
+                        return mEvenSplitFragment;
                     case 1:
-                        return new UnevenSplitFragment();
+                        return mUnevenSplitFragment;
                 }
                 return null;
             }
@@ -273,7 +301,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
                     .addTestDevice("BC550DE6FADFBBE87BD789C1A8CB8993") // Galaxy S2 Genymotion
                     .addTestDevice("B737A079650C9B192028979385FEFD70") // HTC One Genymotion
                     .addTestDevice("FB3414657679E38E6F65D7453278FC87") // Galaxy S5 Genymotion
-                    //.addTestDevice("5865A8795501EAC2756D62BEB230C1D2") // Nexus 5 Vera
+                            //.addTestDevice("5865A8795501EAC2756D62BEB230C1D2") // Nexus 5 Vera
                     .addTestDevice("0A5B6BD93C051FCF424FCEF1E66A4A00") // Nexus One Fabio
                     .build();
             adView.loadAd(adRequest);
@@ -380,8 +408,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
      * has manually changed the percentage.
      */
     private void clearAll() {
-        findFragments();
-
         setSpinnerToInitialState();
 
         mEvenSplitFragment.setPersons("");
@@ -404,24 +430,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
     }
 
     /**
-     * Finds the fragments via their tag assigned internally by the ViewPager. This is a hack
-     * because the tag assignment of the ViewPager is undocumented and may change!
-     */
-    private void findFragments() {
-        mEvenSplitFragment = (EvenSplitFragment)
-                getFragmentManager().findFragmentByTag("android:switcher:" +
-                        R.id.viewPager + ":" + 0);
-        mUnevenSplitFragment = (UnevenSplitFragment)
-                getFragmentManager().findFragmentByTag("android:switcher:" +
-                        R.id.viewPager + ":" + 1);
-    }
-
-    /**
      * Sets the country spinner to the initial country
      */
     public void setSpinnerToInitialState() {
-        findFragments();
-
         if (checkPrefCountrySetManually()) {
             mEvenSplitFragment.setCountry(mMapCountries.get(mCountryCodeManuallySelected));
         } else {
@@ -492,6 +503,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
         outState.putBoolean(STATE_FROM_USER, mFromUser);
         outState.putBoolean(STATE_PREMIUM, mIsPremium);
         outState.putSerializable(STATE_LOCALE, mChosenLocale);
+        getFragmentManager().putFragment(outState, EVEN_SPLIT_FRAGMENT, mEvenSplitFragment);
+        getFragmentManager().putFragment(outState, UNEVEN_SPLIT_FRAGMENT, mUnevenSplitFragment);
     }
 
     @Override
@@ -523,13 +536,23 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
+        if (key.equals("PREF_COUNTRY") || key.equals("PREF_COUNTRY_LIST")) {
+            updatePrefs();
+            setSpinnerToInitialState();
+        } else if (key.equals("PREF_ROUND_MODE")) {
+            updatePrefs();
+            mEvenSplitFragment.calculateTip();
+            mUnevenSplitFragment.calculateTipSeparate();
+        }
+    }
+
     /**
      * Handles clicks on the "minus 1 person" button in both fragments by setting the same amount of
      * persons in both fragments.
      */
     public void onMinusClicked() {
-        findFragments();
-
         if (mPersons > 1) {
             mPersons--;
             mEvenSplitFragment.setPersons(Integer.toString(mPersons));
@@ -545,8 +568,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
      * persons in both fragments.
      */
     public void onPlusClicked() {
-        findFragments();
-
         if (mPersons < MAX_PERSONS) {
             mPersons++;
             mEvenSplitFragment.setPersons(Integer.toString(mPersons));
@@ -561,8 +582,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
      * @param numberOfPersons the number of persons
      */
     public void onPersonsSelected(int numberOfPersons) {
-        findFragments();
-
         mPersons = numberOfPersons;
 
         if (mEvenSplitFragment.getPersons() != numberOfPersons) {
@@ -583,8 +602,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
      * @param selectedCountry the selected Country
      */
     public void onCountrySelected(String selectedCountry) {
-        findFragments();
-
         String selectedCountryCode = OTHER_COUNTRY;
         if (selectedCountry.length() > 0) {
             selectedCountryCode = mMapCountries.inverse().get(selectedCountry);
@@ -624,8 +641,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
      * @param selectedCountryCode the 2-digit country code for the selected country
      */
     private void setCountryTip(String selectedCountryCode) {
-        findFragments();
-
         if (!mFromUser) {
             mEvenSplitFragment.setPercentage(getCountryTip(selectedCountryCode));
             mUnevenSplitFragment.setPercentage(getCountryTip(selectedCountryCode));
@@ -663,8 +678,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
      * @param fromUser   if it was set by the user or the system
      */
     public void onPercentageSet(int percentage, boolean fromUser) {
-        findFragments();
-
         mPercentage = percentage;
 
         if (fromUser || mFromUser) {

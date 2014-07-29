@@ -42,7 +42,8 @@ import ch.berta.fabio.tipee.util.iab.Inventory;
 import ch.berta.fabio.tipee.util.iab.Purchase;
 
 public class MainActivity extends Activity implements ActionBar.TabListener,
-        SplitFragment.SplitFragmentInteractionListener {
+        SplitFragment.SplitFragmentInteractionListener,
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String LOG_TAG = "ch.berta.fabio.tipee";
     private static final String SKU_REMOVE_ADS = "ch.berta.fabio.tipee.removeads";
@@ -156,6 +157,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
     private void setupPrefs() {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        mSharedPrefs.registerOnSharedPreferenceChangeListener(this);
     }
 
     /**
@@ -351,18 +353,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-        updatePrefs();
-    }
-
-    private void updatePrefs() {
-        mCountryCodeManuallySelected = mSharedPrefs.getString("PREF_COUNTRY_LIST", "Other");
-        mRoundMode = mSharedPrefs.getString("PREF_ROUND_MODE", "0");
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         if (mIsPremium || !mIabAvailable) {
@@ -538,6 +528,27 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
 
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
+        if (key.equals("PREF_COUNTRY") || key.equals("PREF_COUNTRY_LIST")) {
+            updatePrefs();
+            setSpinnerToInitialState();
+        } else if (key.equals("PREF_ROUND_MODE")) {
+            updatePrefs();
+            mEvenSplitFragment.calculateTip();
+            mUnevenSplitFragment.calculateTipSeparate();
+        }
+    }
+
+    /**
+     * Updates member variable to changed shared preferences.
+     */
+    private void updatePrefs() {
+        mCountryCodeManuallySelected = mSharedPrefs.getString("PREF_COUNTRY_LIST",
+                getString(R.string.other));
+        mRoundMode = mSharedPrefs.getString("PREF_ROUND_MODE", "0");
     }
 
     /**

@@ -68,7 +68,8 @@ public class SplitFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        etPersons.setFilters(new InputFilter[]{new InputFilterMinMax(0, mListener.getMaxPersons())});
+        etPersons.setFilters(new InputFilter[]{new InputFilterMinMax(0,
+                mListener.getMaxPersons())});
 
         bPersonsMinus.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -50,7 +50,8 @@ public class EvenSplitFragment extends SplitFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_even_split_headers_nomargins, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_even_split_headers_nomargins, container,
+                false);
 
         tvTipAmount = (TextView) rootView.findViewById(R.id.tvTipAmount);
         tvTotalAmount = (TextView) rootView.findViewById(R.id.tvTotalAmount);
@@ -149,13 +150,6 @@ public class EvenSplitFragment extends SplitFragment {
         mListener.setSpinnerToInitialState();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        calculateTip();
-    }
-
     public void setBillAmount(String billAmount) {
         etBillAmount.setText(billAmount);
     }
@@ -164,7 +158,8 @@ public class EvenSplitFragment extends SplitFragment {
         int persons = mListener.getPersons();
         int percentage = mListener.getPercentage();
 
-        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(mListener.getChosenLocale());
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(
+                mListener.getChosenLocale());
 
         if (etBillAmount.length() > 0 && persons != 0) {
             String billAmountString = etBillAmount.getText().toString();
@@ -186,7 +181,8 @@ public class EvenSplitFragment extends SplitFragment {
                 case ROUND_EXACT:
                     break;
                 case ROUND_UP:
-                    totalAmount = totalAmountBig.setScale(0, BigDecimal.ROUND_CEILING).doubleValue();
+                    totalAmount = totalAmountBig.setScale(0, BigDecimal.ROUND_CEILING)
+                            .doubleValue();
                     tipAmount = (totalAmount - billAmount);
                     break;
                 case ROUND_DOWN:

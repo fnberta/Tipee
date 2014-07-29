@@ -62,7 +62,8 @@ public class UnevenSplitFragment extends SplitFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_uneven_split_headers_nomargins, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_uneven_split_headers_nomargins,
+                container, false);
 
         etPersons = (EditText) rootView.findViewById(R.id.etPersonsS);
         bPersonsMinus = (Button) rootView.findViewById(R.id.bPersonsMinusS);
@@ -141,13 +142,6 @@ public class UnevenSplitFragment extends SplitFragment {
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        calculateTipSeparate();
-    }
-
     /**
      * Dynamically creates and removes the appropriate views based on the selected amount of
      * persons.
@@ -155,7 +149,8 @@ public class UnevenSplitFragment extends SplitFragment {
     public void setUpViews() {
         int persons = mListener.getPersons();
 
-        NumberFormat numberFormatter = NumberFormat.getCurrencyInstance(mListener.getChosenLocale());
+        NumberFormat numberFormatter = NumberFormat.getCurrencyInstance(
+                mListener.getChosenLocale());
 
         if (mIdLlPerson > persons) {
             for (int i = mIdLlPerson - 1; i >= persons; i--) {
@@ -203,7 +198,8 @@ public class UnevenSplitFragment extends SplitFragment {
                 llPerson[i].addView(etBillAmountPerson[i]);
                 etBillAmountPerson[i].addTextChangedListener(new TextWatcher() {
                     @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3)
+                    {
                     }
 
                     @Override

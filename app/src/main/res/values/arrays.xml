@@ -5,6 +5,18 @@
         <item>@string/tab_uneven</item>
     </string-array>
 
+    <string-array name="round_modes_entries">
+        <item>@string/round_exact</item>
+        <item>@string/round_up</item>
+        <item>@string/round_down</item>
+    </string-array>
+
+    <string-array name="round_modes_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="country_codes" translatable="false">
         <item>AL</item>
         <item>DZ</item>

@@ -13,7 +13,6 @@ import android.preference.PreferenceManager;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -44,7 +43,8 @@ import ch.berta.fabio.tipee.util.iab.Inventory;
 import ch.berta.fabio.tipee.util.iab.Purchase;
 
 public class MainActivity extends Activity implements ActionBar.TabListener,
-        SplitFragment.SplitFragmentInteractionListener {
+        SplitFragment.SplitFragmentInteractionListener,
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String LOG_TAG = "ch.berta.fabio.tipee";
     private static final String SKU_REMOVE_ADS = "ch.berta.fabio.tipee.removeads";
@@ -69,10 +69,12 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
     private boolean mFromUser;
     private boolean mFreshStart;
 
-    private int mPersons, mPercentage;
+    private int mPersons;
+    private int mPercentage;
     private int mFreshStartCount;
 
     private String mCountryCodeManuallySelected;
+    private String mRoundMode;
 
     private EvenSplitFragment mEvenSplitFragment;
     private UnevenSplitFragment mUnevenSplitFragment;
@@ -105,6 +107,10 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
 
     public int getPercentage() {
         return mPercentage;
+    }
+
+    public String getRoundMode() {
+        return mRoundMode;
     }
 
     public List<String> getListCountries() {
@@ -140,6 +146,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
             mPersons = 0;
             mPercentage = 0;
             mIsPremium = true;
+            mChosenLocale = Locale.getDefault();
 
             mFreshStart = true;
             mFreshStartCount = 0;
@@ -163,7 +170,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
     private void setupPrefs() {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        mCountryCodeManuallySelected = mSharedPrefs.getString("PREF_COUNTRY_LIST", "Other");
+        mSharedPrefs.registerOnSharedPreferenceChangeListener(this);
     }
 
     /**
@@ -519,6 +526,27 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
 
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
+        if (key.equals("PREF_COUNTRY") || key.equals("PREF_COUNTRY_LIST")) {
+            updatePrefs();
+            setSpinnerToInitialState();
+        } else if (key.equals("PREF_ROUND_MODE")) {
+            updatePrefs();
+            mEvenSplitFragment.calculateTip();
+            mUnevenSplitFragment.calculateTipSeparate();
+        }
+    }
+
+    /**
+     * Updates member variable to changed shared preferences.
+     */
+    private void updatePrefs() {
+        mCountryCodeManuallySelected = mSharedPrefs.getString("PREF_COUNTRY_LIST",
+                getString(R.string.other));
+        mRoundMode = mSharedPrefs.getString("PREF_ROUND_MODE", "0");
     }
 
     /**

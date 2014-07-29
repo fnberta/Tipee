@@ -19,6 +19,7 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
@@ -61,7 +62,8 @@ public class UnevenSplitFragment extends SplitFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_uneven_split_headers_nomargins, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_uneven_split_headers_nomargins,
+                container, false);
 
         etPersons = (EditText) rootView.findViewById(R.id.etPersonsS);
         bPersonsMinus = (Button) rootView.findViewById(R.id.bPersonsMinusS);
@@ -147,7 +149,8 @@ public class UnevenSplitFragment extends SplitFragment {
     public void setUpViews() {
         int persons = mListener.getPersons();
 
-        NumberFormat numberFormatter = NumberFormat.getCurrencyInstance(mListener.getChosenLocale());
+        NumberFormat numberFormatter = NumberFormat.getCurrencyInstance(
+                mListener.getChosenLocale());
 
         if (mIdLlPerson > persons) {
             for (int i = mIdLlPerson - 1; i >= persons; i--) {
@@ -195,7 +198,8 @@ public class UnevenSplitFragment extends SplitFragment {
                 llPerson[i].addView(etBillAmountPerson[i]);
                 etBillAmountPerson[i].addTextChangedListener(new TextWatcher() {
                     @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3)
+                    {
                     }
 
                     @Override
@@ -261,6 +265,26 @@ public class UnevenSplitFragment extends SplitFragment {
 
                 double tipAmountPerson = ((billAmountPerson * percentage) / 100);
                 double totalAmountPerson = (tipAmountPerson + billAmountPerson);
+
+                BigDecimal totalAmountPersonBig = new BigDecimal(totalAmountPerson);
+
+                switch (mListener.getRoundMode()) {
+                    case ROUND_EXACT:
+                        break;
+                    case ROUND_UP:
+                        totalAmountPerson = totalAmountPersonBig.setScale(0,
+                                BigDecimal.ROUND_CEILING).doubleValue();
+                        tipAmountPerson = (totalAmountPerson - billAmountPerson);
+                        break;
+                    case ROUND_DOWN:
+                        totalAmountPerson = totalAmountPersonBig.setScale(0,
+                                BigDecimal.ROUND_FLOOR).doubleValue();
+                        if (totalAmountPerson <= billAmountPerson) {
+                            totalAmountPerson = billAmountPerson;
+                        }
+                        tipAmountPerson = (totalAmountPerson - billAmountPerson);
+                        break;
+                }
 
                 tvTipAmountPerson[i].setText(currencyFormatter.format(tipAmountPerson));
                 tvTotalAmountPerson[i].setText(currencyFormatter.format(totalAmountPerson));

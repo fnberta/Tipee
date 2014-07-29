@@ -32,6 +32,9 @@ import ch.berta.fabio.tipee.util.InputFilterMinMax;
 public class SplitFragment extends Fragment {
 
     static final String LOG_TAG = "ch.berta.fabio.tipee";
+    static final String ROUND_EXACT = "0";
+    static final String ROUND_UP = "1";
+    static final String ROUND_DOWN = "2";
 
     EditText etPersons;
     Button bPersonsMinus, bPersonsPlus;
@@ -65,7 +68,8 @@ public class SplitFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        etPersons.setFilters(new InputFilter[]{new InputFilterMinMax(0, mListener.getMaxPersons())});
+        etPersons.setFilters(new InputFilter[]{new InputFilterMinMax(0,
+                mListener.getMaxPersons())});
 
         bPersonsMinus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,5 +192,7 @@ public class SplitFragment extends Fragment {
         public void setSpinnerToInitialState();
 
         public List<String> getListCountries();
+
+        public String getRoundMode();
     }
 }

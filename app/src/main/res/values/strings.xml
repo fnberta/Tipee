@@ -9,6 +9,10 @@
     <string name="pref_country">Manual country selection</string>
     <string name="pref_country_summ">Manually set the default country</string>
     <string name="pref_country_list">Country</string>
+    <string name="pref_round_mode">Round</string>
+    <string name="round_up">Round up to next whole number</string>
+    <string name="round_down">Round down to next whole number</string>
+    <string name="round_exact">Exact values</string>
     <string name="tab_even">Even Split</string>
     <string name="tab_uneven">Uneven Split</string>
     <string name="tipping_not_common_dialog_title">Tipping not common</string>
@@ -20,7 +24,12 @@
     <string name="tip_included_dialog_title">Tip already included</string>
     <string name="tip_included_dialog_message">Caution! The tip or part of it may already be
     included in your bill. Tipee always shows you the total tip amount you should pay!</string>
+    <string name="round_down_dialog_title">Not recommended</string>
+    <string name="round_down_dialog_message">Rounding down is not recommended, you run the risk
+        of undertipping!</string>
     <string name="ok">OK</string>
+    <string name="change_to_up">Round up</string>
+    <string name="keep_it">Risk it</string>
     <string name="person_hint">Person</string>
     <string name="persons_hint">Persons</string>
     <string name="bill_hint">Bill Amount</string>

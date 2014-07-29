@@ -19,6 +19,7 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
@@ -138,6 +139,13 @@ public class UnevenSplitFragment extends SplitFragment {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        calculateTipSeparate();
     }
 
     /**
@@ -261,6 +269,26 @@ public class UnevenSplitFragment extends SplitFragment {
 
                 double tipAmountPerson = ((billAmountPerson * percentage) / 100);
                 double totalAmountPerson = (tipAmountPerson + billAmountPerson);
+
+                BigDecimal totalAmountPersonBig = new BigDecimal(totalAmountPerson);
+
+                switch (mListener.getRoundMode()) {
+                    case ROUND_EXACT:
+                        break;
+                    case ROUND_UP:
+                        totalAmountPerson = totalAmountPersonBig.setScale(0,
+                                BigDecimal.ROUND_CEILING).doubleValue();
+                        tipAmountPerson = (totalAmountPerson - billAmountPerson);
+                        break;
+                    case ROUND_DOWN:
+                        totalAmountPerson = totalAmountPersonBig.setScale(0,
+                                BigDecimal.ROUND_FLOOR).doubleValue();
+                        if (totalAmountPerson <= billAmountPerson) {
+                            totalAmountPerson = billAmountPerson;
+                        }
+                        tipAmountPerson = (totalAmountPerson - billAmountPerson);
+                        break;
+                }
 
                 tvTipAmountPerson[i].setText(currencyFormatter.format(tipAmountPerson));
                 tvTotalAmountPerson[i].setText(currencyFormatter.format(totalAmountPerson));

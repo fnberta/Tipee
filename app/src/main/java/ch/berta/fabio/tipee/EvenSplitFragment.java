@@ -3,6 +3,7 @@ package ch.berta.fabio.tipee;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
@@ -147,6 +149,13 @@ public class EvenSplitFragment extends SplitFragment {
         mListener.setSpinnerToInitialState();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        calculateTip();
+    }
+
     public void setBillAmount(String billAmount) {
         etBillAmount.setText(billAmount);
     }
@@ -170,6 +179,25 @@ public class EvenSplitFragment extends SplitFragment {
 
             double tipAmount = ((billAmount * percentage) / 100);
             double totalAmount = (tipAmount + billAmount);
+
+            BigDecimal totalAmountBig = new BigDecimal(totalAmount);
+
+            switch (mListener.getRoundMode()) {
+                case ROUND_EXACT:
+                    break;
+                case ROUND_UP:
+                    totalAmount = totalAmountBig.setScale(0, BigDecimal.ROUND_CEILING).doubleValue();
+                    tipAmount = (totalAmount - billAmount);
+                    break;
+                case ROUND_DOWN:
+                    totalAmount = totalAmountBig.setScale(0, BigDecimal.ROUND_FLOOR).doubleValue();
+                    if (totalAmount <= billAmount) {
+                        totalAmount = billAmount;
+                    }
+                    tipAmount = (totalAmount - billAmount);
+                    break;
+            }
+
             double totalPerPerson = (totalAmount / persons);
 
             tvTipAmount.setText(currencyFormatter.format(tipAmount));

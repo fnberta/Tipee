@@ -12,7 +12,6 @@ import android.preference.PreferenceManager;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -65,10 +64,12 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
     private boolean mFromUser;
     private boolean mFreshStart;
 
-    private int mPersons, mPercentage;
+    private int mPersons;
+    private int mPercentage;
     private int mFreshStartCount;
 
     private String mCountryCodeManuallySelected;
+    private String mRoundMode;
 
     private EvenSplitFragment mEvenSplitFragment;
     private UnevenSplitFragment mUnevenSplitFragment;
@@ -103,6 +104,10 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
         return mPercentage;
     }
 
+    public String getRoundMode() {
+        return mRoundMode;
+    }
+
     public List<String> getListCountries() {
         return mListCountries;
     }
@@ -130,6 +135,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
             mPersons = 0;
             mPercentage = 0;
             mIsPremium = true;
+            mChosenLocale = Locale.getDefault();
 
             mFreshStart = true;
             mFreshStartCount = 0;
@@ -150,7 +156,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
     private void setupPrefs() {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        mCountryCodeManuallySelected = mSharedPrefs.getString("PREF_COUNTRY_LIST", "Other");
     }
 
     /**
@@ -343,6 +348,18 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
         }
         Collections.sort(mListCountries);
         mListCountries.add(getString(R.string.other));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        updatePrefs();
+    }
+
+    private void updatePrefs() {
+        mCountryCodeManuallySelected = mSharedPrefs.getString("PREF_COUNTRY_LIST", "Other");
+        mRoundMode = mSharedPrefs.getString("PREF_ROUND_MODE", "0");
     }
 
     @Override

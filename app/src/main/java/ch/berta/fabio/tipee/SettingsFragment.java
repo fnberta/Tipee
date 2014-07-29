@@ -2,13 +2,10 @@ package ch.berta.fabio.tipee;
 
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 import ch.berta.fabio.tipee.dialogs.RoundingDownNotAdvisedDialogFragment;
 

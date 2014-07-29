@@ -198,8 +198,7 @@ public class UnevenSplitFragment extends SplitFragment {
                 llPerson[i].addView(etBillAmountPerson[i]);
                 etBillAmountPerson[i].addTextChangedListener(new TextWatcher() {
                     @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3)
-                    {
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
                     }
 
                     @Override

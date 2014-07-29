@@ -3,7 +3,6 @@ package ch.berta.fabio.tipee;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
@@ -121,8 +120,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Log.d(LOG_TAG, "onCreate gets called");
 
         /**
          * Check if we are starting fresh or data needs to be reloaded from saved Bundle.
@@ -293,7 +290,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
                     .addTestDevice("BC550DE6FADFBBE87BD789C1A8CB8993") // Galaxy S2 Genymotion
                     .addTestDevice("B737A079650C9B192028979385FEFD70") // HTC One Genymotion
                     .addTestDevice("FB3414657679E38E6F65D7453278FC87") // Galaxy S5 Genymotion
-                    //.addTestDevice("5865A8795501EAC2756D62BEB230C1D2") // Nexus 5 Vera
+                            //.addTestDevice("5865A8795501EAC2756D62BEB230C1D2") // Nexus 5 Vera
                     .addTestDevice("0A5B6BD93C051FCF424FCEF1E66A4A00") // Nexus One Fabio
                     .build();
             adView.loadAd(adRequest);

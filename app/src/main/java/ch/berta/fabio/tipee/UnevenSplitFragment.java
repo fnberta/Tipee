@@ -44,18 +44,6 @@ public class UnevenSplitFragment extends SplitFragment {
     private LinearLayout[] llPerson;
     private LinearLayout mLlMain;
 
-    /*
-    public static UnevenSplitFragment newInstance(String arg) {
-        UnevenSplitFragment fragment = new UnevenSplitFragment();
-
-        Bundle args = new Bundle();
-        args.putString("test", arg);
-        fragment.setArguments(args);
-
-        return fragment;
-    }
-    */
-
     public UnevenSplitFragment() {
     }
 

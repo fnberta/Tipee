@@ -253,8 +253,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
                                     public void onQueryInventoryFinished(IabResult result,
                                                                          Inventory inv) {
                                         if (result.isFailure()) {
-                                            //mIsPremium = false;
-                                            //setUpAds();
                                             // TODO: Do something...
                                         } else {
                                             // Has the user made a purchase to disable ads?
@@ -312,8 +310,12 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
 
             invalidateOptionsMenu();
 
-            Toast.makeText(this, getString(R.string.ads_removed), Toast.LENGTH_LONG).show();
+            displayToast(getString(R.string.ads_removed));
         }
+    }
+
+    private void displayToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -360,7 +362,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
         }
 
         // Add "Other" to mMapCountries (put here because we don't want it in mCountryNames and
-        // mCountryCodes.)
+        // mCountryCodes)
         mMapCountries.put(OTHER_COUNTRY, getString(R.string.other));
 
         // Create sorted ArrayList with all the countries that have a tip value in mMapTipValues
@@ -389,10 +391,10 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
                 clearAll();
                 return true;
             case R.id.action_settings:
-                Intent i = new Intent(this, SettingsActivity.class);
-                i.putExtra("countryNames", mCountryNames);
-                i.putExtra("countryCodes", mCountryCodes);
-                startActivity(i);
+                Intent intent = new Intent(this, SettingsActivity.class);
+                intent.putExtra("countryNames", mCountryNames)
+                        .putExtra("countryCodes", mCountryCodes);
+                startActivity(intent);
                 return true;
             case R.id.action_remove_ads:
                 purchaseRemoveAds();
@@ -482,7 +484,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
                     @Override
                     public void onIabPurchaseFinished(IabResult result, Purchase info) {
                         if (result.isFailure()) {
-                            // TODO: show error dialog
+                            displayToast(getString(R.string.purchase_failed));
                             mIsPremium = false;
                         } else if (info.getSku().equals(SKU_REMOVE_ADS)) {
                             // Disable ads
@@ -538,11 +540,11 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
+        updatePrefs();
+
         if (key.equals("PREF_COUNTRY") || key.equals("PREF_COUNTRY_LIST")) {
-            updatePrefs();
             setSpinnerToInitialState();
         } else if (key.equals("PREF_ROUND_MODE")) {
-            updatePrefs();
             mEvenSplitFragment.calculateTip();
             mUnevenSplitFragment.calculateTipSeparate();
         }

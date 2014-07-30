@@ -7,22 +7,13 @@ import android.os.Bundle;
 import ch.berta.fabio.tipee.dialogs.RoundingDownNotAdvisedDialogFragment;
 
 public class SettingsActivity extends Activity implements
-        SettingsFragment.SettingsFragmentInteractionListener,
         RoundingDownNotAdvisedDialogFragment.RoundingDownNotAdvisedDialogFragmentInteractionListener {
 
     private static final String SETTINGS_FRAGMENT = "settingsFragment";
 
-    private String[] mCountryNames;
-    private String[] mCountryCodes;
-
-    public String[] getCountryNames() {
-        return mCountryNames;
-    }
-
-    public String[] getCountryCodes() {
-        return mCountryCodes;
-    }
-
+    /**
+     * Sets rounding mode in the settings fragment to "Round up".
+     */
     public void setToRoundUp() {
         SettingsFragment settingsFragment = (SettingsFragment) getFragmentManager()
                 .findFragmentByTag(SETTINGS_FRAGMENT);
@@ -33,13 +24,15 @@ public class SettingsActivity extends Activity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Get data passed on in intent from MainActivity
         Intent i = getIntent();
-        mCountryNames = i.getStringArrayExtra("countryNames");
-        mCountryCodes = i.getStringArrayExtra("countryCodes");
+        String[] countryNames = i.getStringArrayExtra("countryNames");
+        String[] countryCodes = i.getStringArrayExtra("countryCodes");
 
         // Display the fragment as the main content.
         getFragmentManager().beginTransaction()
-                .replace(android.R.id.content, new SettingsFragment(), SETTINGS_FRAGMENT)
+                .replace(android.R.id.content, SettingsFragment
+                        .newInstance(countryNames, countryCodes), SETTINGS_FRAGMENT)
                 .commit();
     }
 }

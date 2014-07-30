@@ -310,8 +310,12 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
 
             invalidateOptionsMenu();
 
-            Toast.makeText(this, getString(R.string.ads_removed), Toast.LENGTH_LONG).show();
+            displayToast(getString(R.string.ads_removed));
         }
+    }
+
+    private void displayToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -480,7 +484,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
                     @Override
                     public void onIabPurchaseFinished(IabResult result, Purchase info) {
                         if (result.isFailure()) {
-                            // TODO: show error dialog
+                            displayToast(getString(R.string.purchase_failed));
                             mIsPremium = false;
                         } else if (info.getSku().equals(SKU_REMOVE_ADS)) {
                             // Disable ads

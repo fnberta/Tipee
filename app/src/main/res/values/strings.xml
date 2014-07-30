@@ -47,5 +47,7 @@
     <string name="other">Other</string>
     <string name="clear_bill_amount">Clear bill amount</string>
     <string name="ads_removed">The ads have been removed. Thank you for your support!</string>
+    <string name="purchase_failed">Unfortunately, the purchase failed. Please try again
+        later.</string>
 
 </resources>

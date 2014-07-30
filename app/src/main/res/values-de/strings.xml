@@ -50,5 +50,7 @@
     <string name="clear_bill_amount">Rechnungsbetrag löschen</string>
     <string name="ads_removed">Der Werbebanner wurde entfernt. Vielen Dank für deine
         Unterstützung!</string>
+        <string name="purchase_failed">Der Kauf ist leider fehlgeschlagen. Bitte versuche es später
+            nochmals.</string>
 
 </resources>

@@ -11,22 +11,26 @@ import ch.berta.fabio.tipee.dialogs.RoundingDownNotAdvisedDialogFragment;
 
 public class SettingsFragment extends PreferenceFragment {
 
-    static final String LOG_TAG = "ch.berta.fabio.tipee";
+    private static final String LOG_TAG = "ch.berta.fabio.tipee";
+    private static final String COUNTRY_ENTRIES = "country_entries";
+    private static final String COUNTRY_CODE_VALUES = "country_code_values";
     private static final int ROUND_UP = 1;
     private static final int ROUND_DOWN = 2;
-    private SettingsFragmentInteractionListener mListener;
     private ListPreference mRoundMode;
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public SettingsFragment() {
+    }
 
-        try {
-            mListener = (SettingsFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement SeparateBillFragmentCallback");
-        }
+    public static SettingsFragment newInstance(CharSequence[] countryEntries,
+                                               CharSequence[] countryCodeValues) {
+        SettingsFragment fragment = new SettingsFragment();
+
+        Bundle args = new Bundle();
+        args.putCharSequenceArray(COUNTRY_ENTRIES, countryEntries);
+        args.putCharSequenceArray(COUNTRY_CODE_VALUES, countryCodeValues);
+        fragment.setArguments(args);
+
+        return fragment;
     }
 
     @Override
@@ -71,9 +75,9 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     private void setupCountryListPreference() {
-        // Get variables from SettingsActivity
-        CharSequence[] countryEntries = mListener.getCountryNames();
-        CharSequence[] countryCodeValues = mListener.getCountryCodes();
+        // Get variables from NewInstance Bundle
+        CharSequence[] countryEntries = getArguments().getCharSequenceArray(COUNTRY_ENTRIES);
+        CharSequence[] countryCodeValues = getArguments().getCharSequenceArray(COUNTRY_CODE_VALUES);
 
         // Fill ListPreference with country list as entries and country codes as values, both
         // generated in the MainActivity
@@ -88,7 +92,7 @@ public class SettingsFragment extends PreferenceFragment {
         // Set summary to the current Entry
         countryList.setSummary(countryList.getEntry());
 
-        // Set up OnPreferenceChangeListener to update the summary with currently selected value
+        // Update the summary with currently selected value
         countryList.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
@@ -103,11 +107,5 @@ public class SettingsFragment extends PreferenceFragment {
                 return true;
             }
         });
-    }
-
-    public interface SettingsFragmentInteractionListener {
-        public String[] getCountryNames();
-
-        public String[] getCountryCodes();
     }
 }

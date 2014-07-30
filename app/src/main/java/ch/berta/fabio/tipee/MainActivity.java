@@ -540,11 +540,11 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
+        updatePrefs();
+
         if (key.equals("PREF_COUNTRY") || key.equals("PREF_COUNTRY_LIST")) {
-            updatePrefs();
             setSpinnerToInitialState();
         } else if (key.equals("PREF_ROUND_MODE")) {
-            updatePrefs();
             mEvenSplitFragment.calculateTip();
             mUnevenSplitFragment.calculateTipSeparate();
         }

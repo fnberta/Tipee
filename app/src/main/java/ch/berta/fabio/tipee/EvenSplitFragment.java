@@ -31,18 +31,6 @@ public class EvenSplitFragment extends SplitFragment {
     private EditText etBillAmount;
     private TextView tvTipAmount, tvTotalAmount, tvTotalPerPerson;
 
-    /*
-    public static EvenSplitFragment newInstance(String arg) {
-        EvenSplitFragment fragment = new EvenSplitFragment();
-
-        Bundle args = new Bundle();
-        args.putString("test", arg);
-        fragment.setArguments(args);
-
-        return fragment;
-    }
-    */
-
     public EvenSplitFragment() {
     }
 

@@ -253,8 +253,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
                                     public void onQueryInventoryFinished(IabResult result,
                                                                          Inventory inv) {
                                         if (result.isFailure()) {
-                                            //mIsPremium = false;
-                                            //setUpAds();
                                             // TODO: Do something...
                                         } else {
                                             // Has the user made a purchase to disable ads?

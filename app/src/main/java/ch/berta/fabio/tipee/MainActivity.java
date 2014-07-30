@@ -358,7 +358,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
         }
 
         // Add "Other" to mMapCountries (put here because we don't want it in mCountryNames and
-        // mCountryCodes.)
+        // mCountryCodes)
         mMapCountries.put(OTHER_COUNTRY, getString(R.string.other));
 
         // Create sorted ArrayList with all the countries that have a tip value in mMapTipValues
@@ -387,10 +387,10 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
                 clearAll();
                 return true;
             case R.id.action_settings:
-                Intent i = new Intent(this, SettingsActivity.class);
-                i.putExtra("countryNames", mCountryNames);
-                i.putExtra("countryCodes", mCountryCodes);
-                startActivity(i);
+                Intent intent = new Intent(this, SettingsActivity.class);
+                intent.putExtra("countryNames", mCountryNames)
+                        .putExtra("countryCodes", mCountryCodes);
+                startActivity(intent);
                 return true;
             case R.id.action_remove_ads:
                 purchaseRemoveAds();

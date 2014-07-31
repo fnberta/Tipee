@@ -104,7 +104,7 @@ public class UnevenSplitFragment extends SplitFragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 mListener.onCountrySelected(spCountry.getItemAtPosition(pos).toString());
 
-                calculateTipSeparate();
+                calculateTip();
             }
 
             @Override
@@ -117,7 +117,7 @@ public class UnevenSplitFragment extends SplitFragment {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 mListener.onPercentageSet(progress, fromUser);
 
-                calculateTipSeparate();
+                calculateTip();
             }
 
             @Override
@@ -191,7 +191,7 @@ public class UnevenSplitFragment extends SplitFragment {
 
                     @Override
                     public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                        calculateTipSeparate();
+                        calculateTip();
                     }
 
                     @Override
@@ -231,7 +231,10 @@ public class UnevenSplitFragment extends SplitFragment {
      * Calculate the tip values in the dynamically created views and format the results with the
      * correct currency format based on the locale of the chosen country.
      */
-    public void calculateTipSeparate() {
+    @Override
+    public void calculateTip() {
+        super.calculateTip();
+
         int persons = mListener.getPersons();
         int percentage = mListener.getPercentage();
 

@@ -141,7 +141,10 @@ public class EvenSplitFragment extends SplitFragment {
         etBillAmount.setText(billAmount);
     }
 
+    @Override
     public void calculateTip() {
+        super.calculateTip();
+
         int persons = mListener.getPersons();
         int percentage = mListener.getPercentage();
 

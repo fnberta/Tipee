@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -544,9 +545,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
 
         if (key.equals("PREF_COUNTRY") || key.equals("PREF_COUNTRY_LIST")) {
             setSpinnerToInitialState();
-        } else if (key.equals("PREF_ROUND_MODE")) {
-            mEvenSplitFragment.calculateTip();
-            mUnevenSplitFragment.calculateTipSeparate();
         }
     }
 

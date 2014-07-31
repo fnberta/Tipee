@@ -91,6 +91,19 @@ public class SplitFragment extends Fragment {
         spCountry.setAdapter(spCountryDataAdapter);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        calculateTip();
+    }
+
+    /**
+     * Is empty because it is implemented in the child fragments.
+     */
+    public void calculateTip() {
+    }
+
     /**
      * Returns the currently selected country in the spinner
      *

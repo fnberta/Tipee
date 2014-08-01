@@ -272,7 +272,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
                 }
             });
         } else {
-            mIsPremium = true;
+            mIsPremium = false;
             mIabAvailable = false;
 
             setUpAds();

@@ -17,6 +17,8 @@ import android.widget.TextView;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.Currency;
+import java.util.Locale;
 
 /**
  * A {@link SplitFragment} subclass. Provides an UI to split bills evenly among a
@@ -145,24 +147,18 @@ public class EvenSplitFragment extends SplitFragment {
     public void calculateTip() {
         super.calculateTip();
 
-        int persons = mListener.getPersons();
-        int percentage = mListener.getPercentage();
-
-        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(
-                mListener.getChosenLocale());
-
-        if (etBillAmount.length() > 0 && persons != 0) {
+        if (etBillAmount.length() > 0 && mPersons != 0) {
             String billAmountString = etBillAmount.getText().toString();
             double billAmount;
 
             try {
-                Number billAmountNumber = currencyFormatter.parse(billAmountString);
+                Number billAmountNumber = mCurrencyFormatter.parse(billAmountString);
                 billAmount = billAmountNumber.doubleValue();
             } catch (ParseException e) {
                 billAmount = Double.parseDouble(billAmountString);
             }
 
-            double tipAmount = ((billAmount * percentage) / 100);
+            double tipAmount = ((billAmount * mPercentage) / 100);
             double totalAmount = (tipAmount + billAmount);
 
             BigDecimal totalAmountBig = new BigDecimal(totalAmount);
@@ -184,15 +180,15 @@ public class EvenSplitFragment extends SplitFragment {
                     break;
             }
 
-            double totalPerPerson = (totalAmount / persons);
+            double totalPerPerson = (totalAmount / mPersons);
 
-            tvTipAmount.setText(currencyFormatter.format(tipAmount));
-            tvTotalAmount.setText(currencyFormatter.format(totalAmount));
-            tvTotalPerPerson.setText(currencyFormatter.format(totalPerPerson));
+            tvTipAmount.setText(mCurrencyFormatter.format(tipAmount));
+            tvTotalAmount.setText(mCurrencyFormatter.format(totalAmount));
+            tvTotalPerPerson.setText(mCurrencyFormatter.format(totalPerPerson));
         } else {
-            tvTipAmount.setText(currencyFormatter.format(0));
-            tvTotalAmount.setText(currencyFormatter.format(0));
-            tvTotalPerPerson.setText(currencyFormatter.format(0));
+            tvTipAmount.setText(mCurrencyFormatter.format(0));
+            tvTotalAmount.setText(mCurrencyFormatter.format(0));
+            tvTotalPerPerson.setText(mCurrencyFormatter.format(0));
         }
     }
 }

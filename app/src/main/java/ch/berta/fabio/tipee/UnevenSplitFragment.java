@@ -104,7 +104,7 @@ public class UnevenSplitFragment extends SplitFragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 mListener.onCountrySelected(spCountry.getItemAtPosition(pos).toString());
 
-                calculateTipSeparate();
+                calculateTip();
             }
 
             @Override
@@ -117,7 +117,7 @@ public class UnevenSplitFragment extends SplitFragment {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 mListener.onPercentageSet(progress, fromUser);
 
-                calculateTipSeparate();
+                calculateTip();
             }
 
             @Override
@@ -191,7 +191,7 @@ public class UnevenSplitFragment extends SplitFragment {
 
                     @Override
                     public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                        calculateTipSeparate();
+                        calculateTip();
                     }
 
                     @Override
@@ -231,26 +231,23 @@ public class UnevenSplitFragment extends SplitFragment {
      * Calculate the tip values in the dynamically created views and format the results with the
      * correct currency format based on the locale of the chosen country.
      */
-    public void calculateTipSeparate() {
-        int persons = mListener.getPersons();
-        int percentage = mListener.getPercentage();
+    @Override
+    public void calculateTip() {
+        super.calculateTip();
 
-        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(
-                mListener.getChosenLocale());
-
-        for (int i = 0; i < persons; i++) {
+        for (int i = 0; i < mPersons; i++) {
             if (etBillAmountPerson[i].length() > 0) {
                 String billAmountPersonString = etBillAmountPerson[i].getText().toString();
                 double billAmountPerson;
 
                 try {
-                    Number billAmountPersonNumber = currencyFormatter.parse(billAmountPersonString);
+                    Number billAmountPersonNumber = mCurrencyFormatter.parse(billAmountPersonString);
                     billAmountPerson = billAmountPersonNumber.doubleValue();
                 } catch (ParseException e) {
                     billAmountPerson = Double.parseDouble(billAmountPersonString);
                 }
 
-                double tipAmountPerson = ((billAmountPerson * percentage) / 100);
+                double tipAmountPerson = ((billAmountPerson * mPercentage) / 100);
                 double totalAmountPerson = (tipAmountPerson + billAmountPerson);
 
                 BigDecimal totalAmountPersonBig = new BigDecimal(totalAmountPerson);
@@ -273,11 +270,11 @@ public class UnevenSplitFragment extends SplitFragment {
                         break;
                 }
 
-                tvTipAmountPerson[i].setText(currencyFormatter.format(tipAmountPerson));
-                tvTotalAmountPerson[i].setText(currencyFormatter.format(totalAmountPerson));
+                tvTipAmountPerson[i].setText(mCurrencyFormatter.format(tipAmountPerson));
+                tvTotalAmountPerson[i].setText(mCurrencyFormatter.format(totalAmountPerson));
             } else {
-                tvTipAmountPerson[i].setText(currencyFormatter.format(0));
-                tvTotalAmountPerson[i].setText(currencyFormatter.format(0));
+                tvTipAmountPerson[i].setText(mCurrencyFormatter.format(0));
+                tvTotalAmountPerson[i].setText(mCurrencyFormatter.format(0));
             }
         }
     }

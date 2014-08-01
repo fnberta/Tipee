@@ -19,15 +19,19 @@ public class InputFilterMinMax implements InputFilter {
     }
 
     @Override
-    public CharSequence filter(CharSequence source, int start, int end, Spanned dEst, int dStart,
-                               int dEnd) {
+    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart,
+                               int dend) {
         try {
-            int input = Integer.parseInt(dEst.toString() + source.toString());
-            if (isInRange(min, max, input)) {
+            // Remove the string out of destination that is to be replaced
+            String newVal = dest.toString().substring(0, dstart) + dest.toString().substring(dend,
+                    dest.toString().length());
+            // Add the new string in
+            newVal = newVal.substring(0, dstart) + source.toString() + newVal.substring(dstart,
+                    newVal.length());
+            int input = Integer.parseInt(newVal);
+            if (isInRange(min, max, input))
                 return null;
-            }
-        } catch (NumberFormatException nfe) {
-        }
+        } catch (NumberFormatException nfe) { }
         return "";
     }
 

@@ -12,6 +12,8 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.text.NumberFormat;
+import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 
@@ -35,6 +37,11 @@ public class SplitFragment extends Fragment {
     static final String ROUND_EXACT = "0";
     static final String ROUND_UP = "1";
     static final String ROUND_DOWN = "2";
+
+    int mPersons;
+    int mPercentage;
+    Locale mChosenLocale;
+    NumberFormat mCurrencyFormatter;
 
     EditText etPersons;
     Button bPersonsMinus, bPersonsPlus;
@@ -89,6 +96,32 @@ public class SplitFragment extends Fragment {
                 android.R.layout.simple_spinner_item, mListener.getListCountries());
         spCountryDataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spCountry.setAdapter(spCountryDataAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        calculateTip();
+    }
+
+    /**
+     * Gets the amount of persons, the tip percentage and the chosen Locale from the MainActivity.
+     * Sets up a NumberFormat instance to apply currency formatting to the final values (with some
+     * special cases).
+     */
+    public void calculateTip() {
+        mPersons = mListener.getPersons();
+        mPercentage = mListener.getPercentage();
+        mChosenLocale = mListener.getChosenLocale();
+
+        if (mChosenLocale.getLanguage().equals("ar") || mChosenLocale.getLanguage().equals("ne") ||
+                mChosenLocale.getLanguage().equals("fa")) {
+            mCurrencyFormatter = NumberFormat.getCurrencyInstance(Locale.getDefault());
+            mCurrencyFormatter.setCurrency(Currency.getInstance(mChosenLocale));
+        } else {
+            mCurrencyFormatter = NumberFormat.getCurrencyInstance(mChosenLocale);
+        }
     }
 
     /**

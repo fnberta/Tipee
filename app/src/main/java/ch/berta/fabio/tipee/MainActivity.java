@@ -7,6 +7,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -26,9 +27,11 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Currency;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -154,11 +157,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
         }
 
         setupPrefs();
-
         setupActionBarTabs();
-
         setupIab();
-
         generateCountryMapAndLists();
     }
 
@@ -272,7 +272,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
                 }
             });
         } else {
-            mIsPremium = false;
+            mIsPremium = true;
             mIabAvailable = false;
 
             setUpAds();
@@ -628,8 +628,17 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
      * @param selectedCountryCode the 2-digit country code for the selected country
      */
     private void setLocale(String selectedCountryCode) {
-        if (!selectedCountryCode.equals(OTHER_COUNTRY)) {
-            mChosenLocale = new Locale("", selectedCountryCode);
+        if (selectedCountryCode.equals("IN")) {
+            mChosenLocale = new Locale("en", selectedCountryCode);
+        } else if (!selectedCountryCode.equals(OTHER_COUNTRY)) {
+            for (Locale locale : Locale.getAvailableLocales()) {
+                if (locale.getCountry().equals(selectedCountryCode)) {
+                    mChosenLocale = locale;
+                    return;
+                } else {
+                    mChosenLocale = new Locale("", selectedCountryCode);
+                }
+            }
         } else {
             mChosenLocale = Locale.getDefault();
         }

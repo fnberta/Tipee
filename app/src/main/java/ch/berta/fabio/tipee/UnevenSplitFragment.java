@@ -235,25 +235,19 @@ public class UnevenSplitFragment extends SplitFragment {
     public void calculateTip() {
         super.calculateTip();
 
-        int persons = mListener.getPersons();
-        int percentage = mListener.getPercentage();
-
-        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(
-                mListener.getChosenLocale());
-
-        for (int i = 0; i < persons; i++) {
+        for (int i = 0; i < mPersons; i++) {
             if (etBillAmountPerson[i].length() > 0) {
                 String billAmountPersonString = etBillAmountPerson[i].getText().toString();
                 double billAmountPerson;
 
                 try {
-                    Number billAmountPersonNumber = currencyFormatter.parse(billAmountPersonString);
+                    Number billAmountPersonNumber = mCurrencyFormatter.parse(billAmountPersonString);
                     billAmountPerson = billAmountPersonNumber.doubleValue();
                 } catch (ParseException e) {
                     billAmountPerson = Double.parseDouble(billAmountPersonString);
                 }
 
-                double tipAmountPerson = ((billAmountPerson * percentage) / 100);
+                double tipAmountPerson = ((billAmountPerson * mPercentage) / 100);
                 double totalAmountPerson = (tipAmountPerson + billAmountPerson);
 
                 BigDecimal totalAmountPersonBig = new BigDecimal(totalAmountPerson);
@@ -276,11 +270,11 @@ public class UnevenSplitFragment extends SplitFragment {
                         break;
                 }
 
-                tvTipAmountPerson[i].setText(currencyFormatter.format(tipAmountPerson));
-                tvTotalAmountPerson[i].setText(currencyFormatter.format(totalAmountPerson));
+                tvTipAmountPerson[i].setText(mCurrencyFormatter.format(tipAmountPerson));
+                tvTotalAmountPerson[i].setText(mCurrencyFormatter.format(totalAmountPerson));
             } else {
-                tvTipAmountPerson[i].setText(currencyFormatter.format(0));
-                tvTotalAmountPerson[i].setText(currencyFormatter.format(0));
+                tvTipAmountPerson[i].setText(mCurrencyFormatter.format(0));
+                tvTotalAmountPerson[i].setText(mCurrencyFormatter.format(0));
             }
         }
     }

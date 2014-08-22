@@ -7,13 +7,11 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -27,11 +25,9 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Currency;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -288,22 +284,24 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
         LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayoutMain);
 
         if (!mIsPremium) {
-            adView = new AdView(this);
-            adView.setAdUnitId(MY_AD_UNIT_ID);
-            adView.setAdSize(AdSize.BANNER);
-            layout.addView(adView);
-            AdRequest adRequest = new AdRequest.Builder()
-                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // AVD Emulator
-                    .addTestDevice("66A4E77F84BAD085025447015C00E481") // Nexus 5 Genymotion
-                    .addTestDevice("B13BB7C694FA12DA9C79D67D36B64734") // Nexus 7 Genymotion
-                    .addTestDevice("C03CF35F078528FBFC927D38CB1F8823") // Galaxy Nexus Genymotion
-                    .addTestDevice("BC550DE6FADFBBE87BD789C1A8CB8993") // Galaxy S2 Genymotion
-                    .addTestDevice("B737A079650C9B192028979385FEFD70") // HTC One Genymotion
-                    .addTestDevice("FB3414657679E38E6F65D7453278FC87") // Galaxy S5 Genymotion
-                            //.addTestDevice("5865A8795501EAC2756D62BEB230C1D2") // Nexus 5 Vera
-                    .addTestDevice("0A5B6BD93C051FCF424FCEF1E66A4A00") // Nexus One Fabio
-                    .build();
-            adView.loadAd(adRequest);
+            if (adView == null) {
+                adView = new AdView(this);
+                adView.setAdUnitId(MY_AD_UNIT_ID);
+                adView.setAdSize(AdSize.BANNER);
+                layout.addView(adView);
+                AdRequest adRequest = new AdRequest.Builder()
+                        .addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // AVD Emulator
+                        .addTestDevice("66A4E77F84BAD085025447015C00E481") // Nexus 5 Genymotion
+                        .addTestDevice("B13BB7C694FA12DA9C79D67D36B64734") // Nexus 7 Genymotion
+                        .addTestDevice("C03CF35F078528FBFC927D38CB1F8823") // Galaxy Nexus Genymotion
+                        .addTestDevice("BC550DE6FADFBBE87BD789C1A8CB8993") // Galaxy S2 Genymotion
+                        .addTestDevice("B737A079650C9B192028979385FEFD70") // HTC One Genymotion
+                        .addTestDevice("FB3414657679E38E6F65D7453278FC87") // Galaxy S5 Genymotion
+                                //.addTestDevice("5865A8795501EAC2756D62BEB230C1D2") // Nexus 5 Vera
+                        .addTestDevice("0A5B6BD93C051FCF424FCEF1E66A4A00") // Nexus One Fabio
+                        .build();
+                adView.loadAd(adRequest);
+            }
 
             invalidateOptionsMenu();
         } else if (adView != null) {

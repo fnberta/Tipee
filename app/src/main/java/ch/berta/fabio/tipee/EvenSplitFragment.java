@@ -15,10 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.math.BigDecimal;
-import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.Currency;
-import java.util.Locale;
 
 /**
  * A {@link SplitFragment} subclass. Provides an UI to split bills evenly among a

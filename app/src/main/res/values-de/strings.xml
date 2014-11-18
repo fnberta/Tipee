@@ -13,15 +13,14 @@
     <string name="round_up">Aufrunden zur nächsten ganzen Zahl</string>
     <string name="round_down">Abrunden zur nächsten ganzen Zahl</string>
     <string name="round_exact">Exakte Werte</string>
-    <string name="tab_even">Gleichmässig teilen</string>
-    <string name="tab_uneven">Individuell teilen</string>
+    <string name="tab_even">Gleichmässig</string>
+    <string name="tab_uneven">Individuell </string>
     <string name="tipping_not_common_dialog_title">Trinkgeld nicht üblich</string>
     <string name="tipping_not_common_dialog_message">Es ist in diesem Land nicht üblich Trinkgeld
         zu geben. Wenn du es trotzdem tun möchtest, stelle den gewünschten Prozentsatz mit Hilfe des
         Reglers manuell ein.</string>
     <string name="country_not_detected_dialog_title">Land wurde nicht erkannt</string>
-    <string name="country_not_detected_dialog_message">Das Land in dem du dich befindest konnte
-        leider nicht erkannt werden. Bitte stelle es manuell ein.</string>
+    <string name="country_not_detected_dialog_message">Das Land in dem du dich befindest konnte leider nicht erkannt werden. Bitte stelle es manuell ein.</string>
     <string name="tip_included_dialog_title">Trinkgeld inklusive</string>
     <string name="tip_included_dialog_message">Achtung: Das Trinkgeld, oder ein Teil davon, ist
         eventuell bereits in der Rechnung enthalten. Tipee zeigt dir immer den total zu bezahlenden

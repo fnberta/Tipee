@@ -41,3 +41,6 @@ local.properties
 
 # Sandbox stuff
 _sandbox
+
+# IabKEy
+app/src/main/java/ch/berta/fabio/tipee/IabKey.java

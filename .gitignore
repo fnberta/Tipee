@@ -27,14 +27,12 @@ local.properties
 # IDEA/Android Studio project files, because
 # the project can be imported from settings.gradle
 .idea
+.navigation
 *.iml
 
 # Old-style IDEA project files
 *.ipr
 *.iws
-
-# Local IDEA workspace
-.idea/workspace.xml
 
 # Gradle cache
 .gradle

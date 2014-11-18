@@ -40,6 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/key_line_1"
                 android:layout_marginStart="@dimen/key_line_1"
+                android:layout_gravity="center_vertical"
                 android:inputType="numberDecimal"
                 android:maxLength="12"
                 android:id="@+id/etBillAmount"
@@ -71,15 +72,7 @@
             android:text="@string/separator_country_tip"
             android:id="@+id/tvSeparatorCountryTip"/>
 
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spCountry"
-            android:layout_marginLeft="@dimen/key_line_1"
-            android:layout_marginRight="@dimen/key_line_1"
-            android:layout_marginStart="@dimen/key_line_1"
-            android:layout_marginEnd="@dimen/key_line_1"
-            android:layout_marginBottom="@dimen/element_spacing_normal"/>
+        <include layout="@layout/include_country_spinner"/>
 
         <include layout="@layout/include_seekbar"/>
 
@@ -92,9 +85,9 @@
 
             <TextView
                 style="@style/Subheader"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/subheader_height"
-                android:gravity="center_vertical"
+                android:gravity="center_vertical|start"
                 android:paddingLeft="@dimen/key_line_1"
                 android:paddingStart="@dimen/key_line_1"
                 android:text="@string/separator_tip"
@@ -103,9 +96,9 @@
 
             <TextView
                 style="@style/Subheader"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/subheader_height"
-                android:gravity="center_vertical"
+                android:gravity="center_vertical|start"
                 android:paddingRight="@dimen/key_line_1"
                 android:paddingEnd="@dimen/key_line_1"
                 android:text="@string/separator_total"
@@ -122,7 +115,7 @@
 
             <TextView
                 style="@style/Base.TextAppearance.AppCompat.Subhead"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/key_line_1"
                 android:paddingStart="@dimen/key_line_1"
@@ -134,7 +127,7 @@
 
             <TextView
                 style="@style/Base.TextAppearance.AppCompat.Subhead"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:paddingRight="@dimen/key_line_1"
                 android:paddingEnd="@dimen/key_line_1"

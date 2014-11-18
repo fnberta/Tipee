@@ -42,15 +42,7 @@
             android:text="@string/separator_country_tip"
             android:id="@+id/tvSeparatorCountryTip"/>
 
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spCountry"
-            android:layout_marginLeft="@dimen/key_line_1"
-            android:layout_marginRight="@dimen/key_line_1"
-            android:layout_marginStart="@dimen/key_line_1"
-            android:layout_marginEnd="@dimen/key_line_1"
-            android:layout_marginBottom="@dimen/element_spacing_normal"/>
+        <include layout="@layout/include_country_spinner"/>
 
         <include layout="@layout/include_seekbar"/>
 
@@ -67,7 +59,7 @@
 
             <TextView
                 style="@style/Subheader"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/subheader_height"
                 android:gravity="center_vertical"
                 android:text="@string/title_bill_amount"
@@ -75,7 +67,7 @@
 
             <TextView
                 style="@style/Subheader"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/subheader_height"
                 android:gravity="center_vertical|end"
                 android:text="@string/title_tip"
@@ -83,7 +75,7 @@
 
             <TextView
                 style="@style/Subheader"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/subheader_height"
                 android:gravity="center_vertical|end"
                 android:text="@string/title_total"

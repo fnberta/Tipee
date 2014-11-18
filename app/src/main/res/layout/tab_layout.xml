@@ -4,6 +4,8 @@
     android:id="@android:id/text1"
     android:layout_width="wrap_content"
     android:background="?android:selectableItemBackground"
+    android:paddingLeft="@dimen/content_padding_normal"
+    android:paddingRight="@dimen/content_padding_normal"
     android:paddingStart="@dimen/content_padding_normal"
     android:paddingEnd="@dimen/content_padding_normal"
     android:layout_height="@dimen/tab_height"

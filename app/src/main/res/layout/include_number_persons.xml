@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/key_line_1"
+    android:layout_marginRight="@dimen/key_line_1"
+    android:layout_marginStart="@dimen/key_line_1"
+    android:layout_marginEnd="@dimen/key_line_1"
+    android:layout_marginTop="@dimen/element_spacing_normal"
+    android:id="@+id/linearLayoutPersons">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/touch_target_min"
+        android:text="@string/minus"
+        android:id="@+id/bPersonsMinus"
+        style="?android:borderlessButtonStyle" />
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:id="@+id/etPersons"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_vertical"
+        android:hint="@string/persons_hint"
+        android:imeOptions="actionDone"
+        tools:text="5" />
+
+    <Button
+        style="?android:borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/touch_target_min"
+        android:text="@string/plus"
+        android:id="@+id/bPersonsPlus" />
+
+</LinearLayout>

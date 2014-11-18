@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/element_spacing_normal"
+    android:layout_marginBottom="@dimen/element_spacing_normal">
+
+    <SeekBar
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:max="30"
+        android:indeterminate="false"
+        android:progress="0"
+        android:layout_marginLeft="@dimen/key_line_1"
+        android:layout_marginRight="@dimen/element_spacing_normal"
+        android:layout_marginStart="@dimen/key_line_1"
+        android:layout_marginEnd="@dimen/element_spacing_normal"
+        android:id="@+id/sbPercentage"/>
+
+    <TextView
+        style="@style/Base.TextAppearance.AppCompat.Caption"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="@dimen/element_spacing_normal"
+        android:layout_marginRight="@dimen/key_line_1"
+        android:layout_marginStart="@dimen/element_spacing_normal"
+        android:layout_marginEnd="@dimen/key_line_1"
+        android:id="@+id/tvResult"
+        tools:text="14%"/>
+
+</LinearLayout>

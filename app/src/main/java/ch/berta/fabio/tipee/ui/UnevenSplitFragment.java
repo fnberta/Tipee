@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,8 @@ import java.util.List;
 
 import ch.berta.fabio.tipee.PersonRow;
 import ch.berta.fabio.tipee.R;
-import static ch.berta.fabio.tipee.AppConstants.*;
+
+import static ch.berta.fabio.tipee.AppConstants.MAX_PERSONS;
 
 /**
  * A {@link SplitFragment} subclass. Provides an UI to split bills among a chosen

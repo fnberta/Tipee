@@ -1,9 +1,6 @@
 package ch.berta.fabio.tipee.ui;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,7 +11,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -37,18 +33,18 @@ import java.util.Locale;
 import java.util.Map;
 
 import ch.berta.fabio.tipee.BuildConfig;
-import ch.berta.fabio.tipee.ui.widgets.SlidingTabLayout;
-import ch.berta.fabio.tipee.util.iab.IabKey;
 import ch.berta.fabio.tipee.R;
 import ch.berta.fabio.tipee.dialogs.CountryNotDetectedDialogFragment;
 import ch.berta.fabio.tipee.dialogs.TipIncludedDialogFragment;
 import ch.berta.fabio.tipee.dialogs.TippingNotCommonDialogFragment;
+import ch.berta.fabio.tipee.ui.widgets.SlidingTabLayout;
 import ch.berta.fabio.tipee.util.iab.IabHelper;
+import ch.berta.fabio.tipee.util.iab.IabKey;
 import ch.berta.fabio.tipee.util.iab.IabResult;
 import ch.berta.fabio.tipee.util.iab.Inventory;
 import ch.berta.fabio.tipee.util.iab.Purchase;
 
-import static ch.berta.fabio.tipee.AppConstants.*;
+import static ch.berta.fabio.tipee.AppConstants.MAX_PERSONS;
 
 public class MainActivity extends ActionBarActivity implements
         SplitFragment.SplitFragmentInteractionListener,

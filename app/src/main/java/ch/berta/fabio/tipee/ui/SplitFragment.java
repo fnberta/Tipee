@@ -20,7 +20,7 @@ import java.util.Locale;
 import ch.berta.fabio.tipee.R;
 import ch.berta.fabio.tipee.util.InputFilterMinMax;
 
-import static ch.berta.fabio.tipee.AppConstants.*;
+import static ch.berta.fabio.tipee.AppConstants.MAX_PERSONS;
 
 /**
  * A simple Fragment that allows the user to calculate the appropriate tip values for various

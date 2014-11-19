@@ -30,10 +30,6 @@ public class PersonRow {
         return mEditTextBillAmount.getText().toString();
     }
 
-    public void setImeOptions(int imeOptions) {
-        mEditTextBillAmount.setImeOptions(imeOptions);
-    }
-
     public void setTipAmount(String tipAmount) {
         mTextViewTipAmount.setText(tipAmount);
     }

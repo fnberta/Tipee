@@ -7,7 +7,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -135,9 +134,6 @@ public class UnevenSplitFragment extends SplitFragment {
         if (mIdPersonRow > persons) {
             for (int i = mIdPersonRow - 1; i >= persons; i--) {
                 mLinearLayoutMain.removeView(mListPersonRow.get(i).getTipRow());
-                if (persons > 0) {
-                    mListPersonRow.get(persons - 1).setImeOptions(EditorInfo.IME_ACTION_DONE);
-                }
                 mListPersonRow.remove(i);
                 mIdPersonRow = persons;
             }
@@ -189,13 +185,6 @@ public class UnevenSplitFragment extends SplitFragment {
 
                 mIdPersonRow++;
             }
-        }
-
-        // Set action button on soft keyboard to next for all mListBillAmountPerson except the last
-        // one. If not set manually, the done button would never be shown because of the adView at
-        // the bottom.
-        for (int i = 0; i < (persons - 1); i++) {
-            mListPersonRow.get(i).setImeOptions(EditorInfo.IME_NULL);
         }
     }
 

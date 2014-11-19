@@ -14,9 +14,4 @@
         android:orderInCategory="1"
         app:showAsAction="ifRoom" />
 
-    <item android:id="@+id/action_remove_ads"
-          android:title="@string/action_remove_ads"
-          android:orderInCategory="2"
-          app:showAsAction="never" />
-
 </menu>

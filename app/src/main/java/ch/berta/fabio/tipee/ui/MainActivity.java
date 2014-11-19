@@ -13,14 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
@@ -32,17 +26,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import ch.berta.fabio.tipee.BuildConfig;
 import ch.berta.fabio.tipee.R;
 import ch.berta.fabio.tipee.dialogs.CountryNotDetectedDialogFragment;
 import ch.berta.fabio.tipee.dialogs.TipIncludedDialogFragment;
 import ch.berta.fabio.tipee.dialogs.TippingNotCommonDialogFragment;
 import ch.berta.fabio.tipee.ui.widgets.SlidingTabLayout;
-import ch.berta.fabio.tipee.util.iab.IabHelper;
-import ch.berta.fabio.tipee.util.iab.IabKey;
-import ch.berta.fabio.tipee.util.iab.IabResult;
-import ch.berta.fabio.tipee.util.iab.Inventory;
-import ch.berta.fabio.tipee.util.iab.Purchase;
 
 import static ch.berta.fabio.tipee.AppConstants.INTENT_COUNTRY_CODES;
 import static ch.berta.fabio.tipee.AppConstants.INTENT_COUNTRY_NAMES;
@@ -52,13 +40,10 @@ public class MainActivity extends ActionBarActivity implements
         SplitFragment.SplitFragmentInteractionListener,
         SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private static final String SKU_REMOVE_ADS = "ch.berta.fabio.tipee.removeads";
-    private static final String MY_AD_UNIT_ID = "ca-app-pub-5341854211810034/6802745105";
     private static final String OTHER_COUNTRY = "other";
     private static final String STATE_PERSONS = "numberPersons";
     private static final String STATE_TIP = "tipPercentage";
     private static final String STATE_FROM_USER = "fromUser";
-    private static final String STATE_PREMIUM = "premium";
     private static final String STATE_LOCALE = "locale";
     private static final String DIALOG_COUNTRY_NOT_DETECTED = "country_not_detected";
     private static final String DIALOG_TIPPING_NOT_COMMON = "tipping_not_common";
@@ -68,8 +53,6 @@ public class MainActivity extends ActionBarActivity implements
 
     private static final int NUMBER_OF_TABS = 2;
 
-    private boolean mIsPremium;
-    private boolean mIabAvailable;
     private boolean mFromUser;
     private boolean mFreshStart;
 
@@ -85,8 +68,6 @@ public class MainActivity extends ActionBarActivity implements
 
     private SlidingTabLayout mSlidingTabLayout;
     private ViewPager mViewPager;
-    private AdView adView;
-    private IabHelper mHelper;
 
     private Locale mChosenLocale;
     private SharedPreferences mSharedPrefs;
@@ -135,7 +116,6 @@ public class MainActivity extends ActionBarActivity implements
             mPersons = savedInstanceState.getInt(STATE_PERSONS);
             mPercentage = savedInstanceState.getInt(STATE_TIP);
             mFromUser = savedInstanceState.getBoolean(STATE_FROM_USER);
-            mIsPremium = savedInstanceState.getBoolean(STATE_PREMIUM);
             mChosenLocale = (Locale) savedInstanceState.getSerializable(STATE_LOCALE);
             mEvenSplitFragment = (EvenSplitFragment) getFragmentManager()
                     .getFragment(savedInstanceState, EVEN_SPLIT_FRAGMENT);
@@ -147,7 +127,6 @@ public class MainActivity extends ActionBarActivity implements
         } else {
             mPersons = 0;
             mPercentage = 0;
-            mIsPremium = true;
             mChosenLocale = Locale.getDefault();
 
             mFreshStart = true;
@@ -159,7 +138,6 @@ public class MainActivity extends ActionBarActivity implements
 
         setupPrefs();
         setupActionBarTabs();
-        setupIab();
         generateCountryMapAndLists();
     }
 
@@ -225,90 +203,6 @@ public class MainActivity extends ActionBarActivity implements
     }
 
     /**
-     * Sets up the ad banner at the bottom and the in-app billing framework to remove the ads.
-     */
-    private void setupIab() {
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-        if (resultCode == ConnectionResult.SUCCESS) {
-            mIabAvailable = true;
-
-            String base64EncodedPublicKey = IabKey.getKey();
-
-            mHelper = new IabHelper(this, base64EncodedPublicKey);
-            mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-                public void onIabSetupFinished(IabResult result) {
-                    if (result.isSuccess()) {
-                        mHelper.queryInventoryAsync(true,
-                                new IabHelper.QueryInventoryFinishedListener() {
-                                    @Override
-                                    public void onQueryInventoryFinished(IabResult result,
-                                                                         Inventory inv) {
-                                        if (result.isFailure()) {
-                                            // TODO: Do something...
-                                        } else {
-                                            // Has the user made a purchase to disable ads?
-                                            mIsPremium = inv.hasPurchase(SKU_REMOVE_ADS);
-                                            setUpAds();
-                                        }
-
-                                        /*if (inv.hasPurchase(SKU_REMOVE_ADS)) {
-                                            mHelper.consumeAsync(inv.getPurchase(SKU_REMOVE_ADS),
-                                                    null);
-                                        }*/
-                                    }
-                                }
-                        );
-                    }
-                }
-            });
-        } else if (BuildConfig.DEBUG) {
-            mIsPremium = true;
-            mIabAvailable = false;
-
-            setUpAds();
-        } else {
-            mIsPremium = false;
-            mIabAvailable = false;
-
-            setUpAds();
-        }
-    }
-
-    /**
-     * Sets up an AdMob AdView at the bottom of the MainActivity if the user has not paid to
-     * remove the ads (mIsPremium). Gets also called after a remove ads purchase and removes the
-     * AdView and the "Remove Ads" menu item accordingly.
-     */
-    private void setUpAds() {
-        LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayoutMain);
-
-        if (!mIsPremium) {
-            if (adView == null) {
-                adView = new AdView(this);
-                adView.setAdUnitId(MY_AD_UNIT_ID);
-                adView.setAdSize(AdSize.BANNER);
-                layout.addView(adView);
-                AdRequest adRequest = new AdRequest.Builder()
-                        .addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // AVD Emulator
-                        .build();
-                adView.loadAd(adRequest);
-            }
-
-            invalidateOptionsMenu();
-        } else if (adView != null) {
-            layout.removeView(adView);
-
-            invalidateOptionsMenu();
-
-            displayToast(getString(R.string.ads_removed));
-        }
-    }
-
-    private void displayToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-    }
-
-    /**
      * Generates and fills the various maps and lists with entries localized with the system's
      * locale
      */
@@ -368,9 +262,6 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-        if (mIsPremium || !mIabAvailable) {
-            menu.findItem(R.id.action_remove_ads).setVisible(false);
-        }
         return true;
     }
 
@@ -385,9 +276,6 @@ public class MainActivity extends ActionBarActivity implements
                 intent.putExtra(INTENT_COUNTRY_NAMES, mCountryNames)
                         .putExtra(INTENT_COUNTRY_CODES, mCountryCodes);
                 startActivity(intent);
-                return true;
-            case R.id.action_remove_ads:
-                purchaseRemoveAds();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -465,26 +353,6 @@ public class MainActivity extends ActionBarActivity implements
         return initialCountry;
     }
 
-    /**
-     * Removes the ad banner and the "Remove ads" menu item if the purchase is successful.
-     */
-    private void purchaseRemoveAds() {
-        mHelper.launchPurchaseFlow(this, SKU_REMOVE_ADS, 10001,
-                new IabHelper.OnIabPurchaseFinishedListener() {
-                    @Override
-                    public void onIabPurchaseFinished(IabResult result, Purchase info) {
-                        if (result.isFailure()) {
-                            mIsPremium = false;
-                        } else if (info.getSku().equals(SKU_REMOVE_ADS)) {
-                            // Disable ads
-                            mIsPremium = true;
-                            setUpAds();
-                        }
-                    }
-                }
-        );
-    }
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -492,26 +360,9 @@ public class MainActivity extends ActionBarActivity implements
         outState.putInt(STATE_PERSONS, mPersons);
         outState.putInt(STATE_TIP, mPercentage);
         outState.putBoolean(STATE_FROM_USER, mFromUser);
-        outState.putBoolean(STATE_PREMIUM, mIsPremium);
         outState.putSerializable(STATE_LOCALE, mChosenLocale);
         getFragmentManager().putFragment(outState, EVEN_SPLIT_FRAGMENT, mEvenSplitFragment);
         getFragmentManager().putFragment(outState, UNEVEN_SPLIT_FRAGMENT, mUnevenSplitFragment);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (!mHelper.handleActivityResult(requestCode, resultCode, data)) {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mHelper != null) {
-            mHelper.dispose();
-        }
-        mHelper = null;
     }
 
     @Override
@@ -730,5 +581,9 @@ public class MainActivity extends ActionBarActivity implements
                 tipIncludedDialog.show(getFragmentManager(), "Alert_Dialog");
                 break;
         }
+    }
+
+    private void displayToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 }

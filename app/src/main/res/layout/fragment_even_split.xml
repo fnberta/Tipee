@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/element_spacing_normal"
+    android:clipToPadding="false"
+    tools:context="ch.berta.fabio.tipee.ui.EvenSplitFragment"
+    android:id="@+id/scrollView">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/Subheader"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/subheader_height"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/key_line_1"
+            android:paddingRight="@dimen/key_line_1"
+            android:paddingStart="@dimen/key_line_1"
+            android:paddingEnd="@dimen/key_line_1"
+            android:text="@string/separator_bill_persons"
+            android:id="@+id/tvSeparatorBillPersons"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/element_spacing_normal"
+            android:id="@+id/linearLayoutBillAmount">
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/key_line_1"
+                android:layout_marginStart="@dimen/key_line_1"
+                android:layout_gravity="center_vertical"
+                android:inputType="numberDecimal"
+                android:maxLength="12"
+                android:id="@+id/etBillAmount"
+                android:layout_weight="1"
+                android:hint="@string/bill_hint"/>
+
+            <ImageButton
+                android:layout_width="@dimen/touch_target_min"
+                android:layout_height="@dimen/touch_target_min"
+                android:padding="@dimen/icon_size"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/ibClear"
+                android:src="@drawable/ic_content_clear"
+                android:contentDescription="@string/clear_bill_amount"
+                style="?android:borderlessButtonStyle"/>
+        </LinearLayout>
+
+        <include layout="@layout/include_number_persons"/>
+
+        <TextView
+            style="@style/Subheader"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/subheader_height"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/key_line_1"
+            android:paddingRight="@dimen/key_line_1"
+            android:paddingStart="@dimen/key_line_1"
+            android:paddingEnd="@dimen/key_line_1"
+            android:text="@string/separator_country_tip"
+            android:id="@+id/tvSeparatorCountryTip"/>
+
+        <include layout="@layout/include_country_spinner"/>
+
+        <include layout="@layout/include_seekbar"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="10"
+            android:id="@+id/linearLayoutSeparatorTipTotal">
+
+            <TextView
+                style="@style/Subheader"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/subheader_height"
+                android:gravity="center_vertical|start"
+                android:paddingLeft="@dimen/key_line_1"
+                android:paddingStart="@dimen/key_line_1"
+                android:text="@string/separator_tip"
+                android:id="@+id/tvSeparatorTipAmount"
+                android:layout_weight="5"/>
+
+            <TextView
+                style="@style/Subheader"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/subheader_height"
+                android:gravity="center_vertical|start"
+                android:paddingRight="@dimen/key_line_1"
+                android:paddingEnd="@dimen/key_line_1"
+                android:text="@string/separator_total"
+                android:id="@+id/tvSeparatorTotalAmount"
+                android:layout_weight="5"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="10"
+            android:id="@+id/linearLayoutTipTotal">
+
+            <TextView
+                style="@style/Base.TextAppearance.AppCompat.Subhead"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/key_line_1"
+                android:paddingStart="@dimen/key_line_1"
+                android:id="@+id/tvTipAmount"
+                android:layout_weight="5"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                tools:text="12 CHF"/>
+
+            <TextView
+                style="@style/Base.TextAppearance.AppCompat.Subhead"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:paddingRight="@dimen/key_line_1"
+                android:paddingEnd="@dimen/key_line_1"
+                android:layout_weight="5"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:id="@+id/tvTotalAmount"
+                tools:text="140 CHF"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="10"
+            android:visibility="gone"
+            android:id="@+id/linearLayoutExact">
+
+
+            <TextView
+                style="@style/Base.TextAppearance.AppCompat.Subhead"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/key_line_1"
+                android:paddingStart="@dimen/key_line_1"
+                android:id="@+id/tvTipAmountExact"
+                android:layout_weight="5"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                tools:text="12 CHF"/>
+
+            <TextView
+                style="@style/Base.TextAppearance.AppCompat.Subhead"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:paddingRight="@dimen/key_line_1"
+                android:paddingEnd="@dimen/key_line_1"
+                android:layout_weight="5"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:id="@+id/tvTotalAmountExact"
+                tools:text="140 CHF"/>
+
+        </LinearLayout>
+
+        <TextView
+            style="@style/Subheader"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/subheader_height"
+            android:paddingLeft="@dimen/key_line_1"
+            android:paddingRight="@dimen/key_line_1"
+            android:paddingStart="@dimen/key_line_1"
+            android:paddingEnd="@dimen/key_line_1"
+            android:gravity="center_vertical"
+            android:text="@string/separator_total_person"
+            android:id="@+id/tvSeparatorTotalPerPerson"/>
+
+        <TextView
+            style="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/key_line_1"
+            android:layout_marginRight="@dimen/key_line_1"
+            android:layout_marginStart="@dimen/key_line_1"
+            android:layout_marginEnd="@dimen/key_line_1"
+            android:id="@+id/tvTotalPerPerson"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            tools:text="45 CHF" />
+
+    </LinearLayout>
+</ScrollView>

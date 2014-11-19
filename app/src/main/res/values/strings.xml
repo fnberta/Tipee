@@ -5,7 +5,6 @@
     <string name="title_activity_settings">Settings</string>
     <string name="action_settings">Settings</string>
     <string name="action_clear">Clear all</string>
-    <string name="action_remove_ads">Remove ads</string>
     <string name="pref_country">Manual country selection</string>
     <string name="pref_country_summ">Manually set the default country</string>
     <string name="pref_country_list">Country</string>
@@ -46,8 +45,5 @@
     <string name="separator_persons">Number of Persons</string>
     <string name="other">Other</string>
     <string name="clear_bill_amount">Clear bill amount</string>
-    <string name="ads_removed">The ads have been removed. Thank you for your support!</string>
-    <string name="purchase_failed">Unfortunately, the purchase failed. Please try again
-        later.</string>
 
 </resources>

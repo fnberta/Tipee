@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/element_spacing_normal"
+    android:clipToPadding="false"
+    tools:context="ch.berta.fabio.tipee.ui.UnevenSplitFragment"
+    android:id="@+id/scrollViewS">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayoutMain">
+
+        <TextView
+            style="@style/Subheader"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/subheader_height"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/key_line_1"
+            android:paddingRight="@dimen/key_line_1"
+            android:paddingStart="@dimen/key_line_1"
+            android:paddingEnd="@dimen/key_line_1"
+            android:text="@string/separator_persons"
+            android:id="@+id/tvSeparatorPersons"/>
+
+        <include layout="@layout/include_number_persons"/>
+
+        <TextView
+            style="@style/Subheader"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/subheader_height"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/key_line_1"
+            android:paddingRight="@dimen/key_line_1"
+            android:paddingStart="@dimen/key_line_1"
+            android:paddingEnd="@dimen/key_line_1"
+            android:text="@string/separator_country_tip"
+            android:id="@+id/tvSeparatorCountryTip"/>
+
+        <include layout="@layout/include_country_spinner"/>
+
+        <include layout="@layout/include_seekbar"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/key_line_1"
+            android:layout_marginRight="@dimen/key_line_1"
+            android:layout_marginStart="@dimen/key_line_1"
+            android:layout_marginEnd="@dimen/key_line_1"
+            android:layout_marginTop="@dimen/element_spacing_normal"
+            android:layout_marginBottom="@dimen/element_spacing_normal"
+            android:weightSum="9"
+            android:id="@+id/linearLayoutSeparatorBillTipTotal">
+
+            <TextView
+                style="@style/Subheader"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/subheader_height"
+                android:gravity="center_vertical"
+                android:text="@string/title_bill_amount"
+                android:layout_weight="3"/>
+
+            <TextView
+                style="@style/Subheader"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/subheader_height"
+                android:gravity="center_vertical|end"
+                android:text="@string/title_tip"
+                android:layout_weight="3"/>
+
+            <TextView
+                style="@style/Subheader"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/subheader_height"
+                android:gravity="center_vertical|end"
+                android:text="@string/title_total"
+                android:layout_weight="3"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/element_spacing_normal"
+                android:id="@+id/llMain">
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

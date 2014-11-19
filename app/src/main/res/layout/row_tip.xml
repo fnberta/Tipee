@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/key_line_1"
+    android:layout_marginRight="@dimen/key_line_1"
+    android:layout_marginStart="@dimen/key_line_1"
+    android:layout_marginEnd="@dimen/key_line_1"
+    android:weightSum="9">
+
+    <EditText
+        style="@style/Base.TextAppearance.AppCompat.Caption"
+        android:id="@+id/et_bill_amount_person"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:inputType="numberDecimal"/>
+
+    <TextView
+        style="@style/Base.TextAppearance.AppCompat.Caption"
+        android:id="@+id/tv_tip_amount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:gravity="end"
+        android:textStyle="bold"
+        tools:text="CHF 0.00"/>
+
+    <TextView
+        style="@style/Base.TextAppearance.AppCompat.Caption"
+        android:id="@+id/tv_total_amount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:gravity="end"
+        android:textStyle="bold"
+        tools:text="CHF 0.00"/>
+</LinearLayout>

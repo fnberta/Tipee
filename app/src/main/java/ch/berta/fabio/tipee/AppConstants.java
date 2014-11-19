@@ -5,6 +5,9 @@ package ch.berta.fabio.tipee;
  */
 public class AppConstants {
 
-    static final String LOG_TAG = "ch.berta.fabio.tipee";
+    public static final String LOG_TAG = "ch.berta.fabio.tipee";
     public static final int MAX_PERSONS = 20;
+
+    public static final String INTENT_COUNTRY_NAMES = "country_names";
+    public static final String INTENT_COUNTRY_CODES = "country_codes";
 }

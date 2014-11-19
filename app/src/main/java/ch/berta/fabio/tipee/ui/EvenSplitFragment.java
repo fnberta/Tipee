@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -30,7 +31,9 @@ public class EvenSplitFragment extends SplitFragment {
 
     private ImageButton bClear;
     private EditText etBillAmount;
-    private TextView tvTipAmount, tvTotalAmount, tvTotalPerPerson;
+    private LinearLayout llExact;
+    private TextView tvTipAmount, tvTotalAmount, tvTotalPerPerson, tvTipAmountExact,
+            tvTotalAmountExact;
 
     public EvenSplitFragment() {
     }
@@ -52,6 +55,9 @@ public class EvenSplitFragment extends SplitFragment {
         bPersonsPlus = (Button) rootView.findViewById(R.id.bPersonsPlus);
         spCountry = (Spinner) rootView.findViewById(R.id.spCountry);
         sbPercentage = (SeekBar) rootView.findViewById(R.id.sbPercentage);
+        tvTipAmountExact = (TextView) rootView.findViewById(R.id.tvTipAmountExact);
+        tvTotalAmountExact = (TextView) rootView.findViewById(R.id.tvTotalAmountExact);
+        llExact = (LinearLayout) rootView.findViewById(R.id.linearLayoutExact);
 
         return rootView;
     }
@@ -138,6 +144,18 @@ public class EvenSplitFragment extends SplitFragment {
         mListener.setSpinnerToInitialState();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // only show the second line of TextViews if roundMode is not set to exact.
+        if (mListener.getRoundMode().equals(ROUND_EXACT)) {
+            llExact.setVisibility(View.GONE);
+        } else {
+            llExact.setVisibility(View.VISIBLE);
+        }
+    }
+
     public void setBillAmount(String billAmount) {
         etBillAmount.setText(billAmount);
     }
@@ -147,6 +165,7 @@ public class EvenSplitFragment extends SplitFragment {
         super.calculateTip();
 
         if (etBillAmount.length() > 0 && mPersons != 0) {
+
             String billAmountString = etBillAmount.getText().toString();
             double billAmount;
 
@@ -157,36 +176,57 @@ public class EvenSplitFragment extends SplitFragment {
                 billAmount = Double.parseDouble(billAmountString);
             }
 
-            double tipAmount = ((billAmount * mPercentage) / 100);
-            double totalAmount = (tipAmount + billAmount);
+            double tipAmountExact = ((billAmount * mPercentage) / 100);
+            double totalAmountExact = (tipAmountExact + billAmount);
+            double totalPerPersonExact = (totalAmountExact / mPersons);
 
-            BigDecimal totalAmountBig = new BigDecimal(totalAmount);
+            BigDecimal totalAmountExactBig = new BigDecimal(totalAmountExact);
 
             switch (mListener.getRoundMode()) {
-                case ROUND_EXACT:
+                case ROUND_EXACT: {
+                    tvTipAmount.setText(mCurrencyFormatter.format(tipAmountExact));
+                    tvTotalAmount.setText(mCurrencyFormatter.format(totalAmountExact));
+                    tvTotalPerPerson.setText(mCurrencyFormatter.format(totalPerPersonExact));
                     break;
-                case ROUND_UP:
-                    totalAmount = totalAmountBig.setScale(0, BigDecimal.ROUND_CEILING)
+                }
+                case ROUND_UP: {
+                    double totalAmount = totalAmountExactBig.setScale(0, BigDecimal.ROUND_CEILING)
                             .doubleValue();
-                    tipAmount = (totalAmount - billAmount);
+                    double tipAmount = (totalAmount - billAmount);
+                    double totalPerPerson = (totalAmount / mPersons);
+
+                    tvTipAmount.setText(mCurrencyFormatter.format(tipAmount));
+                    tvTipAmountExact.setText("(" + mCurrencyFormatter.format(tipAmountExact) + ")");
+                    tvTotalAmount.setText(mCurrencyFormatter.format(totalAmount));
+                    tvTotalAmountExact.setText("(" + mCurrencyFormatter.format(totalAmountExact) + ")");
+                    tvTotalPerPerson.setText(mCurrencyFormatter.format(totalPerPerson) + " ("
+                            + mCurrencyFormatter.format(totalPerPersonExact) + ")");
                     break;
-                case ROUND_DOWN:
-                    totalAmount = totalAmountBig.setScale(0, BigDecimal.ROUND_FLOOR).doubleValue();
+                }
+                case ROUND_DOWN: {
+                    double totalAmount = totalAmountExactBig.setScale(0, BigDecimal.ROUND_FLOOR)
+                            .doubleValue();
                     if (totalAmount <= billAmount) {
                         totalAmount = billAmount;
                     }
-                    tipAmount = (totalAmount - billAmount);
+                    double tipAmount = (totalAmount - billAmount);
+                    double totalPerPerson = (totalAmount / mPersons);
+
+                    tvTipAmount.setText(mCurrencyFormatter.format(tipAmount));
+                    tvTipAmountExact.setText("(" + mCurrencyFormatter.format(tipAmountExact) + ")");
+                    tvTotalAmount.setText(mCurrencyFormatter.format(totalAmount));
+                    tvTotalAmountExact.setText("(" + mCurrencyFormatter.format(totalAmountExact) + ")");
+                    tvTotalPerPerson.setText(mCurrencyFormatter.format(totalPerPerson) + " ("
+                            + mCurrencyFormatter.format(totalPerPersonExact) + ")");
+
                     break;
+                }
             }
-
-            double totalPerPerson = (totalAmount / mPersons);
-
-            tvTipAmount.setText(mCurrencyFormatter.format(tipAmount));
-            tvTotalAmount.setText(mCurrencyFormatter.format(totalAmount));
-            tvTotalPerPerson.setText(mCurrencyFormatter.format(totalPerPerson));
         } else {
             tvTipAmount.setText(mCurrencyFormatter.format(0));
+            tvTipAmountExact.setText("(" + mCurrencyFormatter.format(0) + ")");
             tvTotalAmount.setText(mCurrencyFormatter.format(0));
+            tvTotalAmountExact.setText("(" + mCurrencyFormatter.format(0) + ")");
             tvTotalPerPerson.setText(mCurrencyFormatter.format(0));
         }
     }

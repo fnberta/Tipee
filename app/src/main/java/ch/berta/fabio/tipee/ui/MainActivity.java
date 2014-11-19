@@ -44,6 +44,8 @@ import ch.berta.fabio.tipee.util.iab.IabResult;
 import ch.berta.fabio.tipee.util.iab.Inventory;
 import ch.berta.fabio.tipee.util.iab.Purchase;
 
+import static ch.berta.fabio.tipee.AppConstants.INTENT_COUNTRY_CODES;
+import static ch.berta.fabio.tipee.AppConstants.INTENT_COUNTRY_NAMES;
 import static ch.berta.fabio.tipee.AppConstants.MAX_PERSONS;
 
 public class MainActivity extends ActionBarActivity implements
@@ -380,8 +382,8 @@ public class MainActivity extends ActionBarActivity implements
                 return true;
             case R.id.action_settings:
                 Intent intent = new Intent(this, SettingsActivity.class);
-                intent.putExtra("countryNames", mCountryNames)
-                        .putExtra("countryCodes", mCountryCodes);
+                intent.putExtra(INTENT_COUNTRY_NAMES, mCountryNames)
+                        .putExtra(INTENT_COUNTRY_CODES, mCountryCodes);
                 startActivity(intent);
                 return true;
             case R.id.action_remove_ads:

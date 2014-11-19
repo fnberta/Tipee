@@ -8,10 +8,13 @@ import android.support.v7.widget.Toolbar;
 import ch.berta.fabio.tipee.R;
 import ch.berta.fabio.tipee.dialogs.RoundingDownNotAdvisedDialogFragment;
 
+import static ch.berta.fabio.tipee.AppConstants.INTENT_COUNTRY_CODES;
+import static ch.berta.fabio.tipee.AppConstants.INTENT_COUNTRY_NAMES;
+
 public class SettingsActivity extends ActionBarActivity implements
         RoundingDownNotAdvisedDialogFragment.RoundingDownNotAdvisedDialogFragmentInteractionListener {
 
-    private static final String SETTINGS_FRAGMENT = "settingsFragment";
+    private static final String SETTINGS_FRAGMENT = "settings_fragment";
 
     /**
      * Sets rounding mode in the settings fragment to "Round up".
@@ -33,8 +36,8 @@ public class SettingsActivity extends ActionBarActivity implements
 
         // Get data passed on in intent from MainActivity
         Intent i = getIntent();
-        String[] countryNames = i.getStringArrayExtra("countryNames");
-        String[] countryCodes = i.getStringArrayExtra("countryCodes");
+        String[] countryNames = i.getStringArrayExtra(INTENT_COUNTRY_NAMES);
+        String[] countryCodes = i.getStringArrayExtra(INTENT_COUNTRY_CODES);
 
         // Display the fragment as the main content.
         if (savedInstanceState == null) {

@@ -53,7 +53,7 @@
                 android:padding="@dimen/icon_size"
                 android:layout_gravity="center_vertical"
                 android:id="@+id/ibClear"
-                android:src="@drawable/ic_action_cancel"
+                android:src="@drawable/ic_content_clear"
                 android:contentDescription="@string/clear_bill_amount"
                 style="?android:borderlessButtonStyle"/>
         </LinearLayout>
@@ -135,6 +135,40 @@
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:id="@+id/tvTotalAmount"
+                tools:text="140 CHF"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="10"
+            android:visibility="gone"
+            android:id="@+id/linearLayoutExact">
+
+
+            <TextView
+                style="@style/Base.TextAppearance.AppCompat.Subhead"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/key_line_1"
+                android:paddingStart="@dimen/key_line_1"
+                android:id="@+id/tvTipAmountExact"
+                android:layout_weight="5"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                tools:text="12 CHF"/>
+
+            <TextView
+                style="@style/Base.TextAppearance.AppCompat.Subhead"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:paddingRight="@dimen/key_line_1"
+                android:paddingEnd="@dimen/key_line_1"
+                android:layout_weight="5"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:id="@+id/tvTotalAmountExact"
                 tools:text="140 CHF"/>
 
         </LinearLayout>

@@ -5,7 +5,6 @@
     <string name="title_activity_settings">Einstellungen</string>
     <string name="action_settings">Einstellungen</string>
     <string name="action_clear">Alles löschen</string>
-    <string name="action_remove_ads">Werbung entfernen</string>
     <string name="pref_country">Manuelle Länderauswahl</string>
     <string name="pref_country_summ">Das voreingestellte Land manuell festlegen</string>
     <string name="pref_country_list">Land</string>
@@ -47,9 +46,5 @@
     <string name="separator_persons">Anzahl Personen</string>
     <string name="other">Anderes</string>
     <string name="clear_bill_amount">Rechnungsbetrag löschen</string>
-    <string name="ads_removed">Der Werbebanner wurde entfernt. Vielen Dank für deine
-        Unterstützung!</string>
-        <string name="purchase_failed">Der Kauf ist leider fehlgeschlagen. Bitte versuche es später
-            nochmals.</string>
 
 </resources>

@@ -41,15 +41,15 @@ public class MainActivity extends ActionBarActivity implements
         SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String OTHER_COUNTRY = "other";
-    private static final String STATE_PERSONS = "numberPersons";
-    private static final String STATE_TIP = "tipPercentage";
-    private static final String STATE_FROM_USER = "fromUser";
+    private static final String STATE_PERSONS = "number_persons";
+    private static final String STATE_TIP = "tip_percentage";
+    private static final String STATE_FROM_USER = "from_user";
     private static final String STATE_LOCALE = "locale";
     private static final String DIALOG_COUNTRY_NOT_DETECTED = "country_not_detected";
     private static final String DIALOG_TIPPING_NOT_COMMON = "tipping_not_common";
     private static final String DIALOG_TIP_ALREADY_INCLUDED = "tip_already_included";
-    private static final String EVEN_SPLIT_FRAGMENT = "evenSplitFragment";
-    private static final String UNEVEN_SPLIT_FRAGMENT = "unevenSplitFragment";
+    private static final String EVEN_SPLIT_FRAGMENT = "even_split_fragment";
+    private static final String UNEVEN_SPLIT_FRAGMENT = "uneven_split_fragment";
 
     private static final int NUMBER_OF_TABS = 2;
 

@@ -26,14 +26,14 @@ import ch.berta.fabio.tipee.utils.MoneyUtils;
 import static ch.berta.fabio.tipee.AppConstants.MAX_PERSONS;
 
 /**
- * A {@link SplitFragment} subclass. Provides an UI to split bills among a chosen
+ * A {@link SplitBaseFragment} subclass. Provides an UI to split bills among a chosen
  * amount of persons, providing an input field for every person to specify the share of the bill
  * they want to pay.
  *
  * @author Fabio Berta
  */
 
-public class UnevenSplitFragment extends SplitFragment {
+public class UnevenSplitFragment extends SplitBaseFragment {
 
     private static final int MAX_BILL_AMOUNT_LENGTH = 9;
 

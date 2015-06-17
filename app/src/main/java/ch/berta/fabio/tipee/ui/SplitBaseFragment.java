@@ -30,12 +30,12 @@ import static ch.berta.fabio.tipee.AppConstants.MAX_PERSONS;
  * only contains the commonly shared methods.
  * <p/>
  * Activities that contain this fragment must implement the
- * {@link SplitFragment.SplitFragmentInteractionListener} interface
+ * {@link SplitBaseFragment.SplitFragmentInteractionListener} interface
  * to handle interaction events.
  *
  * @author Fabio Berta
  */
-public class SplitFragment extends Fragment {
+public abstract class SplitBaseFragment extends Fragment {
 
     static final String ROUND_EXACT = "0";
     static final String ROUND_UP = "1";
@@ -54,7 +54,7 @@ public class SplitFragment extends Fragment {
     private Button bPersonsPlus;
     private TextView tvResult;
 
-    public SplitFragment() {
+    public SplitBaseFragment() {
     }
 
     @Override

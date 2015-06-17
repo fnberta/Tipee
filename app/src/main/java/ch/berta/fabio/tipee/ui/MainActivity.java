@@ -37,7 +37,7 @@ import static ch.berta.fabio.tipee.AppConstants.LOG_TAG;
 import static ch.berta.fabio.tipee.AppConstants.MAX_PERSONS;
 
 public class MainActivity extends AppCompatActivity implements
-        SplitFragment.SplitFragmentInteractionListener,
+        SplitBaseFragment.SplitFragmentInteractionListener,
         SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String OTHER_COUNTRY = "other";

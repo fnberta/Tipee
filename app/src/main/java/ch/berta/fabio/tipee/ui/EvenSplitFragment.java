@@ -22,13 +22,13 @@ import ch.berta.fabio.tipee.R;
 import ch.berta.fabio.tipee.utils.MoneyUtils;
 
 /**
- * A {@link SplitFragment} subclass. Provides an UI to split bills evenly among a
+ * A {@link SplitBaseFragment} subclass. Provides an UI to split bills evenly among a
  * chosen amount of persons.
  *
  * @author Fabio Berta
  */
 
-public class EvenSplitFragment extends SplitFragment {
+public class EvenSplitFragment extends SplitBaseFragment {
 
     private ImageButton bClear;
     private EditText etBillAmount;

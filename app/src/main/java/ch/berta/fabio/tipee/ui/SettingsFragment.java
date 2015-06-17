@@ -7,7 +7,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
 import ch.berta.fabio.tipee.R;
-import ch.berta.fabio.tipee.dialogs.RoundingDownNotAdvisedDialogFragment;
+import ch.berta.fabio.tipee.ui.dialogs.RoundingDownNotAdvisedDialogFragment;
 
 public class SettingsFragment extends PreferenceFragment {
 

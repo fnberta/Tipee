@@ -2,23 +2,24 @@ package ch.berta.fabio.tipee.ui;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import ch.berta.fabio.tipee.R;
+import ch.berta.fabio.tipee.utils.MoneyUtils;
 
 /**
  * A {@link SplitFragment} subclass. Provides an UI to split bills evenly among a
@@ -44,22 +45,23 @@ public class EvenSplitFragment extends SplitFragment {
         View rootView = inflater.inflate(R.layout.fragment_even_split, container,
                 false);
 
+        findViews(rootView);
+
+        return rootView;
+    }
+
+    @Override
+    void findViews(View rootView) {
+        super.findViews(rootView);
+
+        etBillAmount = (EditText) rootView.findViewById(R.id.etBillAmount);
+        bClear = (ImageButton) rootView.findViewById(R.id.ibClear);
         tvTipAmount = (TextView) rootView.findViewById(R.id.tvTipAmount);
         tvTotalAmount = (TextView) rootView.findViewById(R.id.tvTotalAmount);
         tvTotalPerPerson = (TextView) rootView.findViewById(R.id.tvTotalPerPerson);
-        tvResult = (TextView) rootView.findViewById(R.id.tvResult);
-        etBillAmount = (EditText) rootView.findViewById(R.id.etBillAmount);
-        etPersons = (EditText) rootView.findViewById(R.id.etPersons);
-        bClear = (ImageButton) rootView.findViewById(R.id.ibClear);
-        bPersonsMinus = (Button) rootView.findViewById(R.id.bPersonsMinus);
-        bPersonsPlus = (Button) rootView.findViewById(R.id.bPersonsPlus);
-        spCountry = (Spinner) rootView.findViewById(R.id.spCountry);
-        sbPercentage = (SeekBar) rootView.findViewById(R.id.sbPercentage);
         tvTipAmountExact = (TextView) rootView.findViewById(R.id.tvTipAmountExact);
         tvTotalAmountExact = (TextView) rootView.findViewById(R.id.tvTotalAmountExact);
         llExact = (LinearLayout) rootView.findViewById(R.id.linearLayoutExact);
-
-        return rootView;
     }
 
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -79,6 +81,26 @@ public class EvenSplitFragment extends SplitFragment {
             public void afterTextChanged(Editable editable) {
             }
         });
+        etBillAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                EditText amountView = (EditText) v;
+                if (amountView.length() <= 0) {
+                    return;
+                }
+
+                String amountValue = amountView.getText().toString();
+                if (hasFocus) {
+                    double amount = MoneyUtils.parseBillAmount(amountValue, mCurrencyFormatter);
+
+                    NumberFormat decimalFormat = MoneyUtils.getDecimalFormatter(mChosenLocale);
+                    amountView.setText(decimalFormat.format(amount));
+                } else {
+                    double amount = MoneyUtils.parseLocalizedString(amountValue);
+                    amountView.setText(mCurrencyFormatter.format(amount));
+                }
+            }
+        });
 
         etPersons.addTextChangedListener(new TextWatcher() {
             @Override
@@ -89,8 +111,6 @@ public class EvenSplitFragment extends SplitFragment {
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
                 if (etPersons.length() > 0) {
                     mListener.onPersonsSelected(Integer.parseInt(etPersons.getText().toString()));
-                } else {
-                    mListener.onPersonsSelected(0);
                 }
 
                 calculateTip();
@@ -142,6 +162,9 @@ public class EvenSplitFragment extends SplitFragment {
 
         // Set country spinner to initial state
         mListener.setSpinnerToInitialState();
+
+        // default to one person
+        mListener.onPersonsSelected(1);
     }
 
     @Override
@@ -156,6 +179,20 @@ public class EvenSplitFragment extends SplitFragment {
         }
     }
 
+    @Override
+    public void formatBillAmount(Locale oldLocale) {
+        super.formatBillAmount(oldLocale);
+
+        String amountValue = etBillAmount.getText().toString();
+        if (TextUtils.isEmpty(amountValue) || etBillAmount.hasFocus()) {
+            return;
+        }
+
+        double amount = MoneyUtils.parseBillAmount(amountValue,
+                MoneyUtils.getCurrencyFormatter(oldLocale));
+        etBillAmount.setText(mCurrencyFormatter.format(amount));
+    }
+
     public void setBillAmount(String billAmount) {
         etBillAmount.setText(billAmount);
     }
@@ -165,16 +202,8 @@ public class EvenSplitFragment extends SplitFragment {
         super.calculateTip();
 
         if (etBillAmount.length() > 0 && mPersons != 0) {
-
             String billAmountString = etBillAmount.getText().toString();
-            double billAmount;
-
-            try {
-                Number billAmountNumber = mCurrencyFormatter.parse(billAmountString);
-                billAmount = billAmountNumber.doubleValue();
-            } catch (ParseException e) {
-                billAmount = Double.parseDouble(billAmountString);
-            }
+            double billAmount = MoneyUtils.parseBillAmount(billAmountString, mCurrencyFormatter);
 
             double tipAmountExact = ((billAmount * mPercentage) / 100);
             double totalAmountExact = (tipAmountExact + billAmount);

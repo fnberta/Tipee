@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="tabs">
-        <item>@string/tab_even</item>
-        <item>@string/tab_uneven</item>
-    </string-array>
-
     <string-array name="round_modes_entries">
         <item>@string/round_exact</item>
         <item>@string/round_up</item>

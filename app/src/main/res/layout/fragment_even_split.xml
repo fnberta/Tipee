@@ -1,198 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView
+    android:id="@+id/scrollView"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/element_spacing_normal"
     android:clipToPadding="false"
-    tools:context="ch.berta.fabio.tipee.ui.EvenSplitFragment"
-    android:id="@+id/scrollView">
+    android:paddingBottom="@dimen/element_spacing_normal"
+    tools:context="ch.berta.fabio.tipee.ui.EvenSplitFragment">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tvSeparatorBillPersons"
             style="@style/Subheader"
             android:layout_width="match_parent"
             android:layout_height="@dimen/subheader_height"
             android:gravity="center_vertical"
-            android:paddingLeft="@dimen/key_line_1"
-            android:paddingRight="@dimen/key_line_1"
-            android:paddingStart="@dimen/key_line_1"
             android:paddingEnd="@dimen/key_line_1"
-            android:text="@string/separator_bill_persons"
-            android:id="@+id/tvSeparatorBillPersons"/>
+            android:paddingStart="@dimen/key_line_1"
+            android:text="@string/separator_bill_persons"/>
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:id="@+id/linearLayoutBillAmount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/element_spacing_normal"
-            android:id="@+id/linearLayoutBillAmount">
+            android:orientation="horizontal">
 
-            <EditText
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_bill_amount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/key_line_1"
                 android:layout_marginStart="@dimen/key_line_1"
-                android:layout_gravity="center_vertical"
-                android:inputType="numberDecimal"
-                android:maxLength="12"
-                android:id="@+id/etBillAmount"
-                android:layout_weight="1"
-                android:hint="@string/bill_hint"/>
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/etBillAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/bill_hint"
+                    android:inputType="numberDecimal"
+                    android:maxLength="12"/>
+
+            </android.support.design.widget.TextInputLayout>
 
             <ImageButton
+                android:id="@+id/ibClear"
+                style="?android:borderlessButtonStyle"
                 android:layout_width="@dimen/touch_target_min"
                 android:layout_height="@dimen/touch_target_min"
-                android:padding="@dimen/icon_size"
                 android:layout_gravity="center_vertical"
-                android:id="@+id/ibClear"
-                android:src="@drawable/ic_content_clear"
+                android:alpha="@dimen/icon_alpha_on_light_background"
                 android:contentDescription="@string/clear_bill_amount"
-                style="?android:borderlessButtonStyle"/>
+                android:padding="@dimen/icon_size"
+                android:src="@drawable/ic_clear_black_24dp"/>
         </LinearLayout>
 
         <include layout="@layout/include_number_persons"/>
 
         <TextView
+            android:id="@+id/tvSeparatorCountryTip"
             style="@style/Subheader"
             android:layout_width="match_parent"
             android:layout_height="@dimen/subheader_height"
             android:gravity="center_vertical"
+            android:paddingEnd="@dimen/key_line_1"
             android:paddingLeft="@dimen/key_line_1"
             android:paddingRight="@dimen/key_line_1"
             android:paddingStart="@dimen/key_line_1"
-            android:paddingEnd="@dimen/key_line_1"
-            android:text="@string/separator_country_tip"
-            android:id="@+id/tvSeparatorCountryTip"/>
+            android:text="@string/separator_country_tip"/>
 
         <include layout="@layout/include_country_spinner"/>
 
         <include layout="@layout/include_seekbar"/>
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:id="@+id/linearLayoutSeparatorTipTotal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="10"
-            android:id="@+id/linearLayoutSeparatorTipTotal">
+            android:orientation="horizontal"
+            android:paddingEnd="@dimen/key_line_1"
+            android:paddingStart="@dimen/key_line_1"
+            android:weightSum="10">
 
             <TextView
-                style="@style/Subheader"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/subheader_height"
-                android:gravity="center_vertical|start"
-                android:paddingLeft="@dimen/key_line_1"
-                android:paddingStart="@dimen/key_line_1"
-                android:text="@string/separator_tip"
                 android:id="@+id/tvSeparatorTipAmount"
-                android:layout_weight="5"/>
-
-            <TextView
                 style="@style/Subheader"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/subheader_height"
+                android:layout_weight="5"
                 android:gravity="center_vertical|start"
-                android:paddingRight="@dimen/key_line_1"
-                android:paddingEnd="@dimen/key_line_1"
-                android:text="@string/separator_total"
+                android:text="@string/separator_tip"/>
+
+            <TextView
                 android:id="@+id/tvSeparatorTotalAmount"
-                android:layout_weight="5"/>
+                style="@style/Subheader"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/subheader_height"
+                android:layout_weight="5"
+                android:gravity="center_vertical|start"
+                android:text="@string/separator_total"/>
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:id="@+id/linearLayoutTipTotal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="10"
-            android:id="@+id/linearLayoutTipTotal">
+            android:orientation="horizontal"
+            android:paddingEnd="@dimen/key_line_1"
+            android:paddingStart="@dimen/key_line_1"
+            android:weightSum="10">
 
             <TextView
+                android:id="@+id/tvTipAmount"
                 style="@style/Base.TextAppearance.AppCompat.Subhead"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/key_line_1"
-                android:paddingStart="@dimen/key_line_1"
-                android:id="@+id/tvTipAmount"
                 android:layout_weight="5"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 tools:text="12 CHF"/>
 
             <TextView
+                android:id="@+id/tvTotalAmount"
                 style="@style/Base.TextAppearance.AppCompat.Subhead"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:paddingRight="@dimen/key_line_1"
-                android:paddingEnd="@dimen/key_line_1"
                 android:layout_weight="5"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-                android:id="@+id/tvTotalAmount"
                 tools:text="140 CHF"/>
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:id="@+id/linearLayoutExact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="10"
+            android:orientation="horizontal"
+            android:paddingEnd="@dimen/key_line_1"
+            android:paddingStart="@dimen/key_line_1"
             android:visibility="gone"
-            android:id="@+id/linearLayoutExact">
+            android:weightSum="10">
 
 
             <TextView
+                android:id="@+id/tvTipAmountExact"
                 style="@style/Base.TextAppearance.AppCompat.Subhead"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/key_line_1"
-                android:paddingStart="@dimen/key_line_1"
-                android:id="@+id/tvTipAmountExact"
                 android:layout_weight="5"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 tools:text="12 CHF"/>
 
             <TextView
+                android:id="@+id/tvTotalAmountExact"
                 style="@style/Base.TextAppearance.AppCompat.Subhead"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:paddingRight="@dimen/key_line_1"
-                android:paddingEnd="@dimen/key_line_1"
                 android:layout_weight="5"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-                android:id="@+id/tvTotalAmountExact"
                 tools:text="140 CHF"/>
 
         </LinearLayout>
 
         <TextView
+            android:id="@+id/tvSeparatorTotalPerPerson"
             style="@style/Subheader"
             android:layout_width="match_parent"
             android:layout_height="@dimen/subheader_height"
-            android:paddingLeft="@dimen/key_line_1"
-            android:paddingRight="@dimen/key_line_1"
-            android:paddingStart="@dimen/key_line_1"
-            android:paddingEnd="@dimen/key_line_1"
             android:gravity="center_vertical"
-            android:text="@string/separator_total_person"
-            android:id="@+id/tvSeparatorTotalPerPerson"/>
+            android:paddingEnd="@dimen/key_line_1"
+            android:paddingStart="@dimen/key_line_1"
+            android:text="@string/separator_total_person"/>
 
         <TextView
+            android:id="@+id/tvTotalPerPerson"
             style="@style/Base.TextAppearance.AppCompat.Subhead"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/key_line_1"
-            android:layout_marginRight="@dimen/key_line_1"
-            android:layout_marginStart="@dimen/key_line_1"
             android:layout_marginEnd="@dimen/key_line_1"
-            android:id="@+id/tvTotalPerPerson"
+            android:layout_marginStart="@dimen/key_line_1"
             android:focusable="false"
             android:focusableInTouchMode="false"
             tools:text="45 CHF" />

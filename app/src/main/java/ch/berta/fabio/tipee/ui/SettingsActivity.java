@@ -2,16 +2,16 @@ package ch.berta.fabio.tipee.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import ch.berta.fabio.tipee.R;
-import ch.berta.fabio.tipee.dialogs.RoundingDownNotAdvisedDialogFragment;
+import ch.berta.fabio.tipee.ui.dialogs.RoundingDownNotAdvisedDialogFragment;
 
 import static ch.berta.fabio.tipee.AppConstants.INTENT_COUNTRY_CODES;
 import static ch.berta.fabio.tipee.AppConstants.INTENT_COUNTRY_NAMES;
 
-public class SettingsActivity extends ActionBarActivity implements
+public class SettingsActivity extends AppCompatActivity implements
         RoundingDownNotAdvisedDialogFragment.RoundingDownNotAdvisedDialogFragmentInteractionListener {
 
     private static final String SETTINGS_FRAGMENT = "settings_fragment";

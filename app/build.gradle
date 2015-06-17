@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion '21.1.1'
+    compileSdkVersion 22
+    buildToolsVersion '22.0.1'
 
     defaultConfig {
         applicationId "ch.berta.fabio.tipee"
-        minSdkVersion 16
-        targetSdkVersion 21
-        versionCode 7
-        versionName "2.0.0"
+        minSdkVersion 17
+        targetSdkVersion 22
+        versionCode 9
+        versionName "2.1.0"
     }
     buildTypes {
         release {
@@ -26,8 +26,10 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:21.0.0'
-    compile 'com.android.support:support-v13:21.0.0'
-    compile 'com.google.guava:guava:+'
+    compile 'com.android.support:design:22.2.0'
+    compile 'com.android.support:support-v4:22.2.0'
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:support-v13:22.2.0'
+    compile 'com.google.guava:guava:18.0'
     compile 'com.google.code.findbugs:jsr305:3.0.0'
 }

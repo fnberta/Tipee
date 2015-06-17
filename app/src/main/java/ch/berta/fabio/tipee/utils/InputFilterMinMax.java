@@ -1,4 +1,4 @@
-package ch.berta.fabio.tipee.util;
+package ch.berta.fabio.tipee.utils;
 
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -11,11 +11,6 @@ public class InputFilterMinMax implements InputFilter {
     public InputFilterMinMax(int min, int max) {
         this.min = min;
         this.max = max;
-    }
-
-    public InputFilterMinMax(String min, String max) {
-        this.min = Integer.parseInt(min);
-        this.max = Integer.parseInt(max);
     }
 
     @Override
@@ -31,7 +26,7 @@ public class InputFilterMinMax implements InputFilter {
             int input = Integer.parseInt(newVal);
             if (isInRange(min, max, input))
                 return null;
-        } catch (NumberFormatException nfe) {
+        } catch (NumberFormatException ignored) {
         }
         return "";
     }

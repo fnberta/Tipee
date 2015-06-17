@@ -1,19 +1,18 @@
 package ch.berta.fabio.tipee.ui;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v13.app.FragmentPagerAdapter;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -27,17 +26,18 @@ import java.util.Locale;
 import java.util.Map;
 
 import ch.berta.fabio.tipee.R;
-import ch.berta.fabio.tipee.dialogs.CountryNotDetectedDialogFragment;
-import ch.berta.fabio.tipee.dialogs.TipIncludedDialogFragment;
-import ch.berta.fabio.tipee.dialogs.TippingNotCommonDialogFragment;
-import ch.berta.fabio.tipee.ui.widgets.SlidingTabLayout;
+import ch.berta.fabio.tipee.ui.adapters.TabsAdapter;
+import ch.berta.fabio.tipee.ui.dialogs.CountryNotDetectedDialogFragment;
+import ch.berta.fabio.tipee.ui.dialogs.TipIncludedDialogFragment;
+import ch.berta.fabio.tipee.ui.dialogs.TippingNotCommonDialogFragment;
 
 import static ch.berta.fabio.tipee.AppConstants.INTENT_COUNTRY_CODES;
 import static ch.berta.fabio.tipee.AppConstants.INTENT_COUNTRY_NAMES;
+import static ch.berta.fabio.tipee.AppConstants.LOG_TAG;
 import static ch.berta.fabio.tipee.AppConstants.MAX_PERSONS;
 
-public class MainActivity extends ActionBarActivity implements
-        SplitFragment.SplitFragmentInteractionListener,
+public class MainActivity extends AppCompatActivity implements
+        SplitBaseFragment.SplitFragmentInteractionListener,
         SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String OTHER_COUNTRY = "other";
@@ -51,8 +51,6 @@ public class MainActivity extends ActionBarActivity implements
     private static final String EVEN_SPLIT_FRAGMENT = "even_split_fragment";
     private static final String UNEVEN_SPLIT_FRAGMENT = "uneven_split_fragment";
 
-    private static final int NUMBER_OF_TABS = 2;
-
     private boolean mFromUser;
     private boolean mFreshStart;
 
@@ -65,9 +63,6 @@ public class MainActivity extends ActionBarActivity implements
 
     private EvenSplitFragment mEvenSplitFragment;
     private UnevenSplitFragment mUnevenSplitFragment;
-
-    private SlidingTabLayout mSlidingTabLayout;
-    private ViewPager mViewPager;
 
     private Locale mChosenLocale;
     private SharedPreferences mSharedPrefs;
@@ -137,7 +132,7 @@ public class MainActivity extends ActionBarActivity implements
         }
 
         setupPrefs();
-        setupActionBarTabs();
+        setupTabs();
         generateCountryMapAndLists();
     }
 
@@ -162,44 +157,17 @@ public class MainActivity extends ActionBarActivity implements
     }
 
     /**
-     * Sets up the ActionBar, the ViewPager and the tabs
+     * Sets up the ViewPager and the tabs
      */
-    private void setupActionBarTabs() {
-        mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
-        mViewPager = (ViewPager) findViewById(R.id.viewPager);
-        mViewPager.setAdapter(new FragmentPagerAdapter(getFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {
-                switch (position) {
-                    case 0:
-                        return mEvenSplitFragment;
-                    case 1:
-                        return mUnevenSplitFragment;
-                }
-                return null;
-            }
+    private void setupTabs() {
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        TabsAdapter tabsAdapter = new TabsAdapter(getFragmentManager());
+        tabsAdapter.addFragment(mEvenSplitFragment, getString(R.string.tab_even));
+        tabsAdapter.addFragment(mUnevenSplitFragment, getString(R.string.tab_uneven));
+        viewPager.setAdapter(tabsAdapter);
 
-            @Override
-            public int getCount() {
-                return NUMBER_OF_TABS;
-            }
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                switch (position) {
-                    case 0:
-                        return getString(R.string.tab_even);
-                    case 1:
-                        return getString(R.string.tab_uneven);
-                }
-                return null;
-            }
-        });
-
-        mSlidingTabLayout.setCustomTabView(R.layout.tab_layout, android.R.id.text1);
-        mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.accent));
-        mSlidingTabLayout.setDistributeEvenly(true);
-        mSlidingTabLayout.setViewPager(mViewPager);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     /**
@@ -290,9 +258,9 @@ public class MainActivity extends ActionBarActivity implements
     private void clearAll() {
         setSpinnerToInitialState();
 
-        mEvenSplitFragment.setPersons("");
+        onPersonsSelected(1);
         mEvenSplitFragment.setBillAmount("");
-        mUnevenSplitFragment.setPersons("");
+        mUnevenSplitFragment.resetBillAmounts();
 
         if (checkPrefCountrySetManually()) {
             mEvenSplitFragment.setPercentage(mMapTipValues.get(mCountryCodeManuallySelected));
@@ -383,9 +351,6 @@ public class MainActivity extends ActionBarActivity implements
             mPersons--;
             mEvenSplitFragment.setPersons(Integer.toString(mPersons));
             mUnevenSplitFragment.setPersons(Integer.toString(mPersons));
-        } else {
-            mEvenSplitFragment.setPersons("");
-            mUnevenSplitFragment.setPersons("");
         }
     }
 
@@ -415,6 +380,7 @@ public class MainActivity extends ActionBarActivity implements
         }
 
         if (mUnevenSplitFragment.getPersons() != numberOfPersons) {
+            Log.e(LOG_TAG, "onPersonsSelected unEven " + numberOfPersons);
             mUnevenSplitFragment.setPersons(Integer.toString(numberOfPersons));
         }
     }
@@ -422,8 +388,8 @@ public class MainActivity extends ActionBarActivity implements
     /**
      * Gets called when a country is selected in either fragment. Sets the spinner in the other
      * fragment to the same country, looks up the appropriate 2-digit country code for the selected
-     * country, and calls {@link #setLocale(String)} and  {@link #setCountryTip(String)} to setup a
-     * locale and the correct tip amount for the selected country.
+     * country, and calls methods to setup a locale and the correct tip amount for the selected
+     * country.
      *
      * @param selectedCountry the selected Country
      */
@@ -433,8 +399,13 @@ public class MainActivity extends ActionBarActivity implements
             selectedCountryCode = mMapCountries.inverse().get(selectedCountry);
         }
 
-        setLocale(selectedCountryCode);
+        Locale oldLocale = mChosenLocale;
+
+        mChosenLocale = getLocale(selectedCountryCode);
+        mEvenSplitFragment.formatBillAmount(oldLocale);
+        mUnevenSplitFragment.formatBillAmount(oldLocale);
         setCountryTip(selectedCountryCode);
+
 
         if (!mEvenSplitFragment.getCountry().equals(selectedCountry)) {
             mEvenSplitFragment.setCountry(selectedCountry);
@@ -453,20 +424,19 @@ public class MainActivity extends ActionBarActivity implements
      *
      * @param selectedCountryCode the 2-digit country code for the selected country
      */
-    private void setLocale(String selectedCountryCode) {
+    private Locale getLocale(String selectedCountryCode) {
         if (selectedCountryCode.equals("IN")) {
-            mChosenLocale = new Locale("en", selectedCountryCode);
+            return new Locale("en", selectedCountryCode);
         } else if (!selectedCountryCode.equals(OTHER_COUNTRY)) {
             for (Locale locale : Locale.getAvailableLocales()) {
                 if (locale.getCountry().equals(selectedCountryCode)) {
-                    mChosenLocale = locale;
-                    return;
-                } else {
-                    mChosenLocale = new Locale("", selectedCountryCode);
+                    return locale;
                 }
             }
+
+            return new Locale("", selectedCountryCode);
         } else {
-            mChosenLocale = Locale.getDefault();
+            return Locale.getDefault();
         }
     }
 
@@ -581,9 +551,5 @@ public class MainActivity extends ActionBarActivity implements
                 tipIncludedDialog.show(getFragmentManager(), "Alert_Dialog");
                 break;
         }
-    }
-
-    private void displayToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 }

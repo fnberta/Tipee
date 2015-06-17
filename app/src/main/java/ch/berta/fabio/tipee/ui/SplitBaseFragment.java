@@ -3,6 +3,7 @@ package ch.berta.fabio.tipee.ui;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.text.InputFilter;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,12 +14,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
-import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 
 import ch.berta.fabio.tipee.R;
-import ch.berta.fabio.tipee.util.InputFilterMinMax;
+import ch.berta.fabio.tipee.utils.InputFilterMinMax;
+import ch.berta.fabio.tipee.utils.MoneyUtils;
 
 import static ch.berta.fabio.tipee.AppConstants.MAX_PERSONS;
 
@@ -29,12 +30,12 @@ import static ch.berta.fabio.tipee.AppConstants.MAX_PERSONS;
  * only contains the commonly shared methods.
  * <p/>
  * Activities that contain this fragment must implement the
- * {@link SplitFragment.SplitFragmentInteractionListener} interface
+ * {@link SplitBaseFragment.SplitFragmentInteractionListener} interface
  * to handle interaction events.
  *
  * @author Fabio Berta
  */
-public class SplitFragment extends Fragment {
+public abstract class SplitBaseFragment extends Fragment {
 
     static final String ROUND_EXACT = "0";
     static final String ROUND_UP = "1";
@@ -46,14 +47,14 @@ public class SplitFragment extends Fragment {
     NumberFormat mCurrencyFormatter;
 
     EditText etPersons;
-    Button bPersonsMinus, bPersonsPlus;
     Spinner spCountry;
     SeekBar sbPercentage;
-    TextView tvResult;
-
     SplitFragmentInteractionListener mListener;
+    private Button bPersonsMinus;
+    private Button bPersonsPlus;
+    private TextView tvResult;
 
-    public SplitFragment() {
+    public SplitBaseFragment() {
     }
 
     @Override
@@ -67,10 +68,14 @@ public class SplitFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    @CallSuper
+    void findViews(View rootView) {
+        etPersons = (EditText) rootView.findViewById(R.id.etPersons);
+        bPersonsMinus = (Button) rootView.findViewById(R.id.bPersonsMinus);
+        bPersonsPlus = (Button) rootView.findViewById(R.id.bPersonsPlus);
+        spCountry = (Spinner) rootView.findViewById(R.id.spCountry);
+        sbPercentage = (SeekBar) rootView.findViewById(R.id.sbPercentage);
+        tvResult = (TextView) rootView.findViewById(R.id.tvResult);
     }
 
     @Override
@@ -79,6 +84,16 @@ public class SplitFragment extends Fragment {
 
         etPersons.setFilters(new InputFilter[]{new InputFilterMinMax(0,
                 MAX_PERSONS)});
+
+        etPersons.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                EditText persons = (EditText) v;
+                if (persons.length() == 0) {
+                    mListener.onPersonsSelected(1);
+                }
+            }
+        });
 
         bPersonsMinus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,18 +127,22 @@ public class SplitFragment extends Fragment {
      * Sets up a NumberFormat instance to apply currency formatting to the final values (with some
      * special cases).
      */
-    public void calculateTip() {
+    @CallSuper
+    void calculateTip() {
         mPersons = mListener.getPersons();
         mPercentage = mListener.getPercentage();
-        mChosenLocale = mListener.getChosenLocale();
 
-        if (mChosenLocale.getLanguage().equals("ar") || mChosenLocale.getLanguage().equals("ne") ||
-                mChosenLocale.getLanguage().equals("fa")) {
-            mCurrencyFormatter = NumberFormat.getCurrencyInstance(Locale.getDefault());
-            mCurrencyFormatter.setCurrency(Currency.getInstance(mChosenLocale));
-        } else {
-            mCurrencyFormatter = NumberFormat.getCurrencyInstance(mChosenLocale);
-        }
+        setCurrencyFormatter();
+    }
+
+    @CallSuper
+    void formatBillAmount(Locale oldLocale) {
+        setCurrencyFormatter();
+    }
+
+    final void setCurrencyFormatter() {
+        mChosenLocale = mListener.getChosenLocale();
+        mCurrencyFormatter = MoneyUtils.getCurrencyFormatter(mChosenLocale);
     }
 
     /**
@@ -197,6 +216,12 @@ public class SplitFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -204,28 +229,28 @@ public class SplitFragment extends Fragment {
      * activity.
      */
     public interface SplitFragmentInteractionListener {
-        public void showDialog(String selectedCountry);
+        void showDialog(String selectedCountry);
 
-        public void onMinusClicked();
+        void onMinusClicked();
 
-        public void onPlusClicked();
+        void onPlusClicked();
 
-        public void onPersonsSelected(int numberOfPersons);
+        void onPersonsSelected(int numberOfPersons);
 
-        public void onCountrySelected(String selectedCountry);
+        void onCountrySelected(String selectedCountry);
 
-        public void onPercentageSet(int percentage, boolean fromUser);
+        void onPercentageSet(int percentage, boolean fromUser);
 
-        public int getPercentage();
+        int getPercentage();
 
-        public int getPersons();
+        int getPersons();
 
-        public Locale getChosenLocale();
+        Locale getChosenLocale();
 
-        public void setSpinnerToInitialState();
+        void setSpinnerToInitialState();
 
-        public List<String> getListCountries();
+        List<String> getListCountries();
 
-        public String getRoundMode();
+        String getRoundMode();
     }
 }

@@ -8,39 +8,36 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import ch.berta.fabio.tipee.PersonRow;
 import ch.berta.fabio.tipee.R;
+import ch.berta.fabio.tipee.utils.MoneyUtils;
 
 import static ch.berta.fabio.tipee.AppConstants.MAX_PERSONS;
 
 /**
- * A {@link SplitFragment} subclass. Provides an UI to split bills among a chosen
+ * A {@link SplitBaseFragment} subclass. Provides an UI to split bills among a chosen
  * amount of persons, providing an input field for every person to specify the share of the bill
  * they want to pay.
  *
  * @author Fabio Berta
  */
 
-public class UnevenSplitFragment extends SplitFragment {
+public class UnevenSplitFragment extends SplitBaseFragment {
 
     private static final int MAX_BILL_AMOUNT_LENGTH = 9;
 
-    private int mIdPersonRow = 0;
-
-    private List<PersonRow> mListPersonRow = new ArrayList<>();
+    private final List<PersonRow> mPersonRows = new ArrayList<>();
     private LinearLayout mLinearLayoutMain;
 
     public UnevenSplitFragment() {
@@ -52,15 +49,16 @@ public class UnevenSplitFragment extends SplitFragment {
         View rootView = inflater.inflate(R.layout.fragment_uneven_split,
                 container, false);
 
-        etPersons = (EditText) rootView.findViewById(R.id.etPersons);
-        bPersonsMinus = (Button) rootView.findViewById(R.id.bPersonsMinus);
-        bPersonsPlus = (Button) rootView.findViewById(R.id.bPersonsPlus);
-        tvResult = (TextView) rootView.findViewById(R.id.tvResult);
-        mLinearLayoutMain = (LinearLayout) rootView.findViewById(R.id.llMain);
-        spCountry = (Spinner) rootView.findViewById(R.id.spCountry);
-        sbPercentage = (SeekBar) rootView.findViewById(R.id.sbPercentage);
+        findViews(rootView);
 
         return rootView;
+    }
+
+    @Override
+    void findViews(View rootView) {
+        super.findViews(rootView);
+
+        mLinearLayoutMain = (LinearLayout) rootView.findViewById(R.id.llMain);
     }
 
     @Override
@@ -77,8 +75,6 @@ public class UnevenSplitFragment extends SplitFragment {
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
                 if (etPersons.length() > 0) {
                     mListener.onPersonsSelected(Integer.parseInt(etPersons.getText().toString()));
-                } else {
-                    mListener.onPersonsSelected(0);
                 }
 
                 setUpViews();
@@ -119,38 +115,36 @@ public class UnevenSplitFragment extends SplitFragment {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
+
+        setUpViews();
     }
 
     /**
      * Dynamically creates and removes the appropriate views based on the selected amount of
      * persons.
      */
-    public void setUpViews() {
-        int persons = mListener.getPersons();
+    private void setUpViews() {
+        int numberOfPersons = mListener.getPersons();
+        int numberOfRows = mPersonRows.size();
 
         NumberFormat numberFormatter = NumberFormat.getCurrencyInstance(
                 mListener.getChosenLocale());
 
-        if (mIdPersonRow > persons) {
-            for (int i = mIdPersonRow - 1; i >= persons; i--) {
-                mLinearLayoutMain.removeView(mListPersonRow.get(i).getTipRow());
-                mListPersonRow.remove(i);
-                mIdPersonRow = persons;
+        if (numberOfRows > numberOfPersons) {
+            for (int i = numberOfRows - 1; i >= numberOfPersons; i--) {
+                mLinearLayoutMain.removeView(mPersonRows.get(i).getTipRow());
+                mPersonRows.remove(i);
             }
 
-        } else if (persons >= 1 && persons <= MAX_PERSONS) {
-
-            if (mLinearLayoutMain.getChildCount() == 0) {
-                mIdPersonRow = 0;
-            }
-
-            for (int i = mIdPersonRow; i < persons; i++) {
+        } else if (numberOfPersons >= 1 && numberOfPersons <= MAX_PERSONS) {
+            for (int i = numberOfRows; i < numberOfPersons; i++) {
+                final int rowNumber = i;
                 int personNumber = i + 1;
-                int etBillAmountPersonId = mIdPersonRow + 20;
+                int etBillAmountPersonId = i + 20;
 
                 View tipRow = getActivity().getLayoutInflater()
                         .inflate(R.layout.row_tip, mLinearLayoutMain, false);
-                tipRow.setId(mIdPersonRow);
+                tipRow.setId(numberOfRows);
                 mLinearLayoutMain.addView(tipRow);
 
                 EditText etBillAmountPerson = (EditText) tipRow.findViewById(R.id.et_bill_amount_person);
@@ -165,11 +159,33 @@ public class UnevenSplitFragment extends SplitFragment {
 
                     @Override
                     public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                        calculateTip();
+                        mPercentage = mListener.getPercentage();
+                        setCurrencyFormatter();
+                        calculateTipSingle(rowNumber);
                     }
 
                     @Override
                     public void afterTextChanged(Editable editable) {
+                    }
+                });
+                etBillAmountPerson.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        EditText amountView = (EditText) v;
+                        if (amountView.length() <= 0) {
+                            return;
+                        }
+
+                        String amountValue = amountView.getText().toString();
+                        if (hasFocus) {
+                            double amount = MoneyUtils.parseBillAmount(amountValue, mCurrencyFormatter);
+
+                            NumberFormat decimalFormat = MoneyUtils.getDecimalFormatter(mChosenLocale);
+                            amountView.setText(decimalFormat.format(amount));
+                        } else {
+                            double amount = MoneyUtils.parseLocalizedString(amountValue);
+                            amountView.setText(mCurrencyFormatter.format(amount));
+                        }
                     }
                 });
 
@@ -181,10 +197,23 @@ public class UnevenSplitFragment extends SplitFragment {
 
                 PersonRow personRow = new PersonRow(tipRow, etBillAmountPerson, tvTipAmountPerson,
                         tvTotalAmountPerson);
-                mListPersonRow.add(personRow);
-
-                mIdPersonRow++;
+                mPersonRows.add(personRow);
             }
+        }
+    }
+
+    public void resetBillAmounts() {
+        for (PersonRow personRow : mPersonRows) {
+            personRow.setBillAmount("");
+        }
+    }
+
+    @Override
+    public void formatBillAmount(Locale oldLocale) {
+        super.formatBillAmount(oldLocale);
+
+        for (PersonRow personRow : mPersonRows) {
+            personRow.formatBillAmount(oldLocale, mCurrencyFormatter);
         }
     }
 
@@ -197,46 +226,44 @@ public class UnevenSplitFragment extends SplitFragment {
         super.calculateTip();
 
         for (int i = 0; i < mPersons; i++) {
-            String billAmountPersonString = mListPersonRow.get(i).getBillAmount();
-            if (billAmountPersonString.length() > 0) {
-                double billAmountPerson;
+            calculateTipSingle(i);
+        }
+    }
 
-                try {
-                    Number billAmountPersonNumber = mCurrencyFormatter.parse(billAmountPersonString);
-                    billAmountPerson = billAmountPersonNumber.doubleValue();
-                } catch (ParseException e) {
-                    billAmountPerson = Double.parseDouble(billAmountPersonString);
-                }
+    private void calculateTipSingle(int position) {
+        PersonRow personRow = mPersonRows.get(position);
+        String billAmountPersonString = personRow.getBillAmount();
+        if (billAmountPersonString.length() > 0) {
+            double billAmountPerson = MoneyUtils.parseBillAmount(billAmountPersonString, mCurrencyFormatter);
 
-                double tipAmountPerson = ((billAmountPerson * mPercentage) / 100);
-                double totalAmountPerson = (tipAmountPerson + billAmountPerson);
+            double tipAmountPerson = ((billAmountPerson * mPercentage) / 100);
+            double totalAmountPerson = (tipAmountPerson + billAmountPerson);
 
-                BigDecimal totalAmountPersonBig = new BigDecimal(totalAmountPerson);
+            BigDecimal totalAmountPersonBig = new BigDecimal(totalAmountPerson);
 
-                switch (mListener.getRoundMode()) {
-                    case ROUND_EXACT:
-                        break;
-                    case ROUND_UP:
-                        totalAmountPerson = totalAmountPersonBig.setScale(0,
-                                BigDecimal.ROUND_CEILING).doubleValue();
-                        tipAmountPerson = (totalAmountPerson - billAmountPerson);
-                        break;
-                    case ROUND_DOWN:
-                        totalAmountPerson = totalAmountPersonBig.setScale(0,
-                                BigDecimal.ROUND_FLOOR).doubleValue();
-                        if (totalAmountPerson <= billAmountPerson) {
-                            totalAmountPerson = billAmountPerson;
-                        }
-                        tipAmountPerson = (totalAmountPerson - billAmountPerson);
-                        break;
-                }
-
-                mListPersonRow.get(i).setTipAmount(mCurrencyFormatter.format(tipAmountPerson));
-                mListPersonRow.get(i).setTotalAmount(mCurrencyFormatter.format(totalAmountPerson));
-            } else {
-                mListPersonRow.get(i).setTipAmount(mCurrencyFormatter.format(0));
-                mListPersonRow.get(i).setTotalAmount(mCurrencyFormatter.format(0));
+            switch (mListener.getRoundMode()) {
+                case ROUND_EXACT:
+                    break;
+                case ROUND_UP:
+                    totalAmountPerson = totalAmountPersonBig.setScale(0,
+                            BigDecimal.ROUND_CEILING).doubleValue();
+                    tipAmountPerson = (totalAmountPerson - billAmountPerson);
+                    break;
+                case ROUND_DOWN:
+                    totalAmountPerson = totalAmountPersonBig.setScale(0,
+                            BigDecimal.ROUND_FLOOR).doubleValue();
+                    if (totalAmountPerson <= billAmountPerson) {
+                        totalAmountPerson = billAmountPerson;
+                    }
+                    tipAmountPerson = (totalAmountPerson - billAmountPerson);
+                    break;
             }
+
+            personRow.setTipAmount(mCurrencyFormatter.format(tipAmountPerson));
+            personRow.setTotalAmount(mCurrencyFormatter.format(totalAmountPerson));
+        } else {
+            personRow.setTipAmount(mCurrencyFormatter.format(0));
+            personRow.setTotalAmount(mCurrencyFormatter.format(0));
         }
     }
 }

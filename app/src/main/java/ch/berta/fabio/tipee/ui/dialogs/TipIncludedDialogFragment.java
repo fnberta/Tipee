@@ -1,6 +1,6 @@
-package ch.berta.fabio.tipee.dialogs;
+package ch.berta.fabio.tipee.ui.dialogs;
 
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
@@ -14,12 +14,12 @@ import ch.berta.fabio.tipee.R;
  *
  * @author Fabio Berta
  */
-public class TippingNotCommonDialogFragment extends DialogFragment {
+public class TipIncludedDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
-        dialogBuilder.setTitle(R.string.tipping_not_common_dialog_title)
-                .setMessage(R.string.tipping_not_common_dialog_message)
+        dialogBuilder.setTitle(R.string.tip_included_dialog_title)
+                .setMessage(R.string.tip_included_dialog_message)
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dismiss();

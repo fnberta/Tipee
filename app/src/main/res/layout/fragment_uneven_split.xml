@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
-    android:paddingBottom="@dimen/element_spacing_normal"
+    android:paddingBottom="@dimen/small_space"
     tools:context="ch.berta.fabio.tipee.ui.UnevenSplitFragment">
 
     <LinearLayout
@@ -46,10 +46,10 @@
             android:id="@+id/linearLayoutSeparatorBillTipTotal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/element_spacing_normal"
+            android:layout_marginBottom="@dimen/small_space"
             android:layout_marginEnd="@dimen/key_line_1"
             android:layout_marginStart="@dimen/key_line_1"
-            android:layout_marginTop="@dimen/element_spacing_normal"
+            android:layout_marginTop="@dimen/small_space"
             android:orientation="horizontal"
             android:weightSum="9">
 
@@ -82,7 +82,7 @@
             android:id="@+id/llMain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/element_spacing_normal"
+                android:layout_marginTop="@dimen/small_space"
             android:orientation="vertical">
         </LinearLayout>
 

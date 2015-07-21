@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/key_line_1"
     android:layout_marginStart="@dimen/key_line_1"
-    android:layout_marginTop="@dimen/element_spacing_normal"
+    android:layout_marginTop="@dimen/small_space"
     android:orientation="horizontal">
 
     <Button

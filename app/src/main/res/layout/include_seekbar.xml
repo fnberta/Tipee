@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/element_spacing_normal"
-    android:layout_marginTop="@dimen/element_spacing_normal"
+    android:layout_marginBottom="@dimen/small_space"
+    android:layout_marginTop="@dimen/small_space"
     android:orientation="horizontal">
 
     <SeekBar
         android:id="@+id/sbPercentage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/element_spacing_normal"
+        android:layout_marginEnd="@dimen/small_space"
         android:layout_marginStart="@dimen/key_line_1"
         android:layout_weight="1"
         android:indeterminate="false"
@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginEnd="@dimen/key_line_1"
-        android:layout_marginStart="@dimen/element_spacing_normal"
+        android:layout_marginStart="@dimen/small_space"
         android:gravity="center_vertical"
         tools:text="14%"/>
 

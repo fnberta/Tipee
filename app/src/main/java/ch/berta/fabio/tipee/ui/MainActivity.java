@@ -380,7 +380,6 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         if (mUnevenSplitFragment.getPersons() != numberOfPersons) {
-            Log.e(LOG_TAG, "onPersonsSelected unEven " + numberOfPersons);
             mUnevenSplitFragment.setPersons(Integer.toString(numberOfPersons));
         }
     }

@@ -8,8 +8,8 @@ android {
         applicationId "ch.berta.fabio.tipee"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 10
-        versionName "2.1.1"
+        versionCode 11
+        versionName "2.1.2"
     }
     buildTypes {
         release {

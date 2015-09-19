@@ -51,7 +51,7 @@
 
             <ImageButton
                 android:id="@+id/ibClear"
-                style="?android:borderlessButtonStyle"
+                style="?borderlessButtonStyle"
                 android:layout_width="@dimen/touch_target_min"
                 android:layout_height="@dimen/touch_target_min"
                 android:layout_gravity="center_vertical"
@@ -118,7 +118,7 @@
 
             <TextView
                 android:id="@+id/tvTipAmount"
-                style="@style/Base.TextAppearance.AppCompat.Subhead"
+                style="@style/TextAppearance.AppCompat.Subhead"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
@@ -128,7 +128,7 @@
 
             <TextView
                 android:id="@+id/tvTotalAmount"
-                style="@style/Base.TextAppearance.AppCompat.Subhead"
+                style="@style/TextAppearance.AppCompat.Subhead"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
@@ -150,7 +150,7 @@
 
             <TextView
                 android:id="@+id/tvTipAmountExact"
-                style="@style/Base.TextAppearance.AppCompat.Subhead"
+                style="@style/TextAppearance.AppCompat.Subhead"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
@@ -160,7 +160,7 @@
 
             <TextView
                 android:id="@+id/tvTotalAmountExact"
-                style="@style/Base.TextAppearance.AppCompat.Subhead"
+                style="@style/TextAppearance.AppCompat.Subhead"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
@@ -182,7 +182,7 @@
 
         <TextView
             android:id="@+id/tvTotalPerPerson"
-            style="@style/Base.TextAppearance.AppCompat.Subhead"
+            style="@style/TextAppearance.AppCompat.Subhead"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/key_line_1"

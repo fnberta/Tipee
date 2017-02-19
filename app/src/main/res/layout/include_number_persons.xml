@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:id="@+id/linearLayoutPersons"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,20 +7,22 @@
     android:layout_marginEnd="@dimen/key_line_1"
     android:layout_marginStart="@dimen/key_line_1"
     android:layout_marginTop="@dimen/small_space"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    >
 
     <Button
-        android:id="@+id/bPersonsMinus"
+        android:id="@+id/btPersonsMinus"
         style="?android:borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/touch_target_min"
-        android:text="@string/minus"/>
+        android:text="@string/minus"
+        />
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/til_persons"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        >
 
         <EditText
             android:id="@+id/etPersons"
@@ -31,15 +32,18 @@
             android:hint="@string/persons_hint"
             android:imeOptions="actionDone"
             android:inputType="number"
-            tools:text="5"/>
+            android:selectAllOnFocus="true"
+            tools:text="5"
+            />
 
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:id="@+id/bPersonsPlus"
+        android:id="@+id/btPersonsPlus"
         style="?android:borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/touch_target_min"
-        android:text="@string/plus"/>
+        android:text="@string/plus"
+        />
 
 </LinearLayout>

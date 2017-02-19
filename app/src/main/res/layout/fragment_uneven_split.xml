@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView
-    android:id="@+id/scrollViewS"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollViewS"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
     android:paddingBottom="@dimen/small_space"
-    tools:context="ch.berta.fabio.tipee.ui.UnevenSplitFragment">
+    tools:context="ch.berta.fabio.tipee.features.tip.uneven.TipUnevenFragment"
+    >
 
     <LinearLayout
-        android:id="@+id/linearLayoutMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <TextView
-            android:id="@+id/tvSeparatorPersons"
-            style="@style/Subheader"
+            style="@style/SubHeader"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/subheader_height"
+            android:layout_height="@dimen/sub_header_height"
             android:gravity="center_vertical"
             android:paddingEnd="@dimen/key_line_1"
             android:paddingStart="@dimen/key_line_1"
-            android:text="@string/separator_persons"/>
+            android:text="@string/separator_persons"
+            />
 
         <include layout="@layout/include_number_persons"/>
 
         <TextView
-            android:id="@+id/tvSeparatorCountryTip"
-            style="@style/Subheader"
+            style="@style/SubHeader"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/subheader_height"
+            android:layout_height="@dimen/sub_header_height"
             android:gravity="center_vertical"
             android:paddingEnd="@dimen/key_line_1"
             android:paddingStart="@dimen/key_line_1"
-            android:text="@string/separator_country_tip"/>
+            android:text="@string/separator_country_tip"
+            />
 
         <include layout="@layout/include_country_spinner"/>
 
         <include layout="@layout/include_seekbar"/>
 
         <LinearLayout
-            android:id="@+id/linearLayoutSeparatorBillTipTotal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/small_space"
@@ -54,35 +54,40 @@
             android:weightSum="9">
 
             <TextView
-                style="@style/Subheader"
+                style="@style/SubHeader"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/subheader_height"
+                android:layout_height="@dimen/sub_header_height"
                 android:layout_weight="3"
                 android:gravity="center_vertical"
-                android:text="@string/title_bill_amount"/>
+                android:text="@string/title_bill_amount"
+                />
 
             <TextView
-                style="@style/Subheader"
+                style="@style/SubHeader"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/subheader_height"
+                android:layout_height="@dimen/sub_header_height"
                 android:layout_weight="3"
                 android:gravity="center_vertical|end"
-                android:text="@string/title_tip"/>
+                android:text="@string/title_tip"
+                />
 
             <TextView
-                style="@style/Subheader"
+                style="@style/SubHeader"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/subheader_height"
+                android:layout_height="@dimen/sub_header_height"
                 android:layout_weight="3"
                 android:gravity="center_vertical|end"
-                android:text="@string/title_total"/>
+                android:text="@string/title_total"
+                />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/llMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            >
         </LinearLayout>
 
     </LinearLayout>

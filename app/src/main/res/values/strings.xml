@@ -29,9 +29,9 @@
     <string name="ok">OK</string>
     <string name="change_to_up">Round up</string>
     <string name="keep_it">Risk it</string>
-    <string name="person_hint">Person</string>
+    <string name="person_hint">Person %1$d</string>
     <string name="persons_hint">Persons</string>
-    <string name="bill_hint">Bill Amount</string>
+    <string name="bill_hint">Bill amount</string>
     <string name="title_bill_amount">Amount</string>
     <string name="title_tip">Tip</string>
     <string name="title_total">Total</string>
@@ -45,5 +45,8 @@
     <string name="separator_persons">Number of Persons</string>
     <string name="other">Other</string>
     <string name="clear_bill_amount">Clear bill amount</string>
+    <string name="percentage" translatable="false">%1$d%%</string>
+    <string name="exact" translatable="false">(%1$s)</string>
+    <string name="total_per_person" translatable="false">%1$s (%2$s)</string>
 
 </resources>

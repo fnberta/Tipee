@@ -30,7 +30,7 @@
     <string name="ok">OK</string>
     <string name="change_to_up">Aufrunden</string>
     <string name="keep_it">Riskieren</string>
-    <string name="person_hint">Person</string>
+    <string name="person_hint">Person %1$d</string>
     <string name="persons_hint">Personen</string>
     <string name="bill_hint">Rechnungsbetrag</string>
     <string name="title_bill_amount">Betrag</string>

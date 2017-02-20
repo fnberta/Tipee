@@ -9,9 +9,9 @@ import java.text.NumberFormat
 data class TipRow(
         val amount: Double,
         val amountFormatted: String,
+        val isAmountFocused: Boolean,
         val tip: String,
-        val total: String,
-        val hasFocus: Boolean
+        val total: String
 ) : PaperParcelable {
     companion object {
         @Suppress("unused")
@@ -58,10 +58,9 @@ fun createInitialState(
     val countries = getCountryMappings()
     val initialCountry = getInitialCountry(countries)
     val formatter = getCurrencyFormatter(initialCountry.countryCode)
-    val initialAmount = 0.0
-    val initialAmountFormatted = formatter.format(initialAmount)
-    val tipRows = listOf(createEmptyTipRow(formatter))
-    return TipViewState(initialAmount, formatter.format(initialAmount), false, 1,
+    val (initialAmount, initialAmountFormatted) = getInitialAmount(formatter)
+    val tipRows = listOf(createEmptyTipRow(formatter, false))
+    return TipViewState(initialAmount, initialAmountFormatted, false, 1,
                         countries, countries.indexOf(initialCountry), false,
                         initialCountry.percentage, initialAmountFormatted, initialAmountFormatted,
                         initialAmountFormatted, initialAmountFormatted, initialAmountFormatted,
@@ -69,8 +68,13 @@ fun createInitialState(
                         getRoundMode(), false, false, false)
 }
 
-fun createEmptyTipRow(formatter: NumberFormat): TipRow {
+fun getInitialAmount(formatter: NumberFormat): Pair<Double, String> {
     val initialAmount = 0.0
-    val initialFormatted = formatter.format(initialAmount)
-    return TipRow(initialAmount, initialFormatted, initialFormatted, initialFormatted, false)
+    val initialAmountFormatted = formatter.format(initialAmount)
+    return Pair(initialAmount, initialAmountFormatted)
+}
+
+fun createEmptyTipRow(formatter: NumberFormat, isAmountFocused: Boolean): TipRow {
+    val (initialAmount, initialFormatted) = getInitialAmount(formatter)
+    return TipRow(initialAmount, initialFormatted, isAmountFocused, initialFormatted, initialFormatted)
 }

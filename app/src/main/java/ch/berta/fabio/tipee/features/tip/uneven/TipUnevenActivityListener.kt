@@ -6,7 +6,6 @@ import ch.berta.fabio.tipee.features.tip.component.TipRowFocusChange
 import com.jakewharton.rxrelay.BehaviorRelay
 
 interface TipUnevenActivityListener : TipActivityListener {
-
     val amountPerson: BehaviorRelay<TipRowAmountChange>
     val amountFocusPerson: BehaviorRelay<TipRowFocusChange>
 }

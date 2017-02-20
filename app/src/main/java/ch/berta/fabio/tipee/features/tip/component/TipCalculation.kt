@@ -9,20 +9,23 @@ enum class RoundMode {
     EXACT, UP, DOWN
 }
 
-data class TipValues(val tip: String,
-                     val tipExact: String,
-                     val total: String,
-                     val totalExact: String,
-                     val totalPerPerson: String,
-                     val totalPerPersonExact: String)
+data class TipValues(
+        val tip: String,
+        val tipExact: String,
+        val total: String,
+        val totalExact: String,
+        val totalPerPerson: String,
+        val totalPerPersonExact: String
+)
 
 data class TipSingleValues(val tipSingle: String, val totalSingle: String)
 
-fun calculateTip(amount: Double,
-                 percentage: Int,
-                 persons: Int,
-                 roundMode: RoundMode,
-                 formatter: NumberFormat
+fun calculateTip(
+        amount: Double,
+        percentage: Int,
+        persons: Int,
+        roundMode: RoundMode,
+        formatter: NumberFormat
 ): TipValues {
     val tipExact = amount * percentage / 100
     val totalExact = tipExact + amount
@@ -34,12 +37,13 @@ fun calculateTip(amount: Double,
                      formatter.format(totalPerPerson), formatter.format(totalPerPersonExact))
 }
 
-private fun getRoundedValues(amount: Double,
-                             roundMode: RoundMode,
-                             tipExact: Double,
-                             totalExact: Double,
-                             totalPerPersonExact: Double = 0.0,
-                             persons: Int = 1
+private fun getRoundedValues(
+        amount: Double,
+        roundMode: RoundMode,
+        tipExact: Double,
+        totalExact: Double,
+        totalPerPersonExact: Double = 0.0,
+        persons: Int = 1
 ): Triple<Double, Double, Double> {
     val totalAmountExactBig = BigDecimal(totalExact)
     when (roundMode) {
@@ -60,10 +64,11 @@ private fun getRoundedValues(amount: Double,
     }
 }
 
-fun calculateTipSingle(amount: Double,
-                       percentage: Int,
-                       roundMode: RoundMode,
-                       formatter: NumberFormat
+fun calculateTipSingle(
+        amount: Double,
+        percentage: Int,
+        roundMode: RoundMode,
+        formatter: NumberFormat
 ): TipSingleValues {
     val tipExact = amount * percentage / 100
     val totalExact = tipExact + amount

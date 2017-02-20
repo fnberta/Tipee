@@ -66,7 +66,7 @@ fun model(
     val menuReset = intention.menu
             .filter { it == MenuEvents.RESET }
             .debug("menuReset")
-            .map { menuResetReducer(createInitialState(getCountryMappings, getInitialCountry, getRoundMode)) }
+            .map { menuResetReducer(getInitialCountry) }
     val menuSettings = Observable.merge(
             intention.menu
                     .filter { it == MenuEvents.SETTINGS }

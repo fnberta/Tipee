@@ -79,7 +79,8 @@ class TipUnevenFragment : TipBaseFragment<TipUnevenActivityListener>() {
                 .bindTo(lifecycleHandler.lifecycle)
                 .subscribe(amountFocusPerson)
         personRow.etAmount.hint = getString(R.string.person_hint, personRows.indexOf(personRow) + 1)
-        personRow.etAmount.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(MAX_BILL_AMOUNT_LENGTH))
+        personRow.etAmount.filters =
+                arrayOf<InputFilter>(InputFilter.LengthFilter(MAX_BILL_AMOUNT_LENGTH))
 
         renderPersonRowValues(personRow, tipRows.last())
         llMain.addView(personRow)
@@ -96,7 +97,8 @@ class TipUnevenFragment : TipBaseFragment<TipUnevenActivityListener>() {
     }
 
     private fun renderPersonRowValues(personRow: View, tipRow: TipRow) {
-        renderAmountView(tipRow.amount, tipRow.amountFormatted, tipRow.hasFocus, personRow.etAmount)
+        renderAmountView(tipRow.amount, tipRow.amountFormatted, tipRow.isAmountFocused,
+                         personRow.etAmount)
         personRow.tvTipAmount.text = tipRow.tip
         personRow.tvTotalAmount.text = tipRow.total
     }

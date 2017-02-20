@@ -30,7 +30,29 @@ fun dialogShownReducer(dialogTag: String): TipViewStateReducer = { state ->
     }
 }
 
-fun menuResetReducer(initialState: TipViewState): TipViewStateReducer = { initialState }
+fun menuResetReducer(getInitialCountry: (List<Country>) -> Country): TipViewStateReducer = { state ->
+    val initialCountry = getInitialCountry(state.countries)
+    val formatter = getCurrencyFormatter(initialCountry.countryCode)
+    val (initialAmount, initialAmountFormatted) = getInitialAmount(formatter)
+    val isFirstRowFocused = state.tipRows.first().isAmountFocused
+    val tipRows = listOf(createEmptyTipRow(formatter, isFirstRowFocused))
+
+    state.copy(
+            amount = initialAmount,
+            amountFormatted = initialAmountFormatted,
+            persons = 1,
+            selectedCountryPos = state.countries.indexOf(initialCountry),
+            percentage = initialCountry.percentage,
+            tip = initialAmountFormatted,
+            tipExact = initialAmountFormatted,
+            total = initialAmountFormatted,
+            totalExact = initialAmountFormatted,
+            tipPerPerson = initialAmountFormatted,
+            totalPerPerson = initialAmountFormatted,
+            totalPerPersonExact = initialAmountFormatted,
+            tipRows = tipRows
+    )
+}
 
 fun menuSettingsReducer(openSettings: Boolean): TipViewStateReducer = { state ->
     state.copy(isOpenSettings = openSettings)
@@ -52,7 +74,7 @@ fun personsReducer(persons: Int): TipViewStateReducer = { state ->
         personsAdj > state.tipRows.size -> {
             val newItems = mutableListOf<TipRow>()
             while (personsAdj > newItems.size + state.tipRows.size) {
-                newItems.add(createEmptyTipRow(formatter))
+                newItems.add(createEmptyTipRow(formatter, false))
             }
             state.tipRows.plus(newItems)
         }
@@ -164,7 +186,7 @@ fun amountFocusPersonReducer(focusChange: TipRowFocusChange): TipViewStateReduce
                 formatter.format(tipRow.amount)
             } else tipRow.amountFormatted
 
-            tipRow.copy(hasFocus = focusChange.hasFocus, amountFormatted = amountFormatted)
+            tipRow.copy(isAmountFocused = focusChange.hasFocus, amountFormatted = amountFormatted)
         } else tipRow
 
     }

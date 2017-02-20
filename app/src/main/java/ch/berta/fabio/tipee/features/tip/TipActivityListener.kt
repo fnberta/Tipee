@@ -6,7 +6,6 @@ import com.jakewharton.rxrelay.BehaviorRelay
 import rx.Observable
 
 interface TipActivityListener {
-
     val persons: BehaviorRelay<CharSequence>
     val personsPlusMinus: BehaviorRelay<Int>
     val selectedCountry: BehaviorRelay<Int>

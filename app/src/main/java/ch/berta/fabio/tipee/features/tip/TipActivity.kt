@@ -64,7 +64,8 @@ class TipActivity : BaseActivity(), TipEvenActivityListener, TipUnevenActivityLi
                                   personsPlusMinus, persons, selectedCountry, percentage, amount,
                                   amountFocus, amountClear, amountPerson, amountFocusPerson)
         val sharedPrefs = makeSharedPrefs(PreferenceManager.getDefaultSharedPreferences(this))
-        val getInitialCountry = makeInitialCountry(sharedPrefs, getSystemService(TELEPHONY_SERVICE) as TelephonyManager)
+        val telephonyManager = getSystemService(TELEPHONY_SERVICE) as TelephonyManager
+        val getInitialCountry = makeInitialCountry(sharedPrefs, telephonyManager)
         val getCountryMappings = makeCountryMappings(resources)
         return model(savedInstanceState, intent, getCountryMappings, getInitialCountry,
                      sharedPrefs.getRoundMode)

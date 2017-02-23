@@ -12,7 +12,8 @@ data class StateBundle<out T>(val bundle: Bundle?, val key: String, val state: T
 
 fun <T : Parcelable> startWithSavedState(savedState: Bundle?, key: String, initialState: T): T {
     @Suppress("UNCHECKED_CAST")
-    return if (savedState != null && savedState.containsKey(key)) savedState.get(key) as T else initialState
+    return if (savedState != null && savedState.containsKey(key)) savedState.get(key) as T
+    else initialState
 }
 
 class LifecycleHandler {

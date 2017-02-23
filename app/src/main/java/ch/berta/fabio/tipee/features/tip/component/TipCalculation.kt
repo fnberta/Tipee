@@ -31,10 +31,10 @@ fun calculateTip(
     val totalExact = tipExact + amount
     val totalPerPersonExact = totalExact / persons
     val (tip, total, totalPerPerson) = getRoundedValues(amount, roundMode, tipExact,
-                                                        totalExact, totalPerPersonExact, persons)
+            totalExact, totalPerPersonExact, persons)
     return TipValues(formatter.format(tip), formatter.format(tipExact),
-                     formatter.format(total), formatter.format(totalExact),
-                     formatter.format(totalPerPerson), formatter.format(totalPerPersonExact))
+            formatter.format(total), formatter.format(totalExact),
+            formatter.format(totalPerPerson), formatter.format(totalPerPersonExact))
 }
 
 private fun getRoundedValues(
@@ -55,7 +55,8 @@ private fun getRoundedValues(
             return Triple(tipAmount, totalAmount, totalPerPerson)
         }
         DOWN -> {
-            val totalAmountFloor = totalAmountExactBig.setScale(0, BigDecimal.ROUND_FLOOR).toDouble()
+            val totalAmountFloor = totalAmountExactBig.setScale(0,
+                    BigDecimal.ROUND_FLOOR).toDouble()
             val totalAmount = if (totalAmountFloor > amount) totalAmountFloor else amount
             val tipAmount = totalAmount - amount
             val totalPerPerson = totalAmount / persons

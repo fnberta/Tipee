@@ -1,8 +1,6 @@
 package ch.berta.fabio.tipee.data.models
 
 import android.content.res.Resources
-import android.os.Parcel
-import android.os.Parcelable
 import android.telephony.TelephonyManager
 import ch.berta.fabio.tipee.R
 import ch.berta.fabio.tipee.data.helpers.SharedPrefs

@@ -61,11 +61,11 @@ fun createInitialState(
     val (initialAmount, initialAmountFormatted) = getInitialAmount(formatter)
     val tipRows = listOf(createEmptyTipRow(formatter, false))
     return TipViewState(initialAmount, initialAmountFormatted, false, 1,
-                        countries, countries.indexOf(initialCountry), false,
-                        initialCountry.percentage, initialAmountFormatted, initialAmountFormatted,
-                        initialAmountFormatted, initialAmountFormatted, initialAmountFormatted,
-                        initialAmountFormatted, initialAmountFormatted, tipRows,
-                        getRoundMode(), false, false, false)
+            countries, countries.indexOf(initialCountry), false,
+            initialCountry.percentage, initialAmountFormatted, initialAmountFormatted,
+            initialAmountFormatted, initialAmountFormatted, initialAmountFormatted,
+            initialAmountFormatted, initialAmountFormatted, tipRows,
+            getRoundMode(), false, false, false)
 }
 
 fun getInitialAmount(formatter: NumberFormat): Pair<Double, String> {
@@ -76,5 +76,6 @@ fun getInitialAmount(formatter: NumberFormat): Pair<Double, String> {
 
 fun createEmptyTipRow(formatter: NumberFormat, isAmountFocused: Boolean): TipRow {
     val (initialAmount, initialFormatted) = getInitialAmount(formatter)
-    return TipRow(initialAmount, initialFormatted, isAmountFocused, initialFormatted, initialFormatted)
+    return TipRow(initialAmount, initialFormatted, isAmountFocused, initialFormatted,
+            initialFormatted)
 }

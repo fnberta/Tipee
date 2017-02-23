@@ -53,7 +53,7 @@ class TipEvenFragment : TipBaseFragment<TipEvenActivityListener>() {
             tvTotalAmountExact.text = getString(R.string.exact, state.totalExact)
             tvTipAmountExact.text = getString(R.string.exact, state.tipExact)
             tvTotalPerPerson.text = getString(R.string.total_per_person, state.totalPerPerson,
-                                              state.totalPerPersonExact)
+                    state.totalPerPersonExact)
         }
     }
 }

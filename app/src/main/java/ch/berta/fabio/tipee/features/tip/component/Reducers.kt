@@ -104,10 +104,10 @@ fun selectedCountryReducer(selectedCountryPos: Int): TipViewStateReducer = { sta
     val isShowTipIncludedDialog = if (state.isCountryAfterConfigChange)
         state.isShowTipIncludedDialog else country.tipIncluded
     state.copy(selectedCountryPos = selectedCountryPos,
-               isCountryAfterConfigChange = false,
-               percentage = percentage,
-               isShowTippingNotCommonDialog = isShowTippingNotCommonDialog,
-               isShowTipIncludedDialog = isShowTipIncludedDialog
+            isCountryAfterConfigChange = false,
+            percentage = percentage,
+            isShowTippingNotCommonDialog = isShowTippingNotCommonDialog,
+            isShowTipIncludedDialog = isShowTipIncludedDialog
     )
 }
 
@@ -118,7 +118,7 @@ fun percentageReducer(percentage: Int): TipViewStateReducer = { state ->
             calculateTip(state.amount, percentage, state.persons, state.roundMode, formatter)
     val tipRows = state.tipRows.map {
         val (tipSingle, totalSingle) = calculateTipSingle(it.amount, percentage, state.roundMode,
-                                                          formatter)
+                formatter)
         it.copy(tip = tipSingle, total = totalSingle)
     }
     state.copy(
@@ -167,7 +167,7 @@ fun amountPersonReducer(amountChange: TipRowAmountParsedChange): TipViewStateRed
     val tipRows = state.tipRows.mapIndexed { index, tipRow ->
         if (index == amountChange.position) {
             val (tip, total) = calculateTipSingle(amountChange.amount, state.percentage,
-                                                  state.roundMode, formatter)
+                    state.roundMode, formatter)
             tipRow.copy(amount = amountChange.amount, tip = tip, total = total)
         } else tipRow
 

@@ -2,10 +2,8 @@ package ch.berta.fabio.tipee.extensions
 
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.v7.preference.Preference
 import ch.berta.fabio.tipee.features.base.Lifecycle
 import ch.berta.fabio.tipee.features.base.StateBundle
-import rx.Emitter
 import rx.Observable
 import timber.log.Timber
 
@@ -24,7 +22,7 @@ fun <T : Parcelable> Observable<T>.saveForConfigChange(lifecycle: Observable<Lif
         .filter { it == Lifecycle.START }
         .switchMap {
             outState.withLatestFrom(this.map(beforeConfigChangeReducer),
-                                    { bundle, state -> StateBundle(bundle, key, state) })
+                    { bundle, state -> StateBundle(bundle, key, state) })
                     .takeUntil(lifecycle.filter { it == Lifecycle.STOP })
                     .doOnNext { it.bundle?.putParcelable(it.key, it.state) }
         }

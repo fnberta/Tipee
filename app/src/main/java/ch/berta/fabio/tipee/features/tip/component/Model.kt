@@ -115,8 +115,8 @@ fun model(
             .map(::amountFocusPersonReducer)
 
     val reducers = listOf(settingsRoundMode, settingsCountry, dialogShown, menuReset, menuSettings,
-                          personsPlusMinus, persons, selectedCountry, percentage, amount,
-                          amountFocus, clearAmount, amountPerson, amountFocusPerson)
+            personsPlusMinus, persons, selectedCountry, percentage, amount, amountFocus,
+            clearAmount, amountPerson, amountFocusPerson)
     return Observable.merge(reducers)
             .scan(startState, { state, reducer -> reducer(state) })
             .debug("state")

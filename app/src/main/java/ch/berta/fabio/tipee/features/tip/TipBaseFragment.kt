@@ -7,7 +7,9 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import ch.berta.fabio.tipee.R
 import ch.berta.fabio.tipee.data.models.Country
+import ch.berta.fabio.tipee.extensions.addAllIfEmpty
 import ch.berta.fabio.tipee.extensions.setProgressIfNotEqual
+import ch.berta.fabio.tipee.extensions.setSelectionIfNotSelected
 import ch.berta.fabio.tipee.extensions.setTextIfNotEqual
 import ch.berta.fabio.tipee.features.base.BaseFragment
 import ch.berta.fabio.tipee.features.tip.component.TipViewState
@@ -67,12 +69,8 @@ abstract class TipBaseFragment<T : TipActivityListener> : BaseFragment() {
     }
 
     fun renderCountries(countries: List<Country>, selectedCountryPos: Int) {
-        if (countryAdapter.isEmpty && countries.isNotEmpty()) {
-            countryAdapter.addAll(countries)
-        }
-        if (spCountry.selectedItemPosition != selectedCountryPos) {
-            spCountry.setSelection(selectedCountryPos)
-        }
+        countryAdapter.addAllIfEmpty(countries)
+        spCountry.setSelectionIfNotSelected(selectedCountryPos)
     }
 
     fun renderPercentage(percentage: Int) {
@@ -88,8 +86,8 @@ abstract class TipBaseFragment<T : TipActivityListener> : BaseFragment() {
             amountView.text.clear()
         } else {
             if (hasFocus) {
-                if (parseAmount(amountView.text.toString()) != amount) {
-                    amountView.setTextIfNotEqual(amount.toString())
+                if (parseAmount(amountView.text) != amount) {
+                    amountView.setText(amount.toString())
                 }
             } else {
                 amountView.setTextIfNotEqual(amountFormatted)

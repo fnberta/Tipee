@@ -77,7 +77,8 @@ class TipUnevenFragment : TipBaseFragment<TipUnevenActivityListener>() {
         personRow.etAmount.focusChanges()
                 .map { TipRowFocusChange(personRows.indexOf(personRow), it) }
                 .subscribe(amountFocusPerson)
-        personRow.etAmount.hint = getString(R.string.hint_person, personRows.indexOf(personRow) + 1)
+        val personHint = personRows.indexOf(personRow) + 1
+        personRow.etAmount.hint = getString(R.string.hint_person, personHint)
         personRow.etAmount.filters =
                 arrayOf<InputFilter>(InputFilter.LengthFilter(MAX_BILL_AMOUNT_LENGTH))
 
@@ -99,6 +100,6 @@ class TipUnevenFragment : TipBaseFragment<TipUnevenActivityListener>() {
         renderAmountView(personRow.etAmount, tipRow.amount, tipRow.amountFormatted,
                 tipRow.isAmountFocused)
         personRow.tvTipAmount.setTextIfNotEqual(tipRow.tip)
-        personRow.tvTotalAmount.setTextIfNotEqual( tipRow.total)
+        personRow.tvTotalAmount.setTextIfNotEqual(tipRow.total)
     }
 }

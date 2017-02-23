@@ -1,8 +1,7 @@
 package ch.berta.fabio.tipee.extensions
 
 import android.support.v7.preference.Preference
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import rx.Emitter
 import rx.Observable
 
@@ -15,6 +14,18 @@ fun TextView.setTextIfNotEqual(text: CharSequence) {
 fun ProgressBar.setProgressIfNotEqual(progress: Int) {
     if (this.progress != progress) {
         this.progress = progress
+    }
+}
+
+fun <T> ArrayAdapter<T>.addAllIfEmpty(items: List<T>) {
+    if (this.isEmpty && items.isNotEmpty()) {
+        this.addAll(items)
+    }
+}
+
+fun <T : Adapter> AdapterView<T>.setSelectionIfNotSelected(selectedItemPosition: Int) {
+    if (selectedItemPosition != this.selectedItemPosition) {
+        this.setSelection(selectedItemPosition)
     }
 }
 

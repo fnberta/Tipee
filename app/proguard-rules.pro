@@ -33,10 +33,3 @@
 -keepnames class * implements android.os.Parcelable {
     public static final ** CREATOR;
 }
-
-# Google Play In-App Billing
--keep class com.android.vending.billing.**
-
-# Guava
--dontwarn sun.misc.Unsafe
-

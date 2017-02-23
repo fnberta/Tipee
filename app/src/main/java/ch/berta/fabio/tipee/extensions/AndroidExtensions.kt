@@ -1,14 +1,14 @@
 package ch.berta.fabio.tipee.extensions
 
 import android.support.v7.preference.Preference
-import android.widget.EditText
 import android.widget.ProgressBar
+import android.widget.TextView
 import rx.Emitter
 import rx.Observable
 
-fun EditText.setTextIfNotEqual(text: CharSequence) {
-    if (this.text.toString() != text.toString()) {
-        this.setText(text)
+fun TextView.setTextIfNotEqual(text: CharSequence) {
+    if (this.text != text) {
+        this.text = text
     }
 }
 

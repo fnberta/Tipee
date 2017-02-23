@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import ch.berta.fabio.tipee.R
 import ch.berta.fabio.tipee.extensions.bindTo
+import ch.berta.fabio.tipee.extensions.setTextIfNotEqual
 import ch.berta.fabio.tipee.features.tip.TipBaseFragment
 import ch.berta.fabio.tipee.features.tip.component.RoundMode
 import ch.berta.fabio.tipee.features.tip.component.TipViewState
@@ -25,9 +26,9 @@ class TipEvenFragment : TipBaseFragment<TipEvenActivityListener>() {
     override fun setupRelays() {
         super.setupRelays()
 
-        etAmount.textChanges().bindTo(lifecycleHandler.lifecycle).subscribe(listener.amount)
-        etAmount.focusChanges().bindTo(lifecycleHandler.lifecycle).subscribe(listener.amountFocus)
-        ibClear.clicks().bindTo(lifecycleHandler.lifecycle).subscribe(listener.amountClear)
+        etAmount.textChanges().subscribe(listener.amount)
+        etAmount.focusChanges().subscribe(listener.amountFocus)
+        ibClear.clicks().subscribe(listener.amountClear)
     }
 
     override fun subscribeToState(state: Observable<TipViewState>) {
@@ -43,17 +44,17 @@ class TipEvenFragment : TipBaseFragment<TipEvenActivityListener>() {
     }
 
     private fun renderTips(state: TipViewState) {
-        tvTipAmount.text = state.tip
-        tvTotalAmount.text = state.total
+        tvTipAmount.setTextIfNotEqual(state.tip)
+        tvTotalAmount.setTextIfNotEqual(state.total)
         if (state.roundMode == RoundMode.EXACT) {
             llTipTotalExact.visibility = View.GONE
-            tvTotalPerPerson.text = state.totalPerPerson
+            tvTotalPerPerson.setTextIfNotEqual(state.totalPerPerson)
         } else {
             llTipTotalExact.visibility = View.VISIBLE
-            tvTotalAmountExact.text = getString(R.string.exact, state.totalExact)
-            tvTipAmountExact.text = getString(R.string.exact, state.tipExact)
-            tvTotalPerPerson.text = getString(R.string.total_per_person, state.totalPerPerson,
-                    state.totalPerPersonExact)
+            tvTotalAmountExact.setTextIfNotEqual(getString(R.string.exact, state.totalExact))
+            tvTipAmountExact.setTextIfNotEqual(getString(R.string.exact, state.tipExact))
+            tvTotalPerPerson.setTextIfNotEqual(getString(R.string.total_per_person,
+                    state.totalPerPerson, state.totalPerPersonExact))
         }
     }
 }

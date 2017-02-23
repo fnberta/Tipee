@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import ch.berta.fabio.tipee.R
 import ch.berta.fabio.tipee.extensions.bindTo
+import ch.berta.fabio.tipee.extensions.setTextIfNotEqual
 import ch.berta.fabio.tipee.features.tip.TipBaseFragment
 import ch.berta.fabio.tipee.features.tip.component.*
 import com.jakewharton.rxbinding.view.focusChanges
@@ -30,8 +31,8 @@ class TipUnevenFragment : TipBaseFragment<TipUnevenActivityListener>() {
     override fun setupRelays() {
         super.setupRelays()
 
-        amountPerson.bindTo(lifecycleHandler.lifecycle).subscribe(listener.amountPerson)
-        amountFocusPerson.bindTo(lifecycleHandler.lifecycle).subscribe(listener.amountFocusPerson)
+        amountPerson.subscribe(listener.amountPerson)
+        amountFocusPerson.subscribe(listener.amountFocusPerson)
     }
 
     override fun subscribeToState(state: Observable<TipViewState>) {
@@ -72,11 +73,9 @@ class TipUnevenFragment : TipBaseFragment<TipUnevenActivityListener>() {
 
         personRow.etAmount.textChanges()
                 .map { TipRowAmountChange(personRows.indexOf(personRow), it) }
-                .bindTo(lifecycleHandler.lifecycle)
                 .subscribe(amountPerson)
         personRow.etAmount.focusChanges()
                 .map { TipRowFocusChange(personRows.indexOf(personRow), it) }
-                .bindTo(lifecycleHandler.lifecycle)
                 .subscribe(amountFocusPerson)
         personRow.etAmount.hint = getString(R.string.hint_person, personRows.indexOf(personRow) + 1)
         personRow.etAmount.filters =
@@ -99,7 +98,7 @@ class TipUnevenFragment : TipBaseFragment<TipUnevenActivityListener>() {
     private fun renderPersonRowValues(personRow: View, tipRow: TipRow) {
         renderAmountView(personRow.etAmount, tipRow.amount, tipRow.amountFormatted,
                 tipRow.isAmountFocused)
-        personRow.tvTipAmount.text = tipRow.tip
-        personRow.tvTotalAmount.text = tipRow.total
+        personRow.tvTipAmount.setTextIfNotEqual(tipRow.tip)
+        personRow.tvTotalAmount.setTextIfNotEqual( tipRow.total)
     }
 }

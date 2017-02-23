@@ -7,7 +7,6 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import ch.berta.fabio.tipee.R
 import ch.berta.fabio.tipee.data.models.Country
-import ch.berta.fabio.tipee.extensions.bindTo
 import ch.berta.fabio.tipee.extensions.setProgressIfNotEqual
 import ch.berta.fabio.tipee.extensions.setTextIfNotEqual
 import ch.berta.fabio.tipee.features.base.BaseFragment
@@ -55,17 +54,10 @@ abstract class TipBaseFragment<T : TipActivityListener> : BaseFragment() {
 
     open fun setupRelays() {
         Observable.merge(btPersonsPlus.clicks().map { 1 }, btPersonsMinus.clicks().map { -1 })
-                .bindTo(lifecycleHandler.lifecycle)
                 .subscribe(listener.personsPlusMinus)
-        etPersons.textChanges()
-                .bindTo(lifecycleHandler.lifecycle)
-                .subscribe(listener.persons)
-        sbPercentage.changes()
-                .bindTo(lifecycleHandler.lifecycle)
-                .subscribe(listener.percentage)
-        spCountry.itemSelections()
-                .bindTo(lifecycleHandler.lifecycle)
-                .subscribe(listener.selectedCountry)
+        etPersons.textChanges().subscribe(listener.persons)
+        sbPercentage.changes().subscribe(listener.percentage)
+        spCountry.itemSelections().subscribe(listener.selectedCountry)
     }
 
     abstract fun subscribeToState(state: Observable<TipViewState>)
@@ -85,7 +77,7 @@ abstract class TipBaseFragment<T : TipActivityListener> : BaseFragment() {
 
     fun renderPercentage(percentage: Int) {
         sbPercentage.setProgressIfNotEqual(percentage)
-        tvResult.text = getString(R.string.percentage, percentage)
+        tvResult.setTextIfNotEqual(getString(R.string.percentage, percentage))
     }
 
     fun renderAmountView(amountView: EditText,
@@ -97,7 +89,7 @@ abstract class TipBaseFragment<T : TipActivityListener> : BaseFragment() {
         } else {
             if (hasFocus) {
                 if (parseAmount(amountView.text.toString()) != amount) {
-                    amountView.setText(amount.toString())
+                    amountView.setTextIfNotEqual(amount.toString())
                 }
             } else {
                 amountView.setTextIfNotEqual(amountFormatted)

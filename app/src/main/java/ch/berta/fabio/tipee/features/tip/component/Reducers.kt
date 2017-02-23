@@ -3,6 +3,7 @@ package ch.berta.fabio.tipee.features.tip.component
 import ch.berta.fabio.tipee.data.models.Country
 import ch.berta.fabio.tipee.features.tip.dialogs.TipIncludedDialogFragment
 import ch.berta.fabio.tipee.features.tip.dialogs.TippingNotCommonDialogFragment
+import java.text.NumberFormat
 
 typealias TipViewStateReducer = (TipViewState) -> TipViewState
 
@@ -71,16 +72,9 @@ fun personsReducer(persons: Int): TipViewStateReducer = { state ->
     val (tip, tipExact, total, totalExact, totalPerPerson, totalPerPersonExact) =
             calculateTip(state.amount, state.percentage, personsAdj, state.roundMode, formatter)
     val tipRows = when {
-        personsAdj > state.tipRows.size -> {
-            val newItems = mutableListOf<TipRow>()
-            while (personsAdj > newItems.size + state.tipRows.size) {
-                newItems.add(createEmptyTipRow(formatter, false))
-            }
-            state.tipRows.plus(newItems)
-        }
-        personsAdj < state.tipRows.size -> {
-            state.tipRows.subList(0, personsAdj)
-        }
+        personsAdj > state.tipRows.size ->
+            state.tipRows.plus(createNewTipRows(formatter, personsAdj, state))
+        personsAdj < state.tipRows.size -> state.tipRows.subList(0, personsAdj)
         else -> state.tipRows
     }
 
@@ -94,6 +88,16 @@ fun personsReducer(persons: Int): TipViewStateReducer = { state ->
             totalPerPersonExact = totalPerPersonExact,
             tipRows = tipRows
     )
+}
+
+private fun createNewTipRows(formatter: NumberFormat,
+                             personsAdj: Int,
+                             state: TipViewState): MutableList<TipRow> {
+    val newItems = mutableListOf<TipRow>()
+    while (personsAdj > newItems.size + state.tipRows.size) {
+        newItems.add(createEmptyTipRow(formatter, false))
+    }
+    return newItems
 }
 
 fun selectedCountryReducer(selectedCountryPos: Int): TipViewStateReducer = { state ->

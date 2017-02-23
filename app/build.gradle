@@ -5,7 +5,7 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
         applicationId "ch.berta.fabio.tipee"
@@ -25,7 +25,7 @@ android {
 }
 
 ext {
-    supportLibVersion = '25.1.1'
+    supportLibVersion = '25.2.0'
     paperParcelVersion = '2.0.0'
 }
 

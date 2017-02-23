@@ -78,7 +78,7 @@ class TipUnevenFragment : TipBaseFragment<TipUnevenActivityListener>() {
                 .map { TipRowFocusChange(personRows.indexOf(personRow), it) }
                 .bindTo(lifecycleHandler.lifecycle)
                 .subscribe(amountFocusPerson)
-        personRow.etAmount.hint = getString(R.string.person_hint, personRows.indexOf(personRow) + 1)
+        personRow.etAmount.hint = getString(R.string.hint_person, personRows.indexOf(personRow) + 1)
         personRow.etAmount.filters =
                 arrayOf<InputFilter>(InputFilter.LengthFilter(MAX_BILL_AMOUNT_LENGTH))
 

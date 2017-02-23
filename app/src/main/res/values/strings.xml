@@ -14,35 +14,31 @@
     <string name="round_exact">Exact values</string>
     <string name="tab_even">Even Split</string>
     <string name="tab_uneven">Uneven Split</string>
-    <string name="tipping_not_common_dialog_title">Tipping not common</string>
-    <string name="tipping_not_common_dialog_message">Tipping in this country isn\'t common. If you
+    <string name="dialog_tipping_not_common_title">Tipping not common</string>
+    <string name="dialog_tipping_not_common_message">Tipping in this country isn\'t common. If you
         wish to tip anyway, set your desired tip rate manually using the slider.</string>
-    <string name="country_not_detected_dialog_title">Country not detected</string>
-    <string name="country_not_detected_dialog_message">The country you are in couldn\'t be detected.
-        Please choose it manually.</string>
-    <string name="tip_included_dialog_title">Tip already included</string>
-    <string name="tip_included_dialog_message">Caution! The tip or part of it may already be
+    <string name="dialog_tip_included_title">Tip already included</string>
+    <string name="dialog_tip_included_message">Caution! The tip or part of it may already be
     included in your bill. Tipee always shows you the total tip amount you should pay!</string>
-    <string name="round_down_dialog_title">Not recommended</string>
-    <string name="round_down_dialog_message">Rounding down is not recommended, you run the risk
+    <string name="dialog_round_down_title">Not recommended</string>
+    <string name="dialog_round_down_message">Rounding down is not recommended, you run the risk
         of undertipping!</string>
-    <string name="ok">OK</string>
     <string name="change_to_up">Round up</string>
     <string name="keep_it">Risk it</string>
-    <string name="person_hint">Person %1$d</string>
-    <string name="persons_hint">Persons</string>
+    <string name="hint_person">Person %1$d</string>
+    <string name="hint_persons">Persons</string>
     <string name="bill_hint">Bill amount</string>
     <string name="title_bill_amount">Amount</string>
     <string name="title_tip">Tip</string>
     <string name="title_total">Total</string>
     <string name="plus">+</string>
     <string name="minus">-</string>
-    <string name="separator_bill_persons">Bill Amount and Persons</string>
-    <string name="separator_country_tip">Country and Tip Rate</string>
-    <string name="separator_tip">Tip Amount</string>
-    <string name="separator_total">Total Amount</string>
-    <string name="separator_total_person">Total per Person</string>
-    <string name="separator_persons">Number of Persons</string>
+    <string name="header_bill">Bill Amount</string>
+    <string name="header_country_tip">Country and Tip Rate</string>
+    <string name="header_tip">Tip Amount</string>
+    <string name="header_total">Total Amount</string>
+    <string name="header_total_person">Total per Person</string>
+    <string name="header_persons">Number of Persons</string>
     <string name="other">Other</string>
     <string name="clear_bill_amount">Clear bill amount</string>
     <string name="percentage" translatable="false">%1$d%%</string>

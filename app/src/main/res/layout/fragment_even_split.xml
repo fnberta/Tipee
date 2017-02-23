@@ -24,7 +24,7 @@
             android:gravity="center_vertical"
             android:paddingEnd="@dimen/key_line_1"
             android:paddingStart="@dimen/key_line_1"
-            android:text="@string/separator_bill_persons"
+            android:text="@string/header_bill"
             />
 
         <LinearLayout
@@ -49,6 +49,7 @@
                     android:inputType="numberDecimal"
                     android:maxLength="12"
                     android:selectAllOnFocus="true"
+                    android:imeOptions="actionDone"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -65,8 +66,6 @@
                 />
         </LinearLayout>
 
-        <include layout="@layout/include_number_persons"/>
-
         <TextView
             style="@style/SubHeader"
             android:layout_width="match_parent"
@@ -76,19 +75,19 @@
             android:paddingLeft="@dimen/key_line_1"
             android:paddingRight="@dimen/key_line_1"
             android:paddingStart="@dimen/key_line_1"
-            android:text="@string/separator_country_tip"
+            android:text="@string/header_country_tip"
             />
 
-        <include layout="@layout/include_country_spinner"/>
+        <include layout="@layout/include_country_spinner" />
 
-        <include layout="@layout/include_seekbar"/>
+        <include layout="@layout/include_seekbar" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/key_line_1"
+            android:layout_marginStart="@dimen/key_line_1"
             android:orientation="horizontal"
-            android:paddingEnd="@dimen/key_line_1"
-            android:paddingStart="@dimen/key_line_1"
             android:weightSum="10"
             >
 
@@ -98,7 +97,7 @@
                 android:layout_height="@dimen/sub_header_height"
                 android:layout_weight="5"
                 android:gravity="center_vertical|start"
-                android:text="@string/separator_tip"
+                android:text="@string/header_tip"
                 />
 
             <TextView
@@ -107,16 +106,16 @@
                 android:layout_height="@dimen/sub_header_height"
                 android:layout_weight="5"
                 android:gravity="center_vertical|start"
-                android:text="@string/separator_total"
+                android:text="@string/header_total"
                 />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/key_line_1"
+            android:layout_marginStart="@dimen/key_line_1"
             android:orientation="horizontal"
-            android:paddingEnd="@dimen/key_line_1"
-            android:paddingStart="@dimen/key_line_1"
             android:weightSum="10"
             >
 
@@ -126,8 +125,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
                 tools:text="12 CHF"
                 />
 
@@ -137,8 +134,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
                 tools:text="140 CHF"
                 />
         </LinearLayout>
@@ -160,8 +155,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
                 tools:text="12 CHF"
                 />
 
@@ -171,8 +164,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
                 tools:text="140 CHF"
                 />
 
@@ -185,20 +176,21 @@
             android:gravity="center_vertical"
             android:paddingEnd="@dimen/key_line_1"
             android:paddingStart="@dimen/key_line_1"
-            android:text="@string/separator_total_person"
+            android:text="@string/header_total_person"
             />
 
         <TextView
             android:id="@+id/tvTotalPerPerson"
             style="@style/TextAppearance.AppCompat.Subhead"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/key_line_1"
             android:layout_marginStart="@dimen/key_line_1"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
+            android:layout_marginBottom="@dimen/small_space"
             tools:text="45 CHF"
             />
+
+        <include layout="@layout/include_number_persons" />
 
     </LinearLayout>
 </ScrollView>

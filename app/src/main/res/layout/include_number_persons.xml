@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/key_line_1"
     android:layout_marginStart="@dimen/key_line_1"
-    android:layout_marginTop="@dimen/small_space"
     android:orientation="horizontal"
     >
 
@@ -29,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:hint="@string/persons_hint"
+            android:hint="@string/hint_persons"
             android:imeOptions="actionDone"
             android:inputType="number"
             android:selectAllOnFocus="true"

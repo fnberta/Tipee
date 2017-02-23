@@ -26,9 +26,9 @@ class TippingNotCommonDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialogBuilder = AlertDialog.Builder(activity)
-        dialogBuilder.setTitle(R.string.tipping_not_common_dialog_title)
-                .setMessage(R.string.tipping_not_common_dialog_message)
-                .setPositiveButton(R.string.ok) { _, _ -> dismiss() }
+        dialogBuilder.setTitle(R.string.dialog_tipping_not_common_title)
+                .setMessage(R.string.dialog_tipping_not_common_message)
+                .setPositiveButton(android.R.string.ok) { _, _ -> dismiss() }
         return dialogBuilder.create()
     }
 }

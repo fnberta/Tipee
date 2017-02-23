@@ -26,9 +26,9 @@ class TipIncludedDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialogBuilder = AlertDialog.Builder(activity)
-        dialogBuilder.setTitle(R.string.tip_included_dialog_title)
-                .setMessage(R.string.tip_included_dialog_message)
-                .setPositiveButton(R.string.ok) { _, _ -> dismiss() }
+        dialogBuilder.setTitle(R.string.dialog_tip_included_title)
+                .setMessage(R.string.dialog_tip_included_message)
+                .setPositiveButton(android.R.string.ok) { _, _ -> dismiss() }
         return dialogBuilder.create()
     }
 }

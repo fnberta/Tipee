@@ -35,8 +35,8 @@ class RoundingDownNotAdvisedDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialogBuilder = AlertDialog.Builder(activity)
-        dialogBuilder.setTitle(R.string.round_down_dialog_title)
-                .setMessage(R.string.round_down_dialog_message)
+        dialogBuilder.setTitle(R.string.dialog_round_down_title)
+                .setMessage(R.string.dialog_round_down_message)
                 .setPositiveButton(R.string.keep_it) { _, _ -> dismiss() }
                 .setNegativeButton(R.string.change_to_up) { _, _ ->
                     listener.setToRoundUp()

@@ -35,10 +35,10 @@ class TipEvenFragment : TipBaseFragment<TipEvenActivityListener>() {
     }
 
     private fun render(state: TipViewState) {
-        renderAmountView(state.amount, state.amountFormatted, state.isAmountFocused, etAmount)
+        renderAmountView(etAmount, state.amount, state.amountFormatted, state.isAmountFocused)
         renderPersons(state.persons)
         renderPercentage(state.percentage)
-        renderCountries(state)
+        renderCountries(state.countries, state.selectedCountryPos)
         renderTips(state)
     }
 

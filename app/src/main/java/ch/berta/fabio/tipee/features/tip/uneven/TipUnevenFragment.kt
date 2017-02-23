@@ -41,7 +41,7 @@ class TipUnevenFragment : TipBaseFragment<TipUnevenActivityListener>() {
     private fun render(state: TipViewState) {
         renderPersons(state.persons)
         renderPercentage(state.percentage)
-        renderCountries(state)
+        renderCountries(state.countries, state.selectedCountryPos)
         renderTipRows(state.tipRows)
     }
 
@@ -97,8 +97,8 @@ class TipUnevenFragment : TipBaseFragment<TipUnevenActivityListener>() {
     }
 
     private fun renderPersonRowValues(personRow: View, tipRow: TipRow) {
-        renderAmountView(tipRow.amount, tipRow.amountFormatted, tipRow.isAmountFocused,
-                         personRow.etAmount)
+        renderAmountView(personRow.etAmount, tipRow.amount, tipRow.amountFormatted,
+                tipRow.isAmountFocused)
         personRow.tvTipAmount.text = tipRow.tip
         personRow.tvTotalAmount.text = tipRow.total
     }

@@ -74,12 +74,12 @@ abstract class TipBaseFragment<T : TipActivityListener> : BaseFragment() {
         etPersons.setTextIfNotEqual(persons.toString())
     }
 
-    fun renderCountries(state: TipViewState) {
-        if (countryAdapter.isEmpty && state.countries.isNotEmpty()) {
-            countryAdapter.addAll(state.countries)
+    fun renderCountries(countries: List<Country>, selectedCountryPos: Int) {
+        if (countryAdapter.isEmpty && countries.isNotEmpty()) {
+            countryAdapter.addAll(countries)
         }
-        if (spCountry.selectedItemPosition != state.selectedCountryPos) {
-            spCountry.setSelection(state.selectedCountryPos)
+        if (spCountry.selectedItemPosition != selectedCountryPos) {
+            spCountry.setSelection(selectedCountryPos)
         }
     }
 
@@ -88,10 +88,10 @@ abstract class TipBaseFragment<T : TipActivityListener> : BaseFragment() {
         tvResult.text = getString(R.string.percentage, percentage)
     }
 
-    fun renderAmountView(amount: Double,
+    fun renderAmountView(amountView: EditText,
+                         amount: Double,
                          amountFormatted: String,
-                         hasFocus: Boolean,
-                         amountView: EditText) {
+                         hasFocus: Boolean) {
         if (amount <= 0) {
             amountView.text.clear()
         } else {

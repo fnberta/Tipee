@@ -11,6 +11,12 @@ fun TextView.setTextIfNotEqual(text: CharSequence) {
     }
 }
 
+fun EditText.setTextIfNotEqual(text: CharSequence) {
+    if (this.text.toString() != text.toString()) {
+        this.setText(text)
+    }
+}
+
 fun ProgressBar.setProgressIfNotEqual(progress: Int) {
     if (this.progress != progress) {
         this.progress = progress

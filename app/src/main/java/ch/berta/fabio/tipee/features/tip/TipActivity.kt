@@ -40,6 +40,10 @@ class TipActivity : BaseActivity(), TipEvenActivityListener, TipUnevenActivityLi
     override lateinit var state: Observable<TipViewState>
     val dialogShown: BehaviorRelay<String> = BehaviorRelay.create()
 
+    companion object {
+        val viewStateTag: String = TipActivity::class.java.canonicalName
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tip)
@@ -60,6 +64,7 @@ class TipActivity : BaseActivity(), TipEvenActivityListener, TipUnevenActivityLi
     }
 
     private fun setupComponent(savedInstanceState: Bundle?): Observable<TipViewState> {
+        val savedState = savedInstanceState?.get(viewStateTag) as TipViewState
         val intentions = TipIntentions(activityResult, activityStarted, dialogShown, menu,
                 personsPlusMinus, persons, selectedCountry, percentage, amount,
                 amountFocus, amountClear, amountPerson, amountFocusPerson)
@@ -67,13 +72,15 @@ class TipActivity : BaseActivity(), TipEvenActivityListener, TipUnevenActivityLi
         val telephonyManager = getSystemService(TELEPHONY_SERVICE) as TelephonyManager
         val getInitialCountry = makeInitialCountry(sharedPrefs, telephonyManager)
         val getCountryMappings = makeCountryMappings(resources)
-        return model(savedInstanceState, intentions, getCountryMappings, getInitialCountry,
+
+
+        return model(savedState, intentions, getCountryMappings, getInitialCountry,
                 sharedPrefs.getRoundMode)
     }
 
     private fun subscribeToState(state: Observable<TipViewState>) {
         state.saveForConfigChange(lifecycleHandler.lifecycle, lifecycleHandler.outStateBundle,
-                VIEW_STATE, configChangeReducer()).subscribe()
+                viewStateTag, configChangeReducer()).subscribe()
         state.bindTo(lifecycleHandler.lifecycle).subscribe { render(it) }
     }
 

@@ -1,11 +1,8 @@
 package ch.berta.fabio.tipee.features.tip.component
 
-import android.os.Bundle
-import android.widget.AdapterView
 import ch.berta.fabio.tipee.data.models.Country
 import ch.berta.fabio.tipee.extensions.debug
 import ch.berta.fabio.tipee.features.base.ActivityResult
-import ch.berta.fabio.tipee.features.base.startWithSavedState
 import ch.berta.fabio.tipee.features.settings.SettingsActivity
 import ch.berta.fabio.tipee.features.settings.SettingsFragment
 import rx.Observable
@@ -36,19 +33,18 @@ data class TipIntentions(
         val amountFocusPerson: Observable<TipRowFocusChange>
 )
 
-const val VIEW_STATE = "TIP_VIEW_STATE"
 const val NUMBER_OF_SUBSCRIBERS = 4
 const val SETTINGS_REQ_CODE = 1
 
 fun model(
-        savedState: Bundle?,
+        savedState: TipViewState?,
         intentions: TipIntentions,
         getCountryMappings: () -> List<Country>,
         getInitialCountry: (List<Country>) -> Country,
         getRoundMode: () -> RoundMode
 ): Observable<TipViewState> {
-    val initialState = createInitialState(getCountryMappings, getInitialCountry, getRoundMode)
-    val startState = startWithSavedState(savedState, VIEW_STATE, initialState)
+    val startState = savedState ?: createInitialState(getCountryMappings, getInitialCountry,
+            getRoundMode)
 
     val settingsResult = intentions.activityResult
             .filter { it.requestCode == SETTINGS_REQ_CODE }
@@ -86,7 +82,7 @@ fun model(
             .debug("persons")
             .map(::personsReducer)
     val selectedCountry = intentions.selectedCountry
-            .filter { it != AdapterView.INVALID_POSITION }
+            .filter { it != -1 }
             .distinctUntilChanged()
             .debug("selectedCountry")
             .map(::selectedCountryReducer)

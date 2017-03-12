@@ -3,7 +3,7 @@ package ch.berta.fabio.tipee.features.base
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.jakewharton.rxrelay.BehaviorRelay
+import com.jakewharton.rxrelay2.BehaviorRelay
 
 data class ActivityResult(val requestCode: Int, val resultCode: Int, val intent: Intent?)
 
@@ -46,6 +46,6 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        activityResult.call(ActivityResult(requestCode, resultCode, data))
+        activityResult.accept(ActivityResult(requestCode, resultCode, data))
     }
 }

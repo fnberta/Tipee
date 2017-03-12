@@ -5,7 +5,7 @@ import ch.berta.fabio.tipee.extensions.debug
 import ch.berta.fabio.tipee.features.base.ActivityResult
 import ch.berta.fabio.tipee.features.settings.SettingsActivity
 import ch.berta.fabio.tipee.features.settings.SettingsFragment
-import rx.Observable
+import io.reactivex.Observable
 
 enum class MenuEvents {
     RESET, SETTINGS

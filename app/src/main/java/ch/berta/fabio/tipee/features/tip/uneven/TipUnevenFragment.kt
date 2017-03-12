@@ -10,12 +10,12 @@ import ch.berta.fabio.tipee.extensions.bindTo
 import ch.berta.fabio.tipee.extensions.setTextIfNotEqual
 import ch.berta.fabio.tipee.features.tip.TipBaseFragment
 import ch.berta.fabio.tipee.features.tip.component.*
-import com.jakewharton.rxbinding.view.focusChanges
-import com.jakewharton.rxbinding.widget.textChanges
-import com.jakewharton.rxrelay.PublishRelay
+import com.jakewharton.rxbinding2.view.focusChanges
+import com.jakewharton.rxbinding2.widget.textChanges
+import com.jakewharton.rxrelay2.PublishRelay
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_uneven_split.*
 import kotlinx.android.synthetic.main.row_person.view.*
-import rx.Observable
 
 class TipUnevenFragment : TipBaseFragment<TipUnevenActivityListener>() {
 

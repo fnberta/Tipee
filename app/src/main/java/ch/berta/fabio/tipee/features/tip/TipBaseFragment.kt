@@ -14,14 +14,14 @@ import ch.berta.fabio.tipee.extensions.setTextIfNotEqual
 import ch.berta.fabio.tipee.features.base.BaseFragment
 import ch.berta.fabio.tipee.features.tip.component.TipViewState
 import ch.berta.fabio.tipee.features.tip.component.parseAmount
-import com.jakewharton.rxbinding.view.clicks
-import com.jakewharton.rxbinding.widget.changes
-import com.jakewharton.rxbinding.widget.itemSelections
-import com.jakewharton.rxbinding.widget.textChanges
+import com.jakewharton.rxbinding2.view.clicks
+import com.jakewharton.rxbinding2.widget.changes
+import com.jakewharton.rxbinding2.widget.itemSelections
+import com.jakewharton.rxbinding2.widget.textChanges
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.include_country_spinner.*
 import kotlinx.android.synthetic.main.include_number_persons.*
 import kotlinx.android.synthetic.main.include_seekbar.*
-import rx.Observable
 
 abstract class TipBaseFragment<T : TipActivityListener> : BaseFragment() {
 

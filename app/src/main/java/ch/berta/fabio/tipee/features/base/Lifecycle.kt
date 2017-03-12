@@ -1,40 +1,41 @@
 package ch.berta.fabio.tipee.features.base
 
 import android.os.Bundle
-import android.os.Parcelable
-import com.jakewharton.rxrelay.BehaviorRelay
+import com.jakewharton.rxrelay2.BehaviorRelay
 
 enum class Lifecycle {
     CREATE, ENTER, START, STOP, DESTROY
 }
 
-data class StateBundle<out T>(val bundle: Bundle?, val key: String, val state: T)
+data class StateBundle<out T>(val bundle: Bundle, val key: String, val state: T)
 
 class LifecycleHandler {
     val lifecycle: BehaviorRelay<Lifecycle> = BehaviorRelay.create()
-    val outStateBundle: BehaviorRelay<Bundle?> = BehaviorRelay.create()
+    val outStateBundle: BehaviorRelay<Bundle> = BehaviorRelay.create()
 
     fun onCreate(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
-            lifecycle.call(Lifecycle.CREATE)
+            lifecycle.accept(Lifecycle.CREATE)
         } else {
-            lifecycle.call(Lifecycle.ENTER)
+            lifecycle.accept(Lifecycle.ENTER)
         }
     }
 
     fun onSaveInstanceState(outState: Bundle?) {
-        outStateBundle.call(outState)
+        if (outState != null) {
+            outStateBundle.accept(outState)
+        }
     }
 
     fun onStart() {
-        lifecycle.call(Lifecycle.START)
+        lifecycle.accept(Lifecycle.START)
     }
 
     fun onStop() {
-        lifecycle.call(Lifecycle.STOP)
+        lifecycle.accept(Lifecycle.STOP)
     }
 
     fun onDestroy() {
-        lifecycle.call(Lifecycle.DESTROY)
+        lifecycle.accept(Lifecycle.DESTROY)
     }
 }

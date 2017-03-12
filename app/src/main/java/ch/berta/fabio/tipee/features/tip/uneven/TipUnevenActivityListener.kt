@@ -3,7 +3,7 @@ package ch.berta.fabio.tipee.features.tip.uneven
 import ch.berta.fabio.tipee.features.tip.TipActivityListener
 import ch.berta.fabio.tipee.features.tip.component.TipRowAmountChange
 import ch.berta.fabio.tipee.features.tip.component.TipRowFocusChange
-import com.jakewharton.rxrelay.BehaviorRelay
+import com.jakewharton.rxrelay2.BehaviorRelay
 
 interface TipUnevenActivityListener : TipActivityListener {
     val amountPerson: BehaviorRelay<TipRowAmountChange>

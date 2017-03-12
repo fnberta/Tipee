@@ -2,8 +2,7 @@ package ch.berta.fabio.tipee.extensions
 
 import android.support.v7.preference.Preference
 import android.widget.*
-import rx.Emitter
-import rx.Observable
+import io.reactivex.Observable
 
 fun TextView.setTextIfNotEqual(text: CharSequence) {
     if (this.text != text) {
@@ -38,11 +37,10 @@ fun <T : Adapter> AdapterView<T>.setSelectionIfNotSelected(selectedItemPosition:
 data class PreferenceChange<out T : Preference>(val preference: T, val newValue: Any)
 
 fun <T : Preference> T.preferenceChanges(): Observable<PreferenceChange<T>> =
-        Observable.fromEmitter<PreferenceChange<T>>(
-                { emitter ->
-                    this.setOnPreferenceChangeListener { preference, newValue ->
-                        @Suppress("UNCHECKED_CAST")
-                        emitter.onNext(PreferenceChange(preference as T, newValue))
-                        true
-                    }
-                }, Emitter.BackpressureMode.LATEST)
+        Observable.create {
+            this.setOnPreferenceChangeListener { preference, newValue ->
+                @Suppress("UNCHECKED_CAST")
+                it.onNext(PreferenceChange(preference as T, newValue))
+                true
+            }
+        }

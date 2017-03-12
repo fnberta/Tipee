@@ -2,8 +2,8 @@ package ch.berta.fabio.tipee.features.tip
 
 import ch.berta.fabio.tipee.features.tip.component.MenuEvents
 import ch.berta.fabio.tipee.features.tip.component.TipViewState
-import com.jakewharton.rxrelay.BehaviorRelay
-import rx.Observable
+import com.jakewharton.rxrelay2.BehaviorRelay
+import io.reactivex.Observable
 
 interface TipActivityListener {
     val persons: BehaviorRelay<CharSequence>

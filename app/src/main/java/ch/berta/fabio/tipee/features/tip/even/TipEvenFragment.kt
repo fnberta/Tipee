@@ -10,11 +10,11 @@ import ch.berta.fabio.tipee.extensions.setTextIfNotEqual
 import ch.berta.fabio.tipee.features.tip.TipBaseFragment
 import ch.berta.fabio.tipee.features.tip.component.RoundMode
 import ch.berta.fabio.tipee.features.tip.component.TipViewState
-import com.jakewharton.rxbinding.view.clicks
-import com.jakewharton.rxbinding.view.focusChanges
-import com.jakewharton.rxbinding.widget.textChanges
+import com.jakewharton.rxbinding2.view.clicks
+import com.jakewharton.rxbinding2.view.focusChanges
+import com.jakewharton.rxbinding2.widget.textChanges
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_even_split.*
-import rx.Observable
 
 class TipEvenFragment : TipBaseFragment<TipEvenActivityListener>() {
 

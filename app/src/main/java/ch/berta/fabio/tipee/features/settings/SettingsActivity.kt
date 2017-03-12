@@ -10,7 +10,7 @@ class SettingsActivity : BaseActivity(),
                          RoundingDownNotAdvisedDialogFragment.RoundingDownNotAdvisedListener {
 
     companion object {
-        val tag = SettingsActivity::class.java.canonicalName
+        val tag: String = SettingsActivity::class.java.canonicalName
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

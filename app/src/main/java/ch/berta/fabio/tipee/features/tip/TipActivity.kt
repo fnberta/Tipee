@@ -21,9 +21,9 @@ import ch.berta.fabio.tipee.features.tip.even.TipEvenActivityListener
 import ch.berta.fabio.tipee.features.tip.even.TipEvenFragment
 import ch.berta.fabio.tipee.features.tip.uneven.TipUnevenActivityListener
 import ch.berta.fabio.tipee.features.tip.uneven.TipUnevenFragment
-import com.jakewharton.rxrelay.BehaviorRelay
+import com.jakewharton.rxrelay2.BehaviorRelay
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_tip.*
-import rx.Observable
 
 class TipActivity : BaseActivity(), TipEvenActivityListener, TipUnevenActivityListener {
 
@@ -41,7 +41,7 @@ class TipActivity : BaseActivity(), TipEvenActivityListener, TipUnevenActivityLi
     val dialogShown: BehaviorRelay<String> = BehaviorRelay.create()
 
     companion object {
-        val viewStateTag: String = TipActivity::class.java.canonicalName
+        val tag: String = TipActivity::class.java.canonicalName
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +64,7 @@ class TipActivity : BaseActivity(), TipEvenActivityListener, TipUnevenActivityLi
     }
 
     private fun setupComponent(savedInstanceState: Bundle?): Observable<TipViewState> {
-        val savedState = savedInstanceState?.get(viewStateTag) as TipViewState
+        val savedState = savedInstanceState?.get(tag) as? TipViewState
         val intentions = TipIntentions(activityResult, activityStarted, dialogShown, menu,
                 personsPlusMinus, persons, selectedCountry, percentage, amount,
                 amountFocus, amountClear, amountPerson, amountFocusPerson)
@@ -80,7 +80,7 @@ class TipActivity : BaseActivity(), TipEvenActivityListener, TipUnevenActivityLi
 
     private fun subscribeToState(state: Observable<TipViewState>) {
         state.saveForConfigChange(lifecycleHandler.lifecycle, lifecycleHandler.outStateBundle,
-                viewStateTag, configChangeReducer()).subscribe()
+                tag, configChangeReducer()).subscribe()
         state.bindTo(lifecycleHandler.lifecycle).subscribe { render(it) }
     }
 
@@ -93,19 +93,19 @@ class TipActivity : BaseActivity(), TipEvenActivityListener, TipUnevenActivityLi
         if (openSettings) {
             val intent = Intent(this, SettingsActivity::class.java)
             startActivityForResult(intent, SETTINGS_REQ_CODE)
-            activityStarted.call(intent.component.className)
+            activityStarted.accept(intent.component.className)
         }
     }
 
     private fun renderDialogs(state: TipViewState) {
         if (state.isShowTippingNotCommonDialog) {
             TippingNotCommonDialogFragment.display(supportFragmentManager)
-            dialogShown.call(TippingNotCommonDialogFragment.tag)
+            dialogShown.accept(TippingNotCommonDialogFragment.tag)
         }
 
         if (state.isShowTipIncludedDialog) {
             TipIncludedDialogFragment.display(supportFragmentManager)
-            dialogShown.call(TipIncludedDialogFragment.tag)
+            dialogShown.accept(TipIncludedDialogFragment.tag)
         }
     }
 
@@ -117,11 +117,11 @@ class TipActivity : BaseActivity(), TipEvenActivityListener, TipUnevenActivityLi
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_clear -> {
-                menu.call(MenuEvents.RESET)
+                menu.accept(MenuEvents.RESET)
                 return true
             }
             R.id.action_settings -> {
-                menu.call(MenuEvents.SETTINGS)
+                menu.accept(MenuEvents.SETTINGS)
                 return true
             }
             else -> return super.onOptionsItemSelected(item)

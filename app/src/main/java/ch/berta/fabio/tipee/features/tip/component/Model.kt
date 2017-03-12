@@ -20,7 +20,7 @@ data class TipRowAmountParsedChange(val position: Int, val amount: Double)
 
 data class TipRowFocusChange(val position: Int, val hasFocus: Boolean)
 
-data class TipIntention(
+data class TipIntentions(
         val activityResult: Observable<ActivityResult>,
         val activityStarted: Observable<String>,
         val dialogShown: Observable<String>,
@@ -42,7 +42,7 @@ const val SETTINGS_REQ_CODE = 1
 
 fun model(
         savedState: Bundle?,
-        intention: TipIntention,
+        intentions: TipIntentions,
         getCountryMappings: () -> List<Country>,
         getInitialCountry: (List<Country>) -> Country,
         getRoundMode: () -> RoundMode
@@ -50,7 +50,7 @@ fun model(
     val initialState = createInitialState(getCountryMappings, getInitialCountry, getRoundMode)
     val startState = startWithSavedState(savedState, VIEW_STATE, initialState)
 
-    val settingsResult = intention.activityResult
+    val settingsResult = intentions.activityResult
             .filter { it.requestCode == SETTINGS_REQ_CODE }
     val settingsRoundMode = settingsResult
             .filter { it.resultCode == SettingsFragment.RESULT_ROUND_CHANGED }
@@ -60,57 +60,57 @@ fun model(
             .filter { it.resultCode == SettingsFragment.RESULT_COUNTRY_CHANGED }
             .debug("settingsCountry")
             .map { settingsCountryReducer(getInitialCountry) }
-    val dialogShown = intention.dialogShown
+    val dialogShown = intentions.dialogShown
             .debug("dialogShown")
             .map(::dialogShownReducer)
-    val menuReset = intention.menu
+    val menuReset = intentions.menu
             .filter { it == MenuEvents.RESET }
             .debug("menuReset")
             .map { menuResetReducer(getInitialCountry) }
     val menuSettings = Observable.merge(
-            intention.menu
+            intentions.menu
                     .filter { it == MenuEvents.SETTINGS }
                     .map { true },
-            intention.activityStarted
+            intentions.activityStarted
                     .filter { it == SettingsActivity.tag }
                     .map { false }
     )
             .debug("menuSettings")
             .map(::menuSettingsReducer)
-    val personsPlusMinus = intention.personsPlusMinus
+    val personsPlusMinus = intentions.personsPlusMinus
             .debug("personsPlusMinus")
             .map(::personPlusMinusReducer)
-    val persons = intention.persons
+    val persons = intentions.persons
             .filter { it.isNotEmpty() }
             .map { it.toString().toInt() }
             .debug("persons")
             .map(::personsReducer)
-    val selectedCountry = intention.selectedCountry
+    val selectedCountry = intentions.selectedCountry
             .filter { it != AdapterView.INVALID_POSITION }
             .distinctUntilChanged()
             .debug("selectedCountry")
             .map(::selectedCountryReducer)
-    val percentage = intention.percentage
+    val percentage = intentions.percentage
             .distinctUntilChanged()
             .debug("percentage")
             .map(::percentageReducer)
-    val amount = intention.amount
+    val amount = intentions.amount
             .map(::parseAmount)
             .filter { it >= 0 }
             .debug("amount")
             .map(::amountReducer)
-    val amountFocus = intention.amountFocus
+    val amountFocus = intentions.amountFocus
             .debug("isAmountFocused")
             .map(::amountFocusReducer)
-    val clearAmount = intention.amountClear
+    val clearAmount = intentions.amountClear
             .debug("clearAmount")
             .map { clearAmountReducer() }
-    val amountPerson = intention.amountPerson
+    val amountPerson = intentions.amountPerson
             .map { TipRowAmountParsedChange(it.position, parseAmount(it.amount)) }
             .filter { it.amount >= 0 }
             .debug("amountPerson")
             .map(::amountPersonReducer)
-    val amountFocusPerson = intention.amountFocusPerson
+    val amountFocusPerson = intentions.amountFocusPerson
             .debug("amountFocusPerson")
             .map(::amountFocusPersonReducer)
 
@@ -129,7 +129,7 @@ fun parseAmount(amount: CharSequence): Double {
         0.0
     } else try {
         amount.toString().toDouble()
-    } catch(e: NumberFormatException) {
+    } catch (e: NumberFormatException) {
         -1.0
     }
 }

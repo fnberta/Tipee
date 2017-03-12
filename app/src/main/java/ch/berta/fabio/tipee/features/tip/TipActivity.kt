@@ -60,14 +60,14 @@ class TipActivity : BaseActivity(), TipEvenActivityListener, TipUnevenActivityLi
     }
 
     private fun setupComponent(savedInstanceState: Bundle?): Observable<TipViewState> {
-        val intent = TipIntention(activityResult, activityStarted, dialogShown, menu,
+        val intentions = TipIntentions(activityResult, activityStarted, dialogShown, menu,
                 personsPlusMinus, persons, selectedCountry, percentage, amount,
                 amountFocus, amountClear, amountPerson, amountFocusPerson)
         val sharedPrefs = makeSharedPrefs(PreferenceManager.getDefaultSharedPreferences(this))
         val telephonyManager = getSystemService(TELEPHONY_SERVICE) as TelephonyManager
         val getInitialCountry = makeInitialCountry(sharedPrefs, telephonyManager)
         val getCountryMappings = makeCountryMappings(resources)
-        return model(savedInstanceState, intent, getCountryMappings, getInitialCountry,
+        return model(savedInstanceState, intentions, getCountryMappings, getInitialCountry,
                 sharedPrefs.getRoundMode)
     }
 

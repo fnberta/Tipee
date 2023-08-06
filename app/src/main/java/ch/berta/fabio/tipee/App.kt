@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import ch.berta.fabio.tipee.theme.TipeeTheme
 import ch.berta.fabio.tipee.tip.TipScreen
@@ -32,13 +33,19 @@ fun App() {
 private fun AppBar(modifier: Modifier = Modifier) {
     CenterAlignedTopAppBar(
         colors =
-            TopAppBarDefaults.centerAlignedTopAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-                titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
-                actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
-            ),
-        title = { Text(text = "Tipee", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+        TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            titleContentColor = MaterialTheme.colorScheme.onPrimary,
+            navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
+            actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
+        ),
+        title = {
+            Text(
+                text = stringResource(R.string.app_name),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        },
         modifier = modifier,
     )
 }

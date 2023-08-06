@@ -183,5 +183,5 @@ private fun TipResult(heading: String, value: String, modifier: Modifier = Modif
 @Preview(showBackground = true)
 @Composable
 private fun TipScreenPreview() {
-    TipeeTheme { TipScreen() }
+    TipeeTheme(dynamicColor = false) { TipScreen() }
 }

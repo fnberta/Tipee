@@ -1,10 +1,10 @@
 [versions]
-androidGradlePlugin = "8.1.0-rc01"
+androidGradlePlugin = "8.1.0"
 androidxComposeCompiler = "1.4.8"
 androidxLifecycle = "2.6.1"
-detekt = "1.23.0"
+detekt = "1.23.1"
 kotlin = "1.8.22"
-spotless = "6.19.0"
+spotless = "6.20.0"
 
 [libraries]
 androidx-activity-compose = "androidx.activity:activity-compose:1.7.2"
@@ -20,13 +20,13 @@ androidx-core = "androidx.core:core-ktx:1.10.1"
 androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
 androidx-test-ext = "androidx.test.ext:junit-ktx:1.1.5"
 junit4 = "junit:junit:4.13.2"
-kotlin-test-junit =  { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
-catalog-update = "nl.littlerobots.version-catalog-update:0.8.0"
+catalog-update = "nl.littlerobots.version-catalog-update:0.8.1"
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Get the list of files staged for commit
+staged_files=$(git diff --cached --name-only --diff-filter=ACM -- '*.kt' '*.kts')
+
+# Run spotlessApply only on the staged files
+if [[ -n $staged_files ]]; then
+  for file in $staged_files
+  do
+    ./gradlew spotlessApply --daemon -PspotlessIdeHook="$(pwd)/$file"
+    git add "$file"
+  done;
+fi

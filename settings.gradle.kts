@@ -1,6 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
 pluginManagement {
+    includeBuild("../kotlin-build")
     repositories {
         google()
         mavenCentral()

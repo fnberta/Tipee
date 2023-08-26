@@ -1,4 +1,4 @@
-plugins { id("com.github.fnberta.kotlinbuild.convention.android-application") }
+plugins { id("com.github.fnberta.kotlinbuild.android-application") }
 
 android {
     namespace = "ch.berta.fabio.tipee"

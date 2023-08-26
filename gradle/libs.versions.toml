@@ -1,7 +1,7 @@
 [versions]
 androidxComposeCompiler = "1.5.1"
 androidxLifecycle = "2.6.1"
-convention = "0.0.1"
+kotlinBuild = "0.0.1"
 kotlin = "1.9.10"
 
 [libraries]
@@ -21,6 +21,6 @@ junit4 = "junit:junit:4.13.2"
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 
 [plugins]
-convention-application = { id = "com.github.fnberta.kotlinbuild.convention.android-application", version.ref = "convention" }
-convention-dependencyUpdates = { id = "com.github.fnberta.kotlinbuild.convention.dependency-updates", version.ref = "convention" }
-convention-library = { id = "com.github.fnberta.kotlinbuild.convention.android-library", version.ref = "convention" }
+kotlinBuild-android-application = { id = "com.github.fnberta.kotlinbuild.android-application", version.ref = "kotlinBuild" }
+kotlinBuild-android-library = { id = "com.github.fnberta.kotlinbuild.android-library", version.ref = "kotlinBuild" }
+kotlinBuild-dependencyUpdates = { id = "com.github.fnberta.kotlinbuild.dependency-updates", version.ref = "kotlinBuild" }
